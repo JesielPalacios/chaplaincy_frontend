@@ -7,7 +7,8 @@ import { GlobalStyle } from './components/layout/GlobalStyle'
 const Home = React.lazy(() => import('./components/Home/Home'))
 const LogIn = React.lazy(() => import('./components/Login/Login'))
 const Dashboard = React.lazy(() => import('./components/Dashboard/Dashboard'))
-const Users = React.lazy(() => import('./components/Users/Users'))
+// const Users = React.lazy(() => import('./components/Users/Users'))
+const Users = React.lazy(() => import('./components/Users'))
 const Interviews = React.lazy(() => import('./components/Interviews/Interviews'))
 
 export const AppRouter = () => {
