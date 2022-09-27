@@ -1,6 +1,6 @@
 export const userColumns = [
   {
-    field: 'customerCitizenshipNumberId',
+    field: 'citizenshipNumberId',
     headerName: 'ID',
     width: 75,
     width: 120
@@ -24,7 +24,7 @@ export const userColumns = [
     }
   },
   {
-    field: 'customerEmail',
+    field: 'email',
     headerName: 'Correo',
     description: 'Correo electrónico de beneficiarios',
     sortable: false,
@@ -32,7 +32,7 @@ export const userColumns = [
   },
 
   {
-    field: 'phoneNumber',
+    field: 'cellPhoneNumber',
     headerName: 'Teléfono',
     description: 'Número celular de beneficiario',
     width: 120

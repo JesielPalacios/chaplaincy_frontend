@@ -2,7 +2,7 @@ export const userColumns = [
   {
     field: 'customerCitizenshipNumberId',
     headerName: 'ID',
-    width: 75,
+    // width: 75,
     width: 120
   },
 

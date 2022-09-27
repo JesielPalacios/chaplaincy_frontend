@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCustomerService } from '../../services/customer.service'
 import { useUser } from '../../core/hooks/useUser'
 import { useEffect } from 'react'
+import Chart from '../Chart'
 
 export default function Users() {
   const [data, setData] = useState(userRows)
@@ -53,21 +54,21 @@ export default function Users() {
       <DashboardSection title={customer.firstName + ' ' + customer.firstSurname}>
         {/*  */}
         <Container>
-          {/* <div className="datatableTitle">
-            Add New User
-            <Link to="/users/new" className="link">
-              Add New
-            </Link>
-          </div> */}
-
           <Link to="/usuarios">Ir a beneficiarios</Link>
           <AddUser>Eliminar beneficiario</AddUser>
+
+          {/* <div className="datatableTitle">
+              Add New User
+              <Link to="/users/new" className="link">
+                Add New
+              </Link>
+            </div> */}
 
           {loading && (
             <LoadingWrapper>
               {/* <Loading>Cargando información de usuario...</Loading> */}
               <Spinner>
-                <div class="lds-ring">
+                <div className="lds-ring">
                   <div></div>
                   <div></div>
                   <div></div>
@@ -83,7 +84,7 @@ export default function Users() {
             <div className="top">
               <div className="left">
                 <div className="editButton">Editar</div>
-                <h1 className="title">Información</h1>
+                <h1 className="title">Información académica</h1>
                 <div className="item">
                   <img
                     src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
@@ -102,6 +103,18 @@ export default function Users() {
                         <span className="itemValue">Estudiante de {customer.academicProgram}</span>
                       </div>
                     )}
+                    {customer.studentCode && (
+                      <div className="detailItem">
+                        <span className="itemKey">Código estudiantil:</span>
+                        <span className="itemValue">{customer.studentCode}</span>
+                      </div>
+                    )}
+                    {customer.semester && (
+                      <div className="detailItem">
+                        <span className="itemKey">Semestre académico actual:</span>
+                        <span className="itemValue">{customer.semester}</span>
+                      </div>
+                    )}
                     <div className="detailItem">
                       <span className="itemKey">Correo:</span>
                       <span className="itemValue">{customer.email}</span>
@@ -110,9 +123,42 @@ export default function Users() {
                       <span className="itemKey">Teléfono:</span>
                       <span className="itemValue">{customer.cellPhoneNumber}</span>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="left">
+                <div className="editButton">Editar</div>
+                <h1 className="title">Detalles personales</h1>
+                <div className="item">
+                  <div className="details">
+                    <div className="detailItem">
+                      <span className="itemKey">Nombre completo:</span>
+                      <span className="itemValue">
+                        {(customer.firstName + ' ' + customer.secondName + ' ' + customer.firstSurname + ' ' + customer.secondSurname)
+                          .trim()
+                          .toLowerCase()
+                          .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+                      </span>
+                    </div>
+                    <div className="detailItem">
+                      <span className="itemKey">Tipo de documento de identidad:</span>
+                      <span className="itemValue">{customer.typeCitizenshipNumberId}</span>
+                    </div>
+                    <div className="detailItem">
+                      <span className="itemKey">Número de identificación:</span>
+                      <span className="itemValue">{customer.citizenshipNumberId}</span>
+                    </div>
+
                     <div className="detailItem">
                       <span className="itemKey">Dirección:</span>
                       <span className="itemValue">{customer.address}</span>
+                    </div>
+                    <div className="detailItem">
+                      <span className="itemKey">Fecha de nacimiento:</span>
+                      <span className="itemValue">
+                        {customer.dateOfBirth.slice(8, 10)}/{customer.dateOfBirth.slice(6, 7)}/{customer.dateOfBirth.slice(0, 4)}
+                      </span>
                     </div>
                     <div className="detailItem">
                       <span className="itemKey">País de nacimiento:</span>
@@ -121,7 +167,9 @@ export default function Users() {
                   </div>
                 </div>
               </div>
-              <div className="right">{/* <Chart aspect={3 / 1} title="User Spending ( Last 6 Months)" /> */}</div>
+              <div className="right">
+                <Chart aspect={3 / 1} title="Cantidad de entrevistas ( Últimos 6 meses)" />
+              </div>
               <div className="bottom"></div>
             </div>
           )}
@@ -134,7 +182,7 @@ export default function Users() {
 
 const Container = styled.div`
   /* background-color: #fff; */
-  width: 90%;
+  width: 95%;
   /* border-radius: 10px; */
 
   /* height: 600px; */
@@ -142,9 +190,15 @@ const Container = styled.div`
   height: 85%;
   transform: translateY(20px);
   /* padding: 20px; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  overflow: hidden;
+  overflow-y: scroll;
 
   .top {
-    padding: 20px;
+    /* padding: 20px; */
+    /* padding: 0 0 0 60px; */
     display: flex;
     gap: 20px;
 
@@ -189,9 +243,9 @@ const Container = styled.div`
 
             display: block;
             font-size: 2em;
-            margin-block-start: 0.67em;
+            /* margin-block-start: 0.67em; */
             margin-block-start: 0.27em;
-            margin-block-end: 0.67em;
+            /* margin-block-end: 0.67em; */
             margin-inline-start: 0px;
             margin-inline-end: 0px;
             font-weight: bold;

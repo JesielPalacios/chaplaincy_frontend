@@ -80,7 +80,7 @@ export default function Users() {
               pageSize={9}
               rowsPerPageOptions={[9]}
               checkboxSelection={false}
-              getRowId={(row) => row.customerCitizenshipNumberId}
+              getRowId={(row) => row.citizenshipNumberId}
               // NoRowsOverlay={() => 'No hay beneficiarios'}
               // components={{
               //   // noRowsOverlay: 'No hay beneficiarios'
