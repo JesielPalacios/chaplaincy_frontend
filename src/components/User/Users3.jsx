@@ -1,49 +1,18 @@
 import * as React from 'react'
-import { DataGrid } from '@mui/x-data-grid'
-import styled from 'styled-components'
-import { Link as LinkRouter, useParams } from 'react-router-dom'
-import { DashboardSection, DashboradLayout } from '../layout/Layout'
-import { useState } from 'react'
-import { userColumns, userRows } from './datatablesource'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCustomerService } from '../../services/customer.service'
-import { useUser } from '../../core/hooks/useUser'
 import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link as LinkRouter, useParams } from 'react-router-dom'
+import styled from 'styled-components'
+import { useUser } from '../../core/hooks/useUser'
+import { getCustomerService } from '../../services/customer.service'
 import Chart from '../Chart'
+import { DashboardSection, DashboradLayout } from '../layout/Layout'
 
 export default function Users() {
-  const [data, setData] = useState(userRows)
-  const { isAuth } = useUser()
   const { userId } = useParams()
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id))
-  }
-
-  const actionColumn = [
-    {
-      field: 'action',
-      headerName: 'Acciones',
-      width: 125,
-      description: 'Acciones de beneficiario',
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <Link to={'/usuario/' + params.row.customerCitizenshipNumberId} style={{ textDecoration: 'none' }}>
-              <div className="viewButton">Ver</div>
-            </Link>
-            <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
-              Borrar
-            </div>
-          </div>
-        )
-      }
-    }
-  ]
-
-  const { customer, loading, error } = useSelector((state) => state.customer)
   const dispatch = useDispatch()
+  const { customer, loading, error } = useSelector((state) => state.customer)
+  const { isAuth } = useUser()
 
   useEffect(() => {
     getCustomerService(dispatch, isAuth, userId)
@@ -51,18 +20,11 @@ export default function Users() {
 
   return (
     <DashboradLayout>
-      <DashboardSection title={customer.firstName + ' ' + customer.firstSurname}>
+      <DashboardSection title={'ID: ' + customer._id}>
         {/*  */}
         <Container>
           <Link to="/usuarios">Ir a beneficiarios</Link>
           <AddUser>Eliminar beneficiario</AddUser>
-
-          {/* <div className="datatableTitle">
-              Add New User
-              <Link to="/users/new" className="link">
-                Add New
-              </Link>
-            </div> */}
 
           {loading && (
             <LoadingWrapper>
@@ -78,104 +40,108 @@ export default function Users() {
             </LoadingWrapper>
           )}
 
-          {error ? (
-            'Hubo un error'
-          ) : (
-            <div className="top">
+          <div className="scroll">
+            {error ? (
+              'Hubo un error'
+            ) : (
               <div>
-                <div className="left">
-                  <div className="editButton">Editar</div>
-                  <h1 className="title">Información académica</h1>
-                  <div className="item">
-                    <img
-                      src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-                      alt={'Imágen del usuario ' + customer.firstName + ' ' + customer.firstSurname}
-                      className="itemImg"
-                    />
-                    <div className="details">
-                      <h1 className="itemTitle">
-                        {(customer.firstName + ' ' + customer.firstSurname)
-                          .trim()
-                          .toLowerCase()
-                          .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
-                      </h1>
-                      {customer.academicProgram && (
+                <div className="top">
+                  <div className="left">
+                    <div className="editButton">Editar</div>
+                    <h1 className="title">Información académica</h1>
+                    <div className="item">
+                      <img
+                        src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
+                        alt={'Imágen del usuario ' + customer.firstName + ' ' + customer.firstSurname}
+                        className="itemImg"
+                      />
+                      <div className="details">
+                        <h1 className="itemTitle">
+                          {(customer.firstName + ' ' + customer.firstSurname)
+                            .trim()
+                            .toLowerCase()
+                            .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+                        </h1>
+                        {customer.academicProgram && (
+                          <div className="detailItem">
+                            <span className="itemValue">Estudiante de {customer.academicProgram}</span>
+                          </div>
+                        )}
+                        {customer.studentCode && (
+                          <div className="detailItem">
+                            <span className="itemKey">Código estudiantil:</span>
+                            <span className="itemValue">{customer.studentCode}</span>
+                          </div>
+                        )}
+                        {customer.semester && (
+                          <div className="detailItem">
+                            <span className="itemKey">Semestre académico actual:</span>
+                            <span className="itemValue">{customer.semester}</span>
+                          </div>
+                        )}
                         <div className="detailItem">
-                          <span className="itemValue">Estudiante de {customer.academicProgram}</span>
+                          <span className="itemKey">Correo:</span>
+                          <span className="itemValue">{customer.email}</span>
                         </div>
-                      )}
-                      {customer.studentCode && (
                         <div className="detailItem">
-                          <span className="itemKey">Código estudiantil:</span>
-                          <span className="itemValue">{customer.studentCode}</span>
+                          <span className="itemKey">Facultad de:</span>
+                          <span className="itemValue">{customer.academicProgram}</span>
                         </div>
-                      )}
-                      {customer.semester && (
-                        <div className="detailItem">
-                          <span className="itemKey">Semestre académico actual:</span>
-                          <span className="itemValue">{customer.semester}</span>
-                        </div>
-                      )}
-                      <div className="detailItem">
-                        <span className="itemKey">Correo:</span>
-                        <span className="itemValue">{customer.email}</span>
                       </div>
-                      <div className="detailItem">
-                        <span className="itemKey">Teléfono:</span>
-                        <span className="itemValue">{customer.cellPhoneNumber}</span>
+                    </div>
+                  </div>
+
+                  <div className="left">
+                    <div className="editButton">Editar</div>
+                    <h1 className="title">Detalles personales</h1>
+                    <div className="item">
+                      <div className="details">
+                        <div className="detailItem">
+                          <span className="itemKey">Nombre completo:</span>
+                          <span className="itemValue">
+                            {(customer.firstName + ' ' + customer.secondName + ' ' + customer.firstSurname + ' ' + customer.secondSurname)
+                              .trim()
+                              .toLowerCase()
+                              .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+                          </span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">Tipo de documento de identidad:</span>
+                          <span className="itemValue">{customer.typeCitizenshipNumberId}</span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">Número de identificación:</span>
+                          <span className="itemValue">{customer.citizenshipNumberId}</span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">Dirección:</span>
+                          <span className="itemValue">{customer.address}</span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">Teléfono:</span>
+                          <span className="itemValue">{customer.cellPhoneNumber}</span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">Fecha de nacimiento:</span>
+                          <span className="itemValue">
+                            {customer.dateOfBirth.slice(8, 10)}/{customer.dateOfBirth.slice(6, 7)}/{customer.dateOfBirth.slice(0, 4)}
+                          </span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">País de nacimiento:</span>
+                          <span className="itemValue">{customer.countryOfBirth}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* <div className="bottom"></div> */}
                 <div className="right">
                   <Chart aspect={3 / 1} title="Cantidad de entrevistas ( Últimos 6 meses)" />
                 </div>
               </div>
-
-              <div className="left">
-                <div className="editButton">Editar</div>
-                <h1 className="title">Detalles personales</h1>
-                <div className="item">
-                  <div className="details">
-                    <div className="detailItem">
-                      <span className="itemKey">Nombre completo:</span>
-                      <span className="itemValue">
-                        {(customer.firstName + ' ' + customer.secondName + ' ' + customer.firstSurname + ' ' + customer.secondSurname)
-                          .trim()
-                          .toLowerCase()
-                          .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
-                      </span>
-                    </div>
-                    <div className="detailItem">
-                      <span className="itemKey">Tipo de documento de identidad:</span>
-                      <span className="itemValue">{customer.typeCitizenshipNumberId}</span>
-                    </div>
-                    <div className="detailItem">
-                      <span className="itemKey">Número de identificación:</span>
-                      <span className="itemValue">{customer.citizenshipNumberId}</span>
-                    </div>
-
-                    <div className="detailItem">
-                      <span className="itemKey">Dirección:</span>
-                      <span className="itemValue">{customer.address}</span>
-                    </div>
-                    <div className="detailItem">
-                      <span className="itemKey">Fecha de nacimiento:</span>
-                      <span className="itemValue">
-                        {customer.dateOfBirth.slice(8, 10)}/{customer.dateOfBirth.slice(6, 7)}/{customer.dateOfBirth.slice(0, 4)}
-                      </span>
-                    </div>
-                    <div className="detailItem">
-                      <span className="itemKey">País de nacimiento:</span>
-                      <span className="itemValue">{customer.countryOfBirth}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </Container>
         {/*  */}
       </DashboardSection>
@@ -184,26 +150,37 @@ export default function Users() {
 }
 
 const Container = styled.div`
-  background-color: #fff;
   width: 95%;
   height: 85%;
 
   transform: translateY(20px);
+  /* background-color: #fff; */
+  /* border-radius: 10px; */
+  /* padding: 20px; */
   /* height: 600px; */
   /* top: -15px; */
-  border-radius: 10px;
-  padding: 20px;
   /* display: flex; */
   /* flex-direction: column; */
   /* justify-content: center; */
-  overflow: hidden;
-  overflow-y: scroll;
+
+  position: relative;
+
+  .scroll {
+    overflow: hidden;
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
+    padding-right: 15px;
+  }
 
   .top {
     /* padding: 20px; */
     /* padding: 0 0 0 60px; */
     display: flex;
     gap: 20px;
+    /* align-items: stretch; */
+    /* flex-grow: 1; */
+    /* flex-wrap: nowrap; */
 
     .left {
       background-color: #fff;
