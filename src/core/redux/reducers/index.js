@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux'
-import usersReducers from '../reducers/usersReducers'
-import matterCancellationsReducers from '../reducers/matterCancellationsReducers'
+import customerReducer from './customerReducer'
 
 export default combineReducers({
-  usersReducers,
-  matterCancellationsReducers,
+  customerReducer
 })

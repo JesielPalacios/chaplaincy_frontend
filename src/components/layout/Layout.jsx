@@ -36,8 +36,9 @@ const DashboardContainer = styled.div`
   width: 100%;
   /* height: 100vh; */
   height: 100vh;
-  /* background: #f7f7f8; */
+  background: #f7f7f8;
   background: #e5e9ec;
+  background: #f7f7f8;
   /* position: relative; */
 
   /* transition: width 0.3s; */
