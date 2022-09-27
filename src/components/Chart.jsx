@@ -41,6 +41,9 @@ const Container = styled.div`
   padding: 10px;
   color: gray;
 
+  border-radius: 10px;
+  margin: 30px 0;
+
   .title {
     margin-bottom: 20px;
   }

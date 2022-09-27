@@ -82,48 +82,55 @@ export default function Users() {
             'Hubo un error'
           ) : (
             <div className="top">
-              <div className="left">
-                <div className="editButton">Editar</div>
-                <h1 className="title">Información académica</h1>
-                <div className="item">
-                  <img
-                    src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-                    alt={'Imágen del usuario ' + customer.firstName + ' ' + customer.firstSurname}
-                    className="itemImg"
-                  />
-                  <div className="details">
-                    <h1 className="itemTitle">
-                      {(customer.firstName + ' ' + customer.firstSurname)
-                        .trim()
-                        .toLowerCase()
-                        .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
-                    </h1>
-                    {customer.academicProgram && (
+              <div>
+                <div className="left">
+                  <div className="editButton">Editar</div>
+                  <h1 className="title">Información académica</h1>
+                  <div className="item">
+                    <img
+                      src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
+                      alt={'Imágen del usuario ' + customer.firstName + ' ' + customer.firstSurname}
+                      className="itemImg"
+                    />
+                    <div className="details">
+                      <h1 className="itemTitle">
+                        {(customer.firstName + ' ' + customer.firstSurname)
+                          .trim()
+                          .toLowerCase()
+                          .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+                      </h1>
+                      {customer.academicProgram && (
+                        <div className="detailItem">
+                          <span className="itemValue">Estudiante de {customer.academicProgram}</span>
+                        </div>
+                      )}
+                      {customer.studentCode && (
+                        <div className="detailItem">
+                          <span className="itemKey">Código estudiantil:</span>
+                          <span className="itemValue">{customer.studentCode}</span>
+                        </div>
+                      )}
+                      {customer.semester && (
+                        <div className="detailItem">
+                          <span className="itemKey">Semestre académico actual:</span>
+                          <span className="itemValue">{customer.semester}</span>
+                        </div>
+                      )}
                       <div className="detailItem">
-                        <span className="itemValue">Estudiante de {customer.academicProgram}</span>
+                        <span className="itemKey">Correo:</span>
+                        <span className="itemValue">{customer.email}</span>
                       </div>
-                    )}
-                    {customer.studentCode && (
                       <div className="detailItem">
-                        <span className="itemKey">Código estudiantil:</span>
-                        <span className="itemValue">{customer.studentCode}</span>
+                        <span className="itemKey">Teléfono:</span>
+                        <span className="itemValue">{customer.cellPhoneNumber}</span>
                       </div>
-                    )}
-                    {customer.semester && (
-                      <div className="detailItem">
-                        <span className="itemKey">Semestre académico actual:</span>
-                        <span className="itemValue">{customer.semester}</span>
-                      </div>
-                    )}
-                    <div className="detailItem">
-                      <span className="itemKey">Correo:</span>
-                      <span className="itemValue">{customer.email}</span>
-                    </div>
-                    <div className="detailItem">
-                      <span className="itemKey">Teléfono:</span>
-                      <span className="itemValue">{customer.cellPhoneNumber}</span>
                     </div>
                   </div>
+                </div>
+
+                {/* <div className="bottom"></div> */}
+                <div className="right">
+                  <Chart aspect={3 / 1} title="Cantidad de entrevistas ( Últimos 6 meses)" />
                 </div>
               </div>
 
@@ -167,10 +174,6 @@ export default function Users() {
                   </div>
                 </div>
               </div>
-              <div className="right">
-                <Chart aspect={3 / 1} title="Cantidad de entrevistas ( Últimos 6 meses)" />
-              </div>
-              <div className="bottom"></div>
             </div>
           )}
         </Container>
@@ -181,15 +184,15 @@ export default function Users() {
 }
 
 const Container = styled.div`
-  /* background-color: #fff; */
+  background-color: #fff;
   width: 95%;
-  /* border-radius: 10px; */
+  height: 85%;
 
+  transform: translateY(20px);
   /* height: 600px; */
   /* top: -15px; */
-  height: 85%;
-  transform: translateY(20px);
-  /* padding: 20px; */
+  border-radius: 10px;
+  padding: 20px;
   /* display: flex; */
   /* flex-direction: column; */
   /* justify-content: center; */
@@ -275,6 +278,13 @@ const Container = styled.div`
     .right {
       flex: 2;
     }
+  }
+
+  .bottom {
+    -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+    box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+    padding: 20px;
+    margin: 10px 20px;
   }
 
   .title {
