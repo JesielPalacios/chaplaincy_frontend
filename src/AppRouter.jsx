@@ -26,10 +26,10 @@ export const AppRouter = () => {
 
           <Route path="beneficiarios">
             <Route index element={isAuth ? <CustomersList /> : <Navigate replace to="/login" />} />
-            <Route path=":customerId" element={isAuth ? <Customer /> : <Navigate replace to="/login" />} />
             <Route path="nuevo" element={isAuth ? <CustomerAddOrEdit title="Crear nuevo beneficiario" /> : <Navigate replace to="/login" />} />
-            <Route path="editar">
-              <Route path=":customerIdForEdit" element={isAuth ? <CustomerAddOrEdit title="Editar beneficiario" /> : <Navigate replace to="/login" />} />
+            <Route path=":customerId">
+              <Route index element={isAuth ? <Customer /> : <Navigate replace to="/login" />} />
+              <Route path="editar" element={isAuth ? <CustomerAddOrEdit title="Editar beneficiario" /> : <Navigate replace to="/login" />} />
             </Route>
           </Route>
 

@@ -6,7 +6,6 @@ import { useUser } from '../core/hooks/useUser'
 import { getCustomerService } from '../services/customer.service'
 import Chart from './Chart'
 import { AddUser, Container, Link, LoadingWrapper, Spinner } from './Customer.styles'
-import { CustomerAddOrEdit } from './CustomerAddOrEdit'
 import { DashboardSection, DashboradLayout } from './layout/Layout'
 
 export default function Customer() {
@@ -16,14 +15,15 @@ export default function Customer() {
   const { isAuth } = useUser()
 
   useEffect(() => {
-    if (customerId.includes('editar')) {
-      return <CustomerAddOrEdit />
-    } else if (customerId === 'nuevo') {
-      console.log('customerId', customerId)
-      // return <CustomerAddOrEdit />
-    } else {
+    // if (customerId.includes('editar')) {
+    //   return <CustomerAddOrEdit />
+    // } else if (customerId === 'nuevo') {
+    //   console.log('customerId', customerId)
+    //   return <CustomerAddOrEdit />
+    // } else {
       getCustomerService(dispatch, isAuth, customerId)
-    }
+      console.log('customer', customer)
+    // }
   }, [])
 
   if (!(customerId.includes('editar') && customerId === 'nuevo')) {

@@ -5,7 +5,7 @@ import { Link } from './Customer.styles'
 import { Container, customerInputs } from './CustomerAddOrEdit.styles'
 import { DashboardSection, DashboradLayout } from './layout/Layout'
 
-export function CustomerAddOrEdit() {
+export default function CustomerAddOrEdit() {
   const [file, setFile] = useState('')
 
   return (
