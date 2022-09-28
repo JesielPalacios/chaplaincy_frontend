@@ -64,9 +64,15 @@ export const routes = [
     notification: 0
   },
   {
-    label: 'Usuarios',
+    label: 'Beneficiarios',
     icon: 'people-outline',
-    path: '/usuarios',
+    path: '/beneficiarios',
+    notification: 0
+  },
+  {
+    label: 'Administradores',
+    icon: 'people-outline',
+    path: '/administradores',
     notification: 0
   },
   // {
@@ -80,7 +86,7 @@ export const routes = [
     icon: 'newspaper-outline',
     path: '/entrevistas',
     notification: 3
-  },
+  }
   // {
   //   label: 'Crear entrevista',
   //   icon: 'add-circle-outline',
