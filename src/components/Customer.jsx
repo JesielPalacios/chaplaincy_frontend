@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useUser } from '../core/hooks/useUser'
 import { getCustomerService } from '../services/customer.service'
 import Chart from './Chart'
@@ -9,6 +9,7 @@ import { AddUser, Container, Link, LoadingWrapper, Spinner } from './Customer.st
 import { DashboardSection, DashboradLayout } from './layout/Layout'
 
 export default function Customer() {
+  let navigate = useNavigate()
   const { customerId } = useParams()
   const dispatch = useDispatch()
   const { customer, loading, error } = useSelector((state) => state.customer)
@@ -93,7 +94,9 @@ export default function Customer() {
                   </div>
 
                   <div className="left">
-                    <div className="editButton">Editar la información del beneficiario</div>
+                    <div className="editButton" onClick={() => navigate('/beneficiarios/' + customerId + '/editar')}>
+                      Editar la información del beneficiario
+                    </div>
                     <h1 className="title">Detalles personales</h1>
                     <div className="item">
                       <div className="details">

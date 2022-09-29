@@ -8,8 +8,8 @@ import { AddUser, Container } from './CustomersList.styles'
 import { DashboardSection, DashboradLayout } from './layout/Layout'
 
 export default function CustomersList() {
-  const { isAuth } = useUser()
   let navigate = useNavigate()
+  const { isAuth } = useUser()
 
   const actionColumn = [
     {

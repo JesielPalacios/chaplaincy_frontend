@@ -143,96 +143,112 @@ export const Container = styled.div`
 
 export const customerInputs = [
   {
+    nameRef: 'firstName',
     label: 'Primer nombre',
     type: 'text',
     placeholder: 'Escriba el primer nombre aquí',
     important: true
   },
   {
+    nameRef: 'secondName',
     label: 'Segundo nombre',
     type: 'text',
     placeholder: 'Escriba el segundo nombre aquí'
   },
   {
+    nameRef: 'firstSurname',
     label: 'Primer apellido',
     type: 'text',
     placeholder: 'Escriba el primer apellido aquí',
     important: true
   },
   {
+    nameRef: 'secondSurname',
     label: 'Segundo apellido',
     type: 'text',
     placeholder: 'Escriba el segundo apellido aquí'
   },
   {
+    nameRef: 'gender',
     label: 'Género',
     type: 'text',
     placeholder: 'Click para seleccionar el género',
     important: true
   },
   {
+    nameRef: 'typeCitizenshipNumberId',
     label: 'Tipo de documento de identidad',
     type: 'text',
     placeholder: 'Click para seleccionar el tipo de documento',
     important: true
   },
   {
+    nameRef: 'citizenshipNumberId',
     label: 'Número de identificación',
     type: 'text',
     placeholder: 'Escriba el número de identificación aquí',
     important: true
   },
   {
+    nameRef: 'academicProgram',
+    label: 'Programa académico (carrera)',
+    type: 'text',
+    placeholder: 'Escriba la carrera aquí'
+  },
+  {
+    nameRef: 'studentCode',
     label: 'Código estudiantil',
     type: 'text',
     placeholder: 'Escriba el código estudiantil aquí'
   },
   {
+    nameRef: 'semester',
     label: 'Semestre académico actual',
     type: 'text',
     placeholder: 'Escriba el semestre académico aquí'
   },
   {
+    nameRef: 'email',
     label: 'Correo',
     type: 'text',
     placeholder: 'Escriba el correo electrónico aquí'
   },
   {
+    nameRef: 'cellPhoneNumber',
     label: 'Número celular',
     type: 'text',
     placeholder: 'Escriba el número celular aquí'
   },
   {
+    nameRef: 'address',
     label: 'Dirección de residencia (domicilio)',
     type: 'text',
     placeholder: 'Escriba la dirección aquí'
   },
   {
+    nameRef: 'dateOfBirth',
     label: 'Fecha de nacimiento',
     type: 'text',
     placeholder: 'Escriba la fecha de nacimiento aquí',
     important: true
   },
   {
+    nameRef: 'countryOfBirth',
     label: 'País de nacimiento',
     type: 'text',
     placeholder: 'Escriba el país de nacimiento aquí',
     important: true
   },
   {
+    nameRef: 'birthDepartment',
     label: 'Departamento de nacimiento',
     type: 'text',
     placeholder: 'Escriba el departamento de nacimiento aquí',
     important: true
   },
   {
+    nameRef: 'cityOfBirth',
     label: 'Ciudad de nacimiento',
-    type: 'text',
-    placeholder: 'Escriba la ciudad de nacimiento aquí',
-    important: true
-  },
-  {
-    label: 'Foto',
     type: 'text',
     placeholder: 'Escriba la ciudad de nacimiento aquí',
     important: true
