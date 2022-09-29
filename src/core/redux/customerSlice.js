@@ -25,10 +25,14 @@ const customerSlice = createSlice({
       state.loading = false
       state.error = false
       state.customer = action.payload
+    },
+    resetCustomer: (state) => {
+      state.loading = false
+      state.error = false
+      state.customer = {}
     }
   }
 })
 
 export default customerSlice.reducer
-export const { loading, getAllCustomers, error, getCustomer } =
-  customerSlice.actions
+export const { loading, getAllCustomers, error, getCustomer, resetCustomer } = customerSlice.actions

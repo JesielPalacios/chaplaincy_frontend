@@ -1,10 +1,5 @@
 import axios from 'axios'
-import {
-  loading,
-  error,
-  getAllCustomers,
-  getCustomer
-} from '../core/redux/customerSlice'
+import { loading, error, getAllCustomers, getCustomer } from '../core/redux/customerSlice'
 
 export async function getAllCustomersService(dispatch, token) {
   dispatch(loading())
@@ -17,8 +12,8 @@ export async function getAllCustomersService(dispatch, token) {
     })
 
     dispatch(getAllCustomers(res.data))
-  } catch (error) {
-    console.log('error', error)
+  } catch (err) {
+    console.log('error', err)
     dispatch(error())
   }
 }
@@ -34,9 +29,9 @@ export async function getCustomerService(dispatch, token, id) {
     })
 
     dispatch(getCustomer(res.data))
-  } catch (error) {
+  } catch (err) {
     dispatch(getCustomer({}))
-    console.log('error', error)
+    console.log('error', err)
     dispatch(error())
   }
 }

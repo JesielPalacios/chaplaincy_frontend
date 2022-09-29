@@ -233,7 +233,7 @@ export const customerInputs = [
     important: true
   },
   {
-    nameRef: 'countryOfBirth',
+    nameRef: 'birthCountry',
     label: 'País de nacimiento',
     type: 'text',
     placeholder: 'Escriba el país de nacimiento aquí',
@@ -247,7 +247,7 @@ export const customerInputs = [
     important: true
   },
   {
-    nameRef: 'cityOfBirth',
+    nameRef: 'birthCity',
     label: 'Ciudad de nacimiento',
     type: 'text',
     placeholder: 'Escriba la ciudad de nacimiento aquí',

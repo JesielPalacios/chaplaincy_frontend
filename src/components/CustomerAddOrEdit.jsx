@@ -5,16 +5,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useInputValue } from '../core/hooks/useInputValue'
 import { useUser } from '../core/hooks/useUser'
+import { resetCustomer } from '../core/redux/customerSlice'
 import { getCustomerService } from '../services/customer.service'
 import { Link } from './Customer.styles'
 import { Container, customerInputs } from './CustomerAddOrEdit.styles'
 import { DashboardSection, DashboradLayout } from './layout/Layout'
 
 export default function CustomerAddOrEdit({ title }) {
-  const firstName = useInputValue('firstName')
-  const secondName = useInputValue('secondName')
+  const firstName = useInputValue('')
+  const secondName = useInputValue('')
   const firstSurname = useInputValue('')
   const secondSurname = useInputValue('')
+  const gender = useInputValue('')
   const typeCitizenshipNumberId = useInputValue('')
   const citizenshipNumberId = useInputValue('')
   const academicProgram = useInputValue('')
@@ -37,43 +39,80 @@ export default function CustomerAddOrEdit({ title }) {
   let nameRef
 
   function referenceComparator(reference) {
-      switch (reference) {
-      case 'firstName': nameRef = firstName
-      case 'secondName': nameRef = secondName
-      case 'firstSurname': nameRef = firstSurname
-      case 'secondSurname': nameRef = secondSurname
-      case 'typeCitizenshipNumberId': nameRef = typeCitizenshipNumberId
-      case 'citizenshipNumberId': nameRef = citizenshipNumberId
-      case 'academicProgram': nameRef = academicProgram
-      case 'studentCode': nameRef = studentCode
-      case 'semester': nameRef = semester
-      case 'email': nameRef = email
-      case 'cellPhoneNumber': nameRef = cellPhoneNumber
-      case 'address': nameRef = address
-      case 'dateOfBirth': nameRef = dateOfBirth
-      case 'birthCountry': nameRef = birthCountry
-      case 'birthDepartment': nameRef = birthDepartment
-      case 'birthCity': nameRef = birthCity
-      default:
+    switch (reference) {
+      case 'firstName':
         nameRef = firstName
+        break
+      case 'secondName':
+        nameRef = secondName
+        break
+      case 'firstSurname':
+        nameRef = firstSurname
+        break
+      case 'secondSurname':
+        nameRef = secondSurname
+        break
+      case 'gender':
+        nameRef = gender
+        break
+      case 'typeCitizenshipNumberId':
+        nameRef = typeCitizenshipNumberId
+        break
+      case 'citizenshipNumberId':
+        nameRef = citizenshipNumberId
+        break
+      case 'academicProgram':
+        nameRef = academicProgram
+        break
+      case 'studentCode':
+        nameRef = studentCode
+        break
+      case 'semester':
+        nameRef = semester
+        break
+      case 'email':
+        nameRef = email
+        break
+      case 'cellPhoneNumber':
+        nameRef = cellPhoneNumber
+        break
+      case 'address':
+        nameRef = address
+        break
+      case 'dateOfBirth':
+        nameRef = dateOfBirth
+        break
+      case 'birthCountry':
+        nameRef = birthCountry
+        break
+      case 'birthDepartment':
+        nameRef = birthDepartment
+        break
+      case 'birthCity':
+        nameRef = birthCity
+        break
+      default:
+        nameRef = secondName
+        break
     }
   }
-  
+
   useEffect(() => {
     // title === 'Editar beneficiario' && getCustomerService(dispatch, isAuth, customerId) && firstName.setValue( customer.firstName)
-    title === 'Editar beneficiario' && getCustomerService(dispatch, isAuth, customerId) 
-
-    // if (title === 'Editar beneficiario') {
-      // await getCustomerService(dispatch, isAuth, customerId)
-      // firstName.value = customer.firstName
-    // }
-    // console.log('customer.firstName', customer.firstName)
-    
+    title === 'Crear nuevo beneficiario' && dispatch(resetCustomer())
+    title === 'Editar beneficiario' &&
+      getCustomerService(dispatch, isAuth, customerId)
+        .then
+        // firstName.SetValue(customer.firstName),
+        // firstName.setValue(customer.firstName)
+        ()
+    // firstName.setValue(customer.firstName)
+    firstName.value = customer.firstName
   }, [])
 
   return (
     <DashboradLayout>
-      <DashboardSection title={title + ': ' + customerId}>
+      <DashboardSection title={title === 'Crear nuevo beneficiario' ? title : title + ': ' + customerId}>
         <Container>
           <Link to="/beneficiarios" top="-45px" right="40px">
             Ir a beneficiarios
@@ -94,19 +133,21 @@ export default function CustomerAddOrEdit({ title }) {
                   </div>
 
                   {customerInputs.map((input, index) => {
-                    // referenceComparator(input.nameRef)
-                    // console.log('input.nameRef', input.nameRef)
+                    referenceComparator(input.nameRef)
 
-                    if (input.nameRef === 'firstName') nameRef = firstName
-                    else if (input.nameRef === 'secondName') nameRef = secondName
-
+                    console.log('nameRef', nameRef)
                     return (
                       <div className="formInput" key={index}>
                         <label htmlFor={input.label.split(' ').join('')}>{input.label}</label>
-                        <input type={input.type} id={input.label.split(' ').join('')} placeholder={input.placeholder}
-                          // value={nameRef.value}
+                        <input
+                          type={input.type}
+                          id={input.label.split(' ').join('')}
+                          placeholder={input.placeholder}
                           {...nameRef}
-                        // 
+
+                          // value={nameRef.value}
+                          // onChange={(e) => nameRef.setValue(e.target.value)}
+                          //
                         />
                       </div>
                     )
