@@ -75,6 +75,14 @@ export const Container = styled.div`
               .icon {
                 cursor: pointer;
               }
+
+              span {
+                color: #f00;
+              }
+
+              sup {
+                font-size: 10px;
+              }
             }
 
             input {

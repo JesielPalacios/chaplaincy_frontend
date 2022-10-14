@@ -5,8 +5,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useUser } from '../core/hooks/useUser'
 import { getCustomerService } from '../services/customer.service'
 import Chart from './Chart'
-import { AddUser, Container, Link, LoadingWrapper, Spinner } from './Customer.styles'
+import {
+  AddUser,
+  Container,
+  Link,
+  LoadingWrapper,
+  Spinner,
+} from './Customer.styles'
 import { DashboardSection, DashboradLayout } from './layout/Layout'
+import { Seo } from './layout/Seo'
 
 export default function Customer() {
   let navigate = useNavigate()
@@ -21,6 +28,13 @@ export default function Customer() {
 
   return (
     <DashboradLayout>
+      <Seo
+        title={(customer.firstName + ' ' + customer.firstSurname)
+          .trim()
+          .toLowerCase()
+          .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+        subtitle="Perfil de beneficiario"
+      />
       <DashboardSection title={'ID: ' + customer._id}>
         <Container>
           <Link to="/beneficiarios">Ir a beneficiarios</Link>
@@ -52,7 +66,12 @@ export default function Customer() {
                       <img
                         // src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
                         src="https://via.placeholder.com/520x460"
-                        alt={'Imágen del usuario ' + customer.firstName + ' ' + customer.firstSurname}
+                        alt={
+                          'Imágen del usuario ' +
+                          customer.firstName +
+                          ' ' +
+                          customer.firstSurname
+                        }
                         className="itemImg"
                       />
                       <div className="details">
@@ -60,29 +79,41 @@ export default function Customer() {
                           {(customer.firstName + ' ' + customer.firstSurname)
                             .trim()
                             .toLowerCase()
-                            .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+                            .replace(/\w\S*/g, (w) =>
+                              w.replace(/^\w/, (c) => c.toUpperCase())
+                            )}
                         </h1>
                         {customer.academicProgram && (
                           <div className="detailItem">
-                            <span className="itemValue">Estudiante de {customer.academicProgram}</span>
+                            <span className="itemValue">
+                              Estudiante de {customer.academicProgram}
+                            </span>
                           </div>
                         )}
                         {customer.studentCode && (
                           <div className="detailItem">
                             <span className="itemKey">Facultad de:</span>
-                            <span className="itemValue">{customer.academicProgram}</span>
+                            <span className="itemValue">
+                              {customer.academicProgram}
+                            </span>
                           </div>
                         )}
                         {customer.studentCode && (
                           <div className="detailItem">
                             <span className="itemKey">Código estudiantil:</span>
-                            <span className="itemValue">{customer.studentCode}</span>
+                            <span className="itemValue">
+                              {customer.studentCode}
+                            </span>
                           </div>
                         )}
                         {customer.semester && (
                           <div className="detailItem">
-                            <span className="itemKey">Semestre académico actual:</span>
-                            <span className="itemValue">{customer.semester}</span>
+                            <span className="itemKey">
+                              Semestre académico actual:
+                            </span>
+                            <span className="itemValue">
+                              {customer.semester}
+                            </span>
                           </div>
                         )}
                         <div className="detailItem">
@@ -94,7 +125,12 @@ export default function Customer() {
                   </div>
 
                   <div className="left">
-                    <div className="editButton" onClick={() => navigate('/beneficiarios/' + customerId + '/editar')}>
+                    <div
+                      className="editButton"
+                      onClick={() =>
+                        navigate('/beneficiarios/' + customerId + '/editar')
+                      }
+                    >
                       Editar la información del beneficiario
                     </div>
                     <h1 className="title">Detalles personales</h1>
@@ -103,19 +139,37 @@ export default function Customer() {
                         <div className="detailItem">
                           <span className="itemKey">Nombre completo:</span>
                           <span className="itemValue">
-                            {(customer.firstName + ' ' + customer.secondName + ' ' + customer.firstSurname + ' ' + customer.secondSurname)
+                            {(
+                              customer.firstName +
+                              ' ' +
+                              customer.secondName +
+                              ' ' +
+                              customer.firstSurname +
+                              ' ' +
+                              customer.secondSurname
+                            )
                               .trim()
                               .toLowerCase()
-                              .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+                              .replace(/\w\S*/g, (w) =>
+                                w.replace(/^\w/, (c) => c.toUpperCase())
+                              )}
                           </span>
                         </div>
                         <div className="detailItem">
-                          <span className="itemKey">Tipo de documento de identidad:</span>
-                          <span className="itemValue">{customer.typeCitizenshipNumberId}</span>
+                          <span className="itemKey">
+                            Tipo de documento de identidad:
+                          </span>
+                          <span className="itemValue">
+                            {customer.typeCitizenshipNumberId}
+                          </span>
                         </div>
                         <div className="detailItem">
-                          <span className="itemKey">Número de identificación:</span>
-                          <span className="itemValue">{customer.citizenshipNumberId}</span>
+                          <span className="itemKey">
+                            Número de identificación:
+                          </span>
+                          <span className="itemValue">
+                            {customer.citizenshipNumberId}
+                          </span>
                         </div>
                         <div className="detailItem">
                           <span className="itemKey">Dirección:</span>
@@ -123,17 +177,23 @@ export default function Customer() {
                         </div>
                         <div className="detailItem">
                           <span className="itemKey">Teléfono:</span>
-                          <span className="itemValue">{customer.cellPhoneNumber}</span>
+                          <span className="itemValue">
+                            {customer.cellPhoneNumber}
+                          </span>
                         </div>
                         <div className="detailItem">
                           <span className="itemKey">Fecha de nacimiento:</span>
                           <span className="itemValue">
-                            {customer.dateOfBirth.slice(8, 10)}/{customer.dateOfBirth.slice(6, 7)}/{customer.dateOfBirth.slice(0, 4)}
+                            {customer.dateOfBirth.slice(8, 10)}/
+                            {customer.dateOfBirth.slice(6, 7)}/
+                            {customer.dateOfBirth.slice(0, 4)}
                           </span>
                         </div>
                         <div className="detailItem">
                           <span className="itemKey">País de nacimiento:</span>
-                          <span className="itemValue">{customer.countryOfBirth}</span>
+                          <span className="itemValue">
+                            {customer.countryOfBirth}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -141,7 +201,10 @@ export default function Customer() {
                 </div>
 
                 <div className="right">
-                  <Chart aspect={3 / 1} title="Cantidad de entrevistas ( Últimos 6 meses)" />
+                  <Chart
+                    aspect={3 / 1}
+                    title="Cantidad de entrevistas ( Últimos 6 meses)"
+                  />
                 </div>
               </>
             )}

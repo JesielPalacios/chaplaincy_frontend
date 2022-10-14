@@ -6,6 +6,7 @@ import { useUser } from '../core/hooks/useUser'
 import { getAllCustomersService } from '../services/customer.service'
 import { AddUser, Container } from './CustomersList.styles'
 import { DashboardSection, DashboradLayout } from './layout/Layout'
+import { Seo } from './layout/Seo'
 
 export default function CustomersList() {
   let navigate = useNavigate()
@@ -24,9 +25,8 @@ export default function CustomersList() {
             <Link to={'/beneficiarios/' + params.row._id} style={{ textDecoration: 'none' }}>
               <div className="viewButton">Ver</div>
             </Link>
-            <div className="deleteButton" onClick={() => handleDelete(params.row.id)}>
-              Borrar
-            </div>
+            {/* <div className="deleteButton" onClick={() => handleDelete(params.row.id)}> */}
+            <div className="deleteButton">Borrar</div>
           </div>
         )
       }
@@ -37,7 +37,7 @@ export default function CustomersList() {
     {
       field: 'citizenshipNumberId',
       headerName: 'ID',
-      width: 75,
+      // width: 75,
       width: 120
     },
 
@@ -94,6 +94,8 @@ export default function CustomersList() {
 
   return (
     <DashboradLayout>
+      <Seo title="Beneficiarios" subtitle="Administración de beneficiarios" />
+
       <DashboardSection title={'Beneficiarios'}>
         <Container>
           <AddUser onClick={() => navigate('/beneficiarios/nuevo')}>Crear nuevo beneficiario</AddUser>

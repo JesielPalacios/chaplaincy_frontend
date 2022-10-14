@@ -30,9 +30,13 @@ const customerSlice = createSlice({
       state.loading = false
       state.error = false
       state.customer = {}
+    },
+    resetFlags: (state) => {
+      state.loading = false
+      state.error = false
     }
   }
 })
 
 export default customerSlice.reducer
-export const { loading, getAllCustomers, error, getCustomer, resetCustomer } = customerSlice.actions
+export const { loading, getAllCustomers, error, getCustomer, resetCustomer, resetFlags } = customerSlice.actions

@@ -1,3 +1,5 @@
+import axios from "axios"
+
 export function loginService({ email, password }) {
   return fetch('http://localhost:3001/api/auth/login', {
     method: 'POST',
@@ -32,10 +34,10 @@ export async function getUserService(token, id) {
   })
 }
 
-export async function getUserPhotoService(id) {
-  return await axios.get('http://localhost:3001/api/photo/' + id, {
-    headers: {
-      Authorization: token
-    }
-  })
-}
+// export async function getUserPhotoService(id) {
+//   return await axios.get('http://localhost:3001/api/photo/' + id, {
+//     headers: {
+//       Authorization: token
+//     }
+//   })
+// }
