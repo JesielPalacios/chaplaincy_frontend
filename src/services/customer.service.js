@@ -1,11 +1,17 @@
 import axios from 'axios'
-import { loading, error, getAllCustomers, getCustomer, resetFlags } from '../core/redux/customerSlice.js'
+import {
+  loading,
+  error,
+  getAllCustomers,
+  getCustomer,
+  resetFlags
+} from '../core/redux/customerSlice.js'
 
 export async function getAllCustomersService(dispatch, token) {
   dispatch(loading())
 
   try {
-    const res = await axios.get('http://localhost:3001/api/customers', {
+    const res = await axios.get('http://localhost:3001/api/beneficiaries', {
       headers: {
         Authorization: token
       }
@@ -44,7 +50,10 @@ export async function createCustomerService(dispatch, token, customerData) {
   formData.append('firstSurname', customerData.firstSurname.value)
   formData.append('secondSurname', customerData.secondSurname.value)
   formData.append('gender', customerData.gender.value)
-  formData.append('typeCitizenshipNumberId', customerData.typeCitizenshipNumberId.value)
+  formData.append(
+    'typeCitizenshipNumberId',
+    customerData.typeCitizenshipNumberId.value
+  )
   formData.append('citizenshipNumberId', customerData.citizenshipNumberId.value)
   formData.append('academicProgram', customerData.academicProgram.value)
   formData.append('studentCode', customerData.studentCode.value)
@@ -58,12 +67,16 @@ export async function createCustomerService(dispatch, token, customerData) {
   formData.append('birthCity', customerData.birthCity.value)
 
   try {
-    const res = await axios.post('http://localhost:3001/api/customers', formData, {
-      headers: {
-        Authorization: token,
-        'Content-Type': 'multipart/form-data'
+    const res = await axios.post(
+      'http://localhost:3001/api/customers',
+      formData,
+      {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'multipart/form-data'
+        }
       }
-    })
+    )
 
     dispatch(resetFlags())
     // return res

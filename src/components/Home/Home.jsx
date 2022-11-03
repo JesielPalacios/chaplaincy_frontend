@@ -1,31 +1,30 @@
-import { Link } from 'react-router-dom'
-import { useUser } from '../../core/hooks/useUser'
+import { useState } from 'react'
+import { Footer } from './components/Footer'
+import { Hero } from './components/Hero'
+import { Info } from './components/Info'
+import { homeObjOne, homeObjTwo, homeObjThree } from './components/Info/Data'
+import { Navbar } from './components/Navbar'
+import { Services } from './components/Services'
+import { Sidebar } from './components/SideBar'
 
-function Home() {
-  const { logOut } = useUser()
+const Home = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggle = () => {
+    setIsOpen(!isOpen)
+  }
 
   return (
-    <div>
-      <p>Home</p>
-      <ul>
-        <li>
-          <Link to="login">Login</Link>
-        </li>
-        <li>
-          <Link to="dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <Link to="usuarios">Usuarios</Link>
-        </li>
-      </ul>
-      <button
-        onClick={() => {
-          logOut()
-        }}
-      >
-        Cerrar sesión
-      </button>
-    </div>
+    <>
+      <Sidebar isOpen={isOpen} toggle={toggle} />
+      <Navbar toggle={toggle} />
+      <Hero />
+      <Info {...homeObjOne} />
+      <Info {...homeObjTwo} />
+      <Services />
+      <Info {...homeObjThree} />
+      <Footer />
+    </>
   )
 }
 

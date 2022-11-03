@@ -16,7 +16,7 @@ export default function CustomersList() {
     {
       field: 'action',
       headerName: 'Acciones',
-      width: 125,
+      width: 135,
       description: 'Acciones de beneficiario',
       sortable: false,
       renderCell: (params) => {
@@ -35,18 +35,11 @@ export default function CustomersList() {
 
   const userColumns = [
     {
-      field: 'citizenshipNumberId',
-      headerName: 'ID',
-      // width: 75,
-      width: 120
-    },
-
-    {
       field: 'fullName',
       headerName: 'Nombre',
       description: 'Nombre de beneficiario',
       sortable: false,
-      width: 250,
+      width: 320,
       // valueGetter: (params) =>
       // `${params.row.firstName || ""} ${params.row.lastName || ""}`,
       renderCell: (params) => {
@@ -64,7 +57,7 @@ export default function CustomersList() {
       headerName: 'Correo',
       description: 'Correo electrónico de beneficiarios',
       sortable: false,
-      width: 235
+      width: 320
     },
 
     {
@@ -78,7 +71,7 @@ export default function CustomersList() {
       headerName: 'Género',
       description: 'Género del beneficiarios',
       sortable: false,
-      // width: 160,
+      width: 110,
       renderCell: (params) => {
         return <div className={`cellWithStatus ${params.row.gender}`}>{params.row.gender}</div>
       }

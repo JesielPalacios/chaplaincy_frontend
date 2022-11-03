@@ -10,7 +10,7 @@ import {
   Container,
   Link,
   LoadingWrapper,
-  Spinner,
+  Spinner
 } from './Customer.styles'
 import { DashboardSection, DashboradLayout } from './layout/Layout'
 import { Seo } from './layout/Seo'
@@ -55,9 +55,9 @@ export default function Customer() {
           )}
 
           <div className="scroll">
-            {error ? (
-              'Hubo un error'
-            ) : (
+            {error && 'Something went wrong'}
+
+            {!(loading && error) && (
               <>
                 <div className="top">
                   <div className="left">
@@ -184,9 +184,10 @@ export default function Customer() {
                         <div className="detailItem">
                           <span className="itemKey">Fecha de nacimiento:</span>
                           <span className="itemValue">
-                            {customer.dateOfBirth.slice(8, 10)}/
-                            {customer.dateOfBirth.slice(6, 7)}/
-                            {customer.dateOfBirth.slice(0, 4)}
+                            {customer.dateOfBirth &&
+                              customer.dateOfBirth.slice(8, 10) /
+                                customer.dateOfBirth.slice(6, 7) /
+                                customer.dateOfBirth.slice(0, 4)}
                           </span>
                         </div>
                         <div className="detailItem">
