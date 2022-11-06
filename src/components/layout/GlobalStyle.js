@@ -8,10 +8,18 @@ export const GlobalStyle = createGlobalStyle`
     /* font-family: Poppins; */
   }
 
+  a {
+    text-decoration: none;
+    color: black;
+  }
 
-
-a {
-  text-decoration: none;
-  color: black;
-}
+  @font-face {
+      font-family: Poppins;
+      src: url(/fonts/Poppins/Poppins-Medium.ttf);
+  }
+    
+  /* h1 {
+      font-family: myFirstFont;
+      color: darkgreen;
+  } */
 `

@@ -2,11 +2,11 @@ import { DataGrid } from '@mui/x-data-grid'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { useUser } from '../core/hooks/useUser'
-import { getAllCustomersService } from '../services/customer.service'
-import { AddUser, Container } from './CustomersList.styles'
-import { DashboardSection, DashboradLayout } from './layout/Layout'
-import { Seo } from './layout/Seo'
+import { useUser } from '../../core/hooks/useUser'
+import { getAllCustomersService } from './beneficiaryService'
+import { AddUser, Container } from './BeneficiariesList.styles'
+import { DashboardSection, DashboradLayout } from '../layout/Layout'
+import { Seo } from '../layout/Seo'
 
 export default function CustomersList() {
   let navigate = useNavigate()

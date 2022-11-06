@@ -7,9 +7,9 @@ import { useUser } from './core/hooks/useUser'
 const Home = React.lazy(() => import('./components/Home/Home'))
 const LogIn = React.lazy(() => import('./components/Login/Login'))
 const Dashboard = React.lazy(() => import('./components/Dashboard/Dashboard'))
-const CustomersList = React.lazy(() => import('./components/CustomersList'))
-const Customer = React.lazy(() => import('./components/Customer'))
-const CustomerAddOrEdit = React.lazy(() => import('./components/CustomerAddOrEdit'))
+const CustomersList = React.lazy(() => import('./components/beneficiary/BeneficiariesList'))
+const Customer = React.lazy(() => import('./components/beneficiary/Beneficiary'))
+const CustomerAddOrEdit = React.lazy(() => import('./components/beneficiary/BeneficiaryAddOrEdit'))
 const Interviews = React.lazy(() => import('./components/Interviews/Interviews'))
 
 export const AppRouter = () => {
@@ -27,7 +27,7 @@ export const AppRouter = () => {
           <Route path="beneficiarios">
             <Route index element={isAuth ? <CustomersList /> : <Navigate replace to="/login" />} />
             <Route path="nuevo" element={isAuth ? <CustomerAddOrEdit title="Crear nuevo beneficiario" /> : <Navigate replace to="/login" />} />
-            <Route path=":customerId">
+            <Route path=":beneficiaryId">
               <Route index element={isAuth ? <Customer /> : <Navigate replace to="/login" />} />
               <Route path="editar" element={isAuth ? <CustomerAddOrEdit title="Editar beneficiario" /> : <Navigate replace to="/login" />} />
             </Route>

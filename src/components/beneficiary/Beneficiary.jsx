@@ -2,18 +2,18 @@ import * as React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useUser } from '../core/hooks/useUser'
-import { getCustomerService } from '../services/customer.service'
-import Chart from './Chart'
+import { useUser } from '../../core/hooks/useUser'
+import { getCustomerService } from './beneficiaryService'
+import Chart from '../Chart'
 import {
   AddUser,
   Container,
   Link,
   LoadingWrapper,
   Spinner
-} from './Customer.styles'
-import { DashboardSection, DashboradLayout } from './layout/Layout'
-import { Seo } from './layout/Seo'
+} from './Beneficiary.styles'
+import { DashboardSection, DashboradLayout } from '../layout/Layout'
+import { Seo } from '../layout/Seo'
 
 export default function Customer() {
   let navigate = useNavigate()
