@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export function loginService({ email, password }) {
-  return fetch('http://localhost:3001/api/auth/login', {
+  return fetch(process.env.REACT_APP_API_HOST+'/api/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -19,18 +19,18 @@ export function loginService({ email, password }) {
 }
 
 export async function getAllUsersService(token) {
-  return await axios.get('http://localhost:3001/api/users', {
+  return await axios.get(process.env.REACT_APP_API_HOST + '/api/users', {
     headers: {
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
 }
 
 export async function getUserService(token, id) {
-  return await axios.get('http://localhost:3001/api/user/' + id, {
+  return await axios.get(process.env.REACT_APP_API_HOST + '/api/user/' + id, {
     headers: {
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
 }
 
