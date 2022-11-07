@@ -22,15 +22,18 @@ export default function CustomersList() {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to={'/beneficiarios/' + params.row._id} style={{ textDecoration: 'none' }}>
+            <Link
+              to={'/beneficiarios/' + params.row._id}
+              style={{ textDecoration: 'none' }}
+            >
               <div className="viewButton">Ver</div>
             </Link>
             {/* <div className="deleteButton" onClick={() => handleDelete(params.row.id)}> */}
             <div className="deleteButton">Borrar</div>
           </div>
         )
-      }
-    }
+      },
+    },
   ]
 
   const userColumns = [
@@ -46,25 +49,29 @@ export default function CustomersList() {
         return (
           <div className="cellWithImg">
             {/* <img className="cellImg" src={params.row.img} alt="avatar" /> */}
-            <img className="cellImg" src="https://via.placeholder.com/520x460" alt="avatar" />
+            <img
+              className="cellImg"
+              src="https://via.placeholder.com/520x460"
+              alt="avatar"
+            />
             {params.row.firstName} {params.row.firstSurname}
           </div>
         )
-      }
+      },
     },
     {
       field: 'email',
       headerName: 'Correo',
       description: 'Correo electrónico de beneficiarios',
       sortable: false,
-      width: 320
+      width: 320,
     },
 
     {
       field: 'cellPhoneNumber',
       headerName: 'Teléfono',
       description: 'Número celular de beneficiario',
-      width: 120
+      width: 120,
     },
     {
       field: 'address',
@@ -73,9 +80,13 @@ export default function CustomersList() {
       sortable: false,
       width: 110,
       renderCell: (params) => {
-        return <div className={`cellWithStatus ${params.row.gender}`}>{params.row.gender}</div>
-      }
-    }
+        return (
+          <div className={`cellWithStatus ${params.row.gender}`}>
+            {params.row.gender}
+          </div>
+        )
+      },
+    },
   ]
 
   const { customers, loading, error } = useSelector((state) => state.customer)
@@ -91,7 +102,9 @@ export default function CustomersList() {
 
       <DashboardSection title={'Beneficiarios'}>
         <Container>
-          <AddUser onClick={() => navigate('/beneficiarios/nuevo')}>Crear nuevo beneficiario</AddUser>
+          <AddUser onClick={() => navigate('/beneficiarios/nuevo')}>
+            Crear nuevo beneficiario
+          </AddUser>
 
           {loading && 'cargando'}
 
