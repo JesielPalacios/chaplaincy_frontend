@@ -11,11 +11,14 @@ export async function getAllCustomersService(dispatch, token) {
   dispatch(loading())
 
   try {
-    const res = await axios.get('http://localhost:3001/api/beneficiaries', {
-      headers: {
-        Authorization: token,
-      },
-    })
+    const res = await axios.get(
+      process.env.REACT_APP_API_HOST + '/api/beneficiaries',
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
 
     dispatch(getAllCustomers(res.data))
   } catch (err) {
@@ -28,11 +31,14 @@ export async function getCustomerService(dispatch, token, id) {
   dispatch(loading())
 
   try {
-    const res = await axios.get('http://localhost:3001/api/customer/' + id, {
-      headers: {
-        Authorization: token,
-      },
-    })
+    const res = await axios.get(
+      process.env.REACT_APP_API_HOST + 'api/customer/' + id,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
 
     dispatch(getCustomer(res.data))
   } catch (err) {
@@ -70,7 +76,7 @@ export async function createCustomerService(dispatch, token, title, id, benefici
     const res =
       title === 'Crear nuevo beneficiario'
         ? await axios.post(
-            'http://localhost:3001/api/beneficiaries',
+            process.env.REACT_APP_API_HOST + '/api/beneficiaries',
             formData,
             {
               headers: {
@@ -80,7 +86,7 @@ export async function createCustomerService(dispatch, token, title, id, benefici
             }
           )
         : await axios.put(
-            'http://localhost:3001/api/beneficiary/' + id,
+            process.env.REACT_APP_API_HOST + '/api/beneficiary/' + id,
             formData,
             {
               headers: {
