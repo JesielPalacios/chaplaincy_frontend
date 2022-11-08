@@ -17,13 +17,13 @@ import { Seo } from '../layout/Seo'
 
 export default function Customer() {
   let navigate = useNavigate()
-  const { customerId } = useParams()
+  const { beneficiaryId } = useParams()
   const dispatch = useDispatch()
   const { customer, loading, error } = useSelector((state) => state.customer)
   const { isAuth } = useUser()
 
   useEffect(() => {
-    getCustomerService(dispatch, isAuth, customerId)
+    getCustomerService(dispatch, isAuth, beneficiaryId)
   }, [])
 
   return (
@@ -128,7 +128,7 @@ export default function Customer() {
                     <div
                       className="editButton"
                       onClick={() =>
-                        navigate('/beneficiarios/' + customerId + '/editar')
+                        navigate('/beneficiarios/' + beneficiaryId + '/editar')
                       }
                     >
                       Editar la información del beneficiario

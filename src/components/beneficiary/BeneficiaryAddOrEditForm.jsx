@@ -342,7 +342,7 @@ export default function CustomerAddOrEditForm(props) {
           hideSelectedOptions={true}
           isSearchable={false}
           styles={customStyles}
-          onChange={setGender}
+          onChange={({value}) => setGender(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -368,7 +368,7 @@ export default function CustomerAddOrEditForm(props) {
           hideSelectedOptions={true}
           isSearchable={false}
           styles={customStyles}
-          onChange={setTypeCitizenshipNumberId}
+          onChange={({value}) => setTypeCitizenshipNumberId(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -480,7 +480,7 @@ export default function CustomerAddOrEditForm(props) {
           isClearable={true}
           hideSelectedOptions={true}
           styles={customStyles}
-          onChange={setBirthCountry}
+          onChange={({value}) => setBirthCountry(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -507,7 +507,7 @@ export default function CustomerAddOrEditForm(props) {
           isClearable={true}
           hideSelectedOptions={true}
           styles={customStyles}
-          onChange={setBirthDepartment}
+          onChange={({value}) => setBirthDepartment(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -530,7 +530,7 @@ export default function CustomerAddOrEditForm(props) {
           isClearable={true}
           hideSelectedOptions={true}
           styles={customStyles}
-          onChange={setBirthCity}
+          onChange={({value}) => setBirthCity(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -568,7 +568,7 @@ export default function CustomerAddOrEditForm(props) {
           hideSelectedOptions={true}
           isSearchable={false}
           styles={customStyles}
-          onChange={setAcademicProgram}
+          onChange={({value}) => setAcademicProgram(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -589,7 +589,7 @@ export default function CustomerAddOrEditForm(props) {
           hideSelectedOptions={true}
           isSearchable={false}
           styles={customStyles}
-          onChange={setSemester}
+          onChange={({value}) => setSemester(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {

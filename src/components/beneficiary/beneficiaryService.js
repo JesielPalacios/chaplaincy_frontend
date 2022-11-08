@@ -15,6 +15,9 @@ export async function getAllCustomersService(dispatch, token) {
       process.env.REACT_APP_API_HOST + '/api/beneficiaries',
       {
         headers: {
+          // crossOriginIsolated:"anonymous",
+          crossOrigin: 'anonymous',
+
           Authorization: token,
         },
       }
@@ -32,7 +35,7 @@ export async function getCustomerService(dispatch, token, id) {
 
   try {
     const res = await axios.get(
-      process.env.REACT_APP_API_HOST + 'api/customer/' + id,
+      process.env.REACT_APP_API_HOST + '/api/beneficiary/' + id,
       {
         headers: {
           Authorization: token,
@@ -49,6 +52,7 @@ export async function getCustomerService(dispatch, token, id) {
 }
 
 export async function createCustomerService(dispatch, token, title, id, beneficiaryData) {
+  console.log('beneficiaryData', beneficiaryData)
   dispatch(loading())
 
   const formData = new FormData()
@@ -81,6 +85,8 @@ export async function createCustomerService(dispatch, token, title, id, benefici
             {
               headers: {
                 Authorization: token,
+                // crossOriginIsolated:"anonymous",
+                crossOrigin: 'anonymous',
                 'Content-Type': 'multipart/form-data',
               },
             }
