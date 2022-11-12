@@ -6,7 +6,7 @@ const customerSlice = createSlice({
     customers: [],
     customer: {},
     loading: false,
-    error: false
+    error: false,
   },
   reducers: {
     loading: (state) => {
@@ -26,6 +26,11 @@ const customerSlice = createSlice({
       state.error = false
       state.customer = action.payload
     },
+    getBeneficiaryPhoto: (state, action) => {
+      state.loading = false
+      state.error = false
+      state.customer.beneficiaryPhoto = action.payload
+    },
     resetCustomer: (state) => {
       state.loading = false
       state.error = false
@@ -34,9 +39,17 @@ const customerSlice = createSlice({
     resetFlags: (state) => {
       state.loading = false
       state.error = false
-    }
-  }
+    },
+  },
 })
 
 export default customerSlice.reducer
-export const { loading, getAllCustomers, error, getCustomer, resetCustomer, resetFlags } = customerSlice.actions
+export const {
+  loading,
+  getAllCustomers,
+  error,
+  getCustomer,
+  getBeneficiaryPhoto,
+  resetCustomer,
+  resetFlags,
+} = customerSlice.actions

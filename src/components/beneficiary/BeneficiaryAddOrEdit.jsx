@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
 
 import { useUser } from '../../core/hooks/useUser'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import { Seo } from '../layout/Seo'
+import { AddUser, ButtonsWrapper, Loading } from './BeneficiariesList.styles'
 import { Link } from './Beneficiary.styles'
 import { Container } from './BeneficiaryAddOrEdit.styles'
 import CustomerAddOrEditForm from './BeneficiaryAddOrEditForm'
@@ -12,6 +14,7 @@ import { getCustomerService } from './beneficiaryService'
 import { resetCustomer } from './beneficiarySlice'
 
 export default function CustomerAddOrEdit({ title }) {
+  let navigate = useNavigate()
   const [beneficiaryPhoto, setBeneficiaryPhoto] = useState(null)
   // ('https://via.placeholder.com/520x460')
   const { beneficiaryId } = useParams()
@@ -40,45 +43,84 @@ export default function CustomerAddOrEdit({ title }) {
         }
         subtitle="Formulario de nuevo beneficiario"
       />
-      <DashboardSection
-        title={
-          title === 'Crear nuevo beneficiario'
-            ? title
-            : title + ': ' + beneficiaryId
-        }
-      >
-        <Container>
-          <Link to="/beneficiarios" top="-45px" right="40px">
-            Ir a beneficiarios
-          </Link>
 
-          <div className="newContainer scroll">
-            <div className="bottom">
-              <div className="left">
-                <img
-                  src={
-                    beneficiaryPhoto
-                      ? URL.createObjectURL(beneficiaryPhoto)
-                      : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                  }
-                  alt=""
-                />
-              </div>
-              <div className="right">
-                <CustomerAddOrEditForm
-                  customer={customer}
-                  title={title}
-                  isAuth={isAuth}
-                  dispatch={dispatch}
-                  beneficiaryId={beneficiaryId}
-                  beneficiaryPhoto={beneficiaryPhoto}
-                  setBeneficiaryPhoto={setBeneficiaryPhoto}
-                />
+      <ButtonsWrapper>
+        {/* <Link to="/beneficiarios" top="-45px" right="40px">
+          <span className="tittle"> Ir a beneficiarios</span>
+          <span className="icon">
+            <ion-icon name="people-outline"></ion-icon>
+          </span>
+        </Link> */}
+        {beneficiaryId && (
+          <AddUser onClick={() => navigate('/beneficiarios/' + beneficiaryId)}>
+            Ir al perfil del beneficiario
+            <PeopleAltOutlinedIcon className="productListDelete" />
+          </AddUser>
+        )}
+        <AddUser onClick={() => navigate('/beneficiarios')}>
+          Ir a beneficiarios
+          <PeopleAltOutlinedIcon className="productListDelete" />
+        </AddUser>
+      </ButtonsWrapper>
+
+      {loading && <Loading />}
+
+      {error &&
+        'Algo salió mal, inténtelo de nuevo o póngase en contacto con el centro de apoyo y soporte en: jesielvirtualsa@gmail.com'}
+
+      {!loading && customer && (
+        <DashboardSection
+          title={
+            title === 'Crear nuevo beneficiario'
+              ? title
+              : title + ': ' + beneficiaryId
+          }
+        >
+          <Container>
+            <div className="newContainer scroll">
+              <div className="bottom">
+                <div className="left">
+                  {customer.beneficiaryPhoto ? (
+                    <img
+                      crossorigin="anonymous"
+                      crossOrigin="anonymous"
+                      src={
+                        beneficiaryPhoto
+                          ? URL.createObjectURL(beneficiaryPhoto)
+                          : // beneficiaryPhoto
+                          customer.beneficiaryPhoto && customer.beneficiaryPhoto
+                          ? 'http://localhost:3001' + customer.beneficiaryPhoto
+                          : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                      }
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      src={
+                        beneficiaryPhoto
+                          ? URL.createObjectURL(beneficiaryPhoto)
+                          : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                      }
+                      alt=""
+                    />
+                  )}
+                </div>
+                <div className="right">
+                  <CustomerAddOrEditForm
+                    customer={customer}
+                    title={title}
+                    isAuth={isAuth}
+                    dispatch={dispatch}
+                    beneficiaryId={beneficiaryId}
+                    beneficiaryPhoto={beneficiaryPhoto}
+                    setBeneficiaryPhoto={setBeneficiaryPhoto}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </Container>
-      </DashboardSection>
+          </Container>
+        </DashboardSection>
+      )}
     </DashboradLayout>
   )
 }

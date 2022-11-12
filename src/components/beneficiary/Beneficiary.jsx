@@ -10,10 +10,11 @@ import {
   Container,
   Link,
   LoadingWrapper,
-  Spinner
+  Spinner,
 } from './Beneficiary.styles'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import { Seo } from '../layout/Seo'
+import { Loading } from './BeneficiariesList.styles'
 
 export default function Customer() {
   let navigate = useNavigate()
@@ -40,19 +41,7 @@ export default function Customer() {
           <Link to="/beneficiarios">Ir a beneficiarios</Link>
           <AddUser>Eliminar beneficiario</AddUser>
 
-          {loading && (
-            <LoadingWrapper>
-              {/* <Loading>Cargando información de usuario...</Loading> */}
-              <Spinner>
-                <div className="lds-ring">
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </div>
-              </Spinner>
-            </LoadingWrapper>
-          )}
+          {loading && <Loading />}
 
           <div className="scroll">
             {error && 'Something went wrong'}
@@ -63,7 +52,7 @@ export default function Customer() {
                   <div className="left">
                     <h1 className="title">Información académica</h1>
                     <div className="item">
-                      <img
+                      {/* <img
                         // src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
                         src="https://via.placeholder.com/520x460"
                         alt={
@@ -73,7 +62,24 @@ export default function Customer() {
                           customer.firstSurname
                         }
                         className="itemImg"
-                      />
+                      /> */}
+                      {customer.beneficiaryPhoto ? (
+                        <img
+                          crossorigin="anonymous"
+                          // crossOrigin="anonymous"
+                          src={
+                            'http://localhost:3001' + customer.beneficiaryPhoto
+                          }
+                          alt={'customer image or avatar ' + customer.name}
+                          className="itemImg"
+                        />
+                      ) : (
+                        <img
+                          src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                          alt={'customer image or avatar ' + customer.name}
+                          className="itemImg"
+                        />
+                      )}
                       <div className="details">
                         <h1 className="itemTitle">
                           {(customer.firstName + ' ' + customer.firstSurname)
@@ -87,6 +93,7 @@ export default function Customer() {
                           <div className="detailItem">
                             <span className="itemValue">
                               Estudiante de {customer.academicProgram}
+                            {customer.profilePicture}
                             </span>
                           </div>
                         )}

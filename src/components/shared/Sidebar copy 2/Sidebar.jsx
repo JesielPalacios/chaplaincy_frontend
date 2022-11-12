@@ -8,7 +8,8 @@ import { routes } from '../../../core/routes/routes'
 
 // import { routes } from '../../../../core/router/routes'
 import { LogoImg, ToggleButton, ToggleIcon } from './SidebarElements'
-import img from '../../../assets/yellowLogo.svg'
+// import img from '../../../assets/yellowLogo.svg'
+import img from '../../../assets/unacBlueLogo.svg'
 import './styles.css'
 
 export const Sidebar = () => {

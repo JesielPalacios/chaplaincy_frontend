@@ -13,10 +13,10 @@ export const GlobalStyle = createGlobalStyle`
     color: black;
   }
 
-  @font-face {
+  /* @font-face {
       font-family: Poppins;
       src: url(/fonts/Poppins/Poppins-Medium.ttf);
-  }
+  } */
     
   /* h1 {
       font-family: myFirstFont;

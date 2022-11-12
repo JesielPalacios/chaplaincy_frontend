@@ -5,6 +5,7 @@ import {
   getAllCustomers,
   getCustomer,
   resetFlags,
+  getBeneficiaryPhoto,
 } from './beneficiarySlice.js'
 
 export async function getAllCustomersService(dispatch, token) {
@@ -16,7 +17,7 @@ export async function getAllCustomersService(dispatch, token) {
       {
         headers: {
           // crossOriginIsolated:"anonymous",
-          crossOrigin: 'anonymous',
+          // crossOrigin: 'anonymous',
 
           Authorization: token,
         },
@@ -51,7 +52,13 @@ export async function getCustomerService(dispatch, token, id) {
   }
 }
 
-export async function createCustomerService(dispatch, token, title, id, beneficiaryData) {
+export async function createCustomerService(
+  dispatch,
+  token,
+  title,
+  id,
+  beneficiaryData
+) {
   console.log('beneficiaryData', beneficiaryData)
   dispatch(loading())
 
@@ -62,7 +69,10 @@ export async function createCustomerService(dispatch, token, title, id, benefici
   formData.append('firstSurname', beneficiaryData.firstSurname)
   formData.append('secondSurname', beneficiaryData.secondSurname)
   formData.append('gender', beneficiaryData.gender)
-  formData.append('typeCitizenshipNumberId',beneficiaryData.typeCitizenshipNumberId)
+  formData.append(
+    'typeCitizenshipNumberId',
+    beneficiaryData.typeCitizenshipNumberId
+  )
   formData.append('citizenshipNumberId', beneficiaryData.citizenshipNumberId)
   formData.append('email', beneficiaryData.email)
   formData.append('cellPhoneNumber', beneficiaryData.cellPhoneNumber)
@@ -110,6 +120,47 @@ export async function createCustomerService(dispatch, token, title, id, benefici
   } catch (err) {
     dispatch(getCustomer({}))
     console.log('error', err.response.data)
+    dispatch(error())
+  }
+}
+
+export async function deleteBeneficiaryService(dispatch, token, id) {
+  dispatch(loading())
+
+  try {
+    const res = await axios.delete(
+      process.env.REACT_APP_API_HOST + '/api/beneficiary/' + id,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
+
+    // console.log('res', res)
+    dispatch(resetFlags())
+  } catch (err) {
+    dispatch(getCustomer({}))
+    // console.log('error', err)
+    dispatch(error())
+  }
+}
+
+export async function getBeneficiaryImageService(dispatch, id) {
+  console.log('id', id)
+  dispatch(loading())
+
+  try {
+    const res = await axios.get(
+      process.env.REACT_APP_API_HOST + '/api/photo/' + id,
+      {}
+    )
+
+    dispatch(getBeneficiaryPhoto(res.data))
+    // console.log('res', res.data)
+  } catch (err) {
+    dispatch(getBeneficiaryPhoto(''))
+    // console.log('error', err)
     dispatch(error())
   }
 }

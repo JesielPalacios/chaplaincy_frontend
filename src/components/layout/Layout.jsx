@@ -98,8 +98,12 @@ export const Header = styled.div`
   top: 40px;
   top: 30px;
   top: 20px;
+  top: 10px;
+  top: 15px;
   left: 248px;
   left: 30px;
+  left: 10px;
+  /* left: 5px; */
 `
 
 export const SectionTittle = styled.h1`

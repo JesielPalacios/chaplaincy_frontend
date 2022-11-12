@@ -13,7 +13,7 @@ import { states } from './states'
 export default function CustomerAddOrEditForm(props) {
   const [firstName, setFirstName] = useState('Pepito')
   const [secondName, setSecondName] = useState(null)
-  const [firstSurname, setFirstSurname] = useState('Perez')
+  const [firstSurname, setFirstSurname] = useState('Pérez')
   const [secondSurname, setSecondSurname] = useState(null)
   const [gender, setGender] = useState('Masculino')
   const [typeCitizenshipNumberId, setTypeCitizenshipNumberId] = useState(
@@ -292,9 +292,11 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setSecondName(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? customer.secondName &&
-                customer.secondName[0].toUpperCase() +
-                  customer.secondName.slice(1).toLowerCase()
+              ? customer.secondName && customer.secondSurname == 'null'
+                ? ''
+                : customer.secondName &&
+                  customer.secondName[0].toUpperCase() +
+                    customer.secondName.slice(1).toLowerCase()
               : ''
           }
         />
@@ -325,9 +327,11 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setSecondSurname(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? customer.secondSurname &&
-                customer.secondSurname[0].toUpperCase() +
-                  customer.secondSurname.slice(1).toLowerCase()
+              ? customer.secondSurname && customer.secondSurname == 'null'
+                ? ''
+                : customer.secondSurname &&
+                  customer.secondSurname[0].toUpperCase() +
+                    customer.secondSurname.slice(1).toLowerCase()
               : ''
           }
         />
@@ -342,7 +346,7 @@ export default function CustomerAddOrEditForm(props) {
           hideSelectedOptions={true}
           isSearchable={false}
           styles={customStyles}
-          onChange={({value}) => setGender(value)}
+          onChange={({ value }) => setGender(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -368,7 +372,7 @@ export default function CustomerAddOrEditForm(props) {
           hideSelectedOptions={true}
           isSearchable={false}
           styles={customStyles}
-          onChange={({value}) => setTypeCitizenshipNumberId(value)}
+          onChange={({ value }) => setTypeCitizenshipNumberId(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -392,10 +396,7 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setCitizenshipNumberId(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? {
-                  value: customer.citizenshipNumberId,
-                  label: customer.citizenshipNumberId,
-                }
+              ? customer.citizenshipNumberId && customer.citizenshipNumberId
               : ''
           }
         />
@@ -409,10 +410,9 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setEmail(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? {
-                  value: customer.email,
-                  label: customer.email,
-                }
+              ? customer.email && customer.email == 'null'
+                ? ''
+                : customer.email && customer.email
               : ''
           }
         />
@@ -426,20 +426,15 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setCellPhoneNumber(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? {
-                  value: customer.cellPhoneNumber,
-                  label: customer.cellPhoneNumber,
-                }
+              ? customer.cellPhoneNumber && customer.cellPhoneNumber == 'null'
+                ? ''
+                : customer.cellPhoneNumber && customer.cellPhoneNumber
               : ''
           }
         />
       </FormItem>
 
-      <FormItem
-        id="address"
-        title="Dirección de residencia (domicilio)"
-        important={true}
-      >
+      <FormItem id="address" title="Dirección de residencia (domicilio)">
         <input
           type="text"
           id="address"
@@ -447,10 +442,9 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setAddress(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? {
-                  value: customer.address,
-                  label: customer.address,
-                }
+              ? customer.address && customer.address == 'null'
+                ? ''
+                : customer.address && customer.address
               : ''
           }
         />
@@ -464,7 +458,9 @@ export default function CustomerAddOrEditForm(props) {
           placeholder="Plant discovery date goes here"
           onChange={(e) => setBirthDate(e.target.value)}
           defaultValue={
-            title === 'Edit plant' ? formatDate(customer.birthDate) : ''
+            title === 'Editar beneficiario'
+              ? formatDate(customer.birthDate)
+              : ''
           }
         />
       </FormItem>
@@ -480,7 +476,7 @@ export default function CustomerAddOrEditForm(props) {
           isClearable={true}
           hideSelectedOptions={true}
           styles={customStyles}
-          onChange={({value}) => setBirthCountry(value)}
+          onChange={({ value }) => setBirthCountry(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -507,7 +503,7 @@ export default function CustomerAddOrEditForm(props) {
           isClearable={true}
           hideSelectedOptions={true}
           styles={customStyles}
-          onChange={({value}) => setBirthDepartment(value)}
+          onChange={({ value }) => setBirthDepartment(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -530,7 +526,7 @@ export default function CustomerAddOrEditForm(props) {
           isClearable={true}
           hideSelectedOptions={true}
           styles={customStyles}
-          onChange={({value}) => setBirthCity(value)}
+          onChange={({ value }) => setBirthCity(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -550,10 +546,9 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setStudentCode(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? {
-                  value: customer.studentCode,
-                  label: customer.studentCode,
-                }
+              ? customer.studentCode && customer.studentCode == 'null'
+                ? ''
+                : customer.studentCode && customer.studentCode
               : ''
           }
         />
@@ -568,7 +563,7 @@ export default function CustomerAddOrEditForm(props) {
           hideSelectedOptions={true}
           isSearchable={false}
           styles={customStyles}
-          onChange={({value}) => setAcademicProgram(value)}
+          onChange={({ value }) => setAcademicProgram(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -589,7 +584,7 @@ export default function CustomerAddOrEditForm(props) {
           hideSelectedOptions={true}
           isSearchable={false}
           styles={customStyles}
-          onChange={({value}) => setSemester(value)}
+          onChange={({ value }) => setSemester(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -616,7 +611,7 @@ function FormItem({ children, id, title, important }) {
 
         {important && (
           <span>
-            *<sup>Required</sup>
+            *<sup>Requerido</sup>
           </span>
         )}
       </label>
