@@ -7,7 +7,8 @@ const Provider = ({ children }) => {
     return window.localStorage.getItem('token')
   })
 
-  const [sidebar, setSidebar] = useState(false)
+  // const [sidebar, setSidebar] = useState(false)
+  const [sidebar, setSidebar] = useState(true)
 
   const value = {
     isAuth,

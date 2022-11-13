@@ -10,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
 
   a {
     text-decoration: none;
-    color: black;
+    /* color: black; */
   }
 
   /* @font-face {

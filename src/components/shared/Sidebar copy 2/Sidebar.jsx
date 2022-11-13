@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useContext } from 'react'
 import { NavLink, Routes } from 'react-router-dom'
 import styled from 'styled-components'
 import { useUser } from '../../../core/hooks/useUser'
@@ -7,10 +7,11 @@ import { routes } from '../../../core/routes/routes'
 // import { useUser } from '../../../../core/hooks/useUser'
 
 // import { routes } from '../../../../core/router/routes'
-import { LogoImg, ToggleButton, ToggleIcon } from './SidebarElements'
+import { Container, LogoImg, ToggleButton, ToggleIcon } from './SidebarElements'
 // import img from '../../../assets/yellowLogo.svg'
-import img from '../../../assets/unacBlueLogo.svg'
+// import img from '../../../assets/unacBlueLogo.svg'
 import './styles.css'
+import { DarkModeContext } from '../../../core/context/darkModeContext'
 
 export const Sidebar = () => {
   // let { url } = useRouteMatch()
@@ -32,6 +33,8 @@ export const Sidebar = () => {
       'list active'
   }
 
+  const { dispatch } = useContext(DarkModeContext)
+
   useEffect(() => {
     let currentlink
 
@@ -45,7 +48,7 @@ export const Sidebar = () => {
   }, [])
 
   return (
-    <div className={sidebar ? 'navigation active' : 'navigation'}>
+    <Container className={sidebar ? 'navigation active' : 'navigation'}>
       <ToggleButton sidebar={sidebar} onClick={showSidebar}>
         <ToggleIcon
           sidebar={sidebar}
@@ -53,7 +56,8 @@ export const Sidebar = () => {
         />
       </ToggleButton>
       <LogoImg
-        src={img}
+        // src={img}
+        src="img/logo-unac.png"
         sidebar={sidebar}
         onClick={() => {
           showSidebar()
@@ -89,7 +93,32 @@ export const Sidebar = () => {
             <span className="tittle">Cerrar sessión</span>
           </a>
         </li>
+        <li className="button">
+          <b></b>
+          <b></b>
+          {/* <NavLink to={path}> */}
+          {/* <a className="logout"> */}
+          <span className="icon">
+            {/* <ion-icon name="log-out-outline"></ion-icon> */}
+          </span>
+          <span className="icon">
+            {/* <ion-icon name="log-out-outline"></ion-icon> */}
+          </span>
+          {/* <span className="tittle">Cerrar sessión</span> */}
+          {/* </a> */}
+
+          <div className="bottom">
+            <div
+              className="colorOption"
+              onClick={() => dispatch({ type: 'LIGHT' })}
+            ></div>
+            <div
+              className="colorOption"
+              onClick={() => dispatch({ type: 'DARK' })}
+            ></div>
+          </div>
+        </li>
       </ul>
-    </div>
+    </Container>
   )
 }

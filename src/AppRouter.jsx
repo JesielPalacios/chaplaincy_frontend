@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
+import { Loading } from './components/beneficiary/BeneficiariesList.styles'
 
 import { GlobalStyle } from './components/layout/GlobalStyle'
 import { useUser } from './core/hooks/useUser'
@@ -10,13 +11,15 @@ const Dashboard = React.lazy(() => import('./components/Dashboard/Dashboard'))
 const CustomersList = React.lazy(() => import('./components/beneficiary/BeneficiariesList'))
 const Customer = React.lazy(() => import('./components/beneficiary/Beneficiary'))
 const CustomerAddOrEdit = React.lazy(() => import('./components/beneficiary/BeneficiaryAddOrEdit'))
-const Interviews = React.lazy(() => import('./components/Interviews/Interviews'))
+const Interviews = React.lazy(() => import('./components/Interviews/InterviewsList'))
+const Interview = React.lazy(() => import('./components/Interviews/Beneficiary'))
+const InterviewAddOrEdit = React.lazy(() => import('./components/Interviews/BeneficiaryAddOrEdit'))
 
 export const AppRouter = () => {
   const { isAuth } = useUser()
 
   return (
-    <Suspense fallback="Cargando...">
+    <Suspense fallback={<Loading />}>
       <GlobalStyle />
       <Router>
         <Routes>
@@ -33,7 +36,15 @@ export const AppRouter = () => {
             </Route>
           </Route>
 
-          <Route path="entrevistas" element={isAuth ? <Interviews /> : <Navigate replace to="/login" />} />
+          <Route path="entrevistas">
+            <Route index element={isAuth ? <Interviews /> : <Navigate replace to="/login" />} />
+            <Route path="agregar" element={isAuth ? <InterviewAddOrEdit title="Agregar nueva entrevista" /> : <Navigate replace to="/login" />} />
+            <Route path=":beneficiaryId">
+              <Route index element={isAuth ? <Interview /> : <Navigate replace to="/login" />} />
+              <Route path="editar" element={isAuth ? <InterviewAddOrEdit title="Editar entrevista" /> : <Navigate replace to="/login" />} />
+            </Route>
+          </Route>
+
         </Routes>
       </Router>
     </Suspense>

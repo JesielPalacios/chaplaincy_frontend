@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
-import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined'
+import PostAddIcon from '@mui/icons-material/PostAdd'
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { esES as coreBgBG } from '@mui/material/locale'
@@ -135,7 +135,7 @@ export default function CustomersList() {
 
     {
       field: 'fullName',
-      headerName: 'Nombre',
+      headerName: 'Beneficiario',
       description: 'Nombre y apellido del beneficiario',
       width: 160,
       valueGetter: (params) =>
@@ -152,7 +152,7 @@ export default function CustomersList() {
 
     {
       field: 'email',
-      headerName: 'Correo',
+      headerName: 'Descripción de la entrevista',
       description: 'Correo electrónico de beneficiarios',
       width: 250,
       valueGetter: (params) =>
@@ -160,7 +160,7 @@ export default function CustomersList() {
     },
     {
       field: 'citizenshipNumberId',
-      headerName: 'Núm. de ident.',
+      headerName: 'Categoría',
       description: 'Número de identificación del beneficiario',
       width: 132,
       valueGetter: (params) =>
@@ -172,7 +172,7 @@ export default function CustomersList() {
     },
     {
       field: 'cellPhoneNumber',
-      headerName: 'Teléfono',
+      headerName: 'Capellán',
       description: 'Número celular de beneficiario',
       width: 120,
       valueGetter: (params) =>
@@ -184,7 +184,7 @@ export default function CustomersList() {
     },
     {
       field: 'genre',
-      headerName: 'Género',
+      headerName: 'Estado',
       description: 'Género del beneficiarios',
       // sortable: false,
       width: 110,
@@ -297,7 +297,7 @@ export default function CustomersList() {
 
   return (
     <DashboradLayout>
-      <Seo title="Beneficiarios" subtitle="Administración de beneficiarios" />
+      <Seo title="Entrevistas" subtitle="Administración de beneficiarios" />
       <ButtonsWrapper>
         <AddUser onClick={exportImage}>
           Imprimir
@@ -307,13 +307,13 @@ export default function CustomersList() {
           Actualizar lista
           <CachedOutlinedIcon className="productListDelete" />
         </AddUser>
-        <AddUser onClick={() => navigate('/beneficiarios/nuevo')}>
-          Crear nuevo beneficiario
-          <PersonAddAltOutlinedIcon className="productListDelete" />
+        <AddUser onClick={() => navigate('/entrevistas/agregar')}>
+          Crear nueva entrevista
+          <PostAddIcon className="productListDelete" />
         </AddUser>
       </ButtonsWrapper>
 
-      <DashboardSection title={'Beneficiarios'}>
+      <DashboardSection title={'Entrevistas'}>
         <Container>
           <ThemeProvider theme={theme}>
             {loading && <Loading />}

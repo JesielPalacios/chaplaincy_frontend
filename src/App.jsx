@@ -1,10 +1,13 @@
-import { AppRouter } from './AppRouter'
 import { HelmetProvider } from 'react-helmet-async'
+import { AppRouter } from './AppRouter'
+import { DarkModeContextProvider } from './core/context/darkModeContext'
 
 export function App() {
   return (
     <HelmetProvider>
-      <AppRouter />
+      <DarkModeContextProvider>
+        <AppRouter />
+      </DarkModeContextProvider>
     </HelmetProvider>
   )
 }

@@ -1,10 +1,11 @@
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useUser } from '../../core/hooks/useUser'
+import { getAllCustomersService } from '../beneficiary/beneficiaryService'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import { Seo } from '../layout/Seo'
 import { AddUser, ButtonsWrapper, Loading } from './BeneficiariesList.styles'
@@ -15,14 +16,16 @@ import { resetCustomer } from './beneficiarySlice'
 
 export default function CustomerAddOrEdit({ title }) {
   let navigate = useNavigate()
-  const [beneficiaryPhoto, setBeneficiaryPhoto] = useState()
   const { beneficiaryId } = useParams()
   const { isAuth } = useUser()
   const { customer, loading, error } = useSelector((state) => state.customer)
+  const { customers } = useSelector((state) => state.customer)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    title === 'Crear nuevo beneficiario' && dispatch(resetCustomer())
+    title === 'Crear nuevo beneficiario' &&
+      dispatch(resetCustomer()) &&
+      getAllCustomersService(dispatch, isAuth)
     title === 'Editar beneficiario' &&
       getCustomerService(dispatch, isAuth, beneficiaryId)
   }, [])
@@ -31,7 +34,7 @@ export default function CustomerAddOrEdit({ title }) {
     <DashboradLayout>
       <Seo
         title={
-          title === 'Crear nuevo beneficiario'
+          title === 'Agregar nueva entrevista'
             ? 'Nuevo beneficiario'
             : (customer.firstName + ' ' + customer.firstSurname)
                 .trim()
@@ -57,7 +60,7 @@ export default function CustomerAddOrEdit({ title }) {
 
       <DashboardSection
         title={
-          title === 'Crear nuevo beneficiario'
+          title === 'Agregar nueva entrevista'
             ? title
             : title + ': ' + beneficiaryId
         }
@@ -65,36 +68,12 @@ export default function CustomerAddOrEdit({ title }) {
         <Container>
           <div className="newContainer scroll">
             {loading && <Loading />}
-            {error && 'Algo salió mal'}
-            {/* Algo salió mal, inténtelo de nuevo o póngase en contacto con el centro de */}
-            {/* apoyo y soporte en: jesielvirtualsa@gmail.com */}
-            {/* {error && validChildrenToRender.errorHandler3} */}
 
-            {!loading && customer && (
+            {error && 'Algo salió mal'}
+
+            {!(loading && error) && customer && (
               <div className="bottom">
-                <div className="left">
-                  {customer.beneficiaryPhoto &&
-                  customer.beneficiaryPhoto != 'null' ? (
-                    <img
-                      crossOrigin="anonymous"
-                      crossorigin="anonymous"
-                      src={
-                        beneficiaryPhoto
-                          ? URL.createObjectURL(beneficiaryPhoto)
-                          : // beneficiaryPhoto
-                          customer.beneficiaryPhoto && customer.beneficiaryPhoto
-                          ? 'http://localhost:3001' + customer.beneficiaryPhoto
-                          : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                      }
-                      alt="avatar"
-                    />
-                  ) : (
-                    <img
-                      src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                      alt="avatar"
-                    />
-                  )}
-                </div>
+                {/* <div className="left"></div> */}
                 <div className="right">
                   <CustomerAddOrEditForm
                     customer={customer}
@@ -102,8 +81,7 @@ export default function CustomerAddOrEdit({ title }) {
                     isAuth={isAuth}
                     dispatch={dispatch}
                     beneficiaryId={beneficiaryId}
-                    beneficiaryPhoto={beneficiaryPhoto}
-                    setBeneficiaryPhoto={setBeneficiaryPhoto}
+                    customers={customers}
                   />
                 </div>
               </div>

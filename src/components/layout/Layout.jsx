@@ -1,12 +1,20 @@
+import { useContext } from 'react'
 import styled from 'styled-components'
+import { DarkModeContext } from '../../core/context/darkModeContext'
 import { useUser } from '../../core/hooks/useUser'
 import { Sidebar } from '../shared/Sidebar copy 2/Sidebar'
+import './dark.scss'
 
 export const DashboradLayout = ({ children }) => {
   const { sidebar } = useUser()
+  const { darkMode } = useContext(DarkModeContext)
 
   return (
-    <DashboardContainer sidebar={sidebar}>
+    <DashboardContainer
+      sidebar={sidebar}
+      darkMode={darkMode}
+      className={darkMode ? 'app dark' : 'app'}
+    >
       <Sidebar />
 
       {/* <Wrapper sidebar={sidebar}>{children}</Wrapper> */}
@@ -17,23 +25,36 @@ export const DashboradLayout = ({ children }) => {
 
 const DashboardContainer = styled.div`
   display: grid;
-  /* grid-template-columns: ${({ sidebar }) => (sidebar ? '300px' : '70px')} auto !important; */
+  /* grid-template-columns: ${({ sidebar }) =>
+    sidebar ? '300px' : '70px'} auto !important; */
 
-  /* grid-template-columns: ${({ sidebar }) => (sidebar ? '300px' : '70px')} fit-content !important; */
+  /* grid-template-columns: ${({ sidebar }) =>
+    sidebar ? '300px' : '70px'} fit-content !important; */
 
-  grid-template-columns: ${({ sidebar }) => (sidebar ? '300px' : '70px')} ${({ sidebar }) => (sidebar ? 'auto + calc(100% - 300px) ' : 'auto + calc(100% - 130px) ')};
+  grid-template-columns: ${({ sidebar }) => (sidebar ? '300px' : '70px')} ${({
+      sidebar,
+    }) =>
+      sidebar ? 'auto + calc(100% - 300px) ' : 'auto + calc(100% - 130px) '};
 
-  /* ${({ sidebar }) => (sidebar ? 'grid-template-columns: 200px auto; ' : 'grid-template-columns: 80px auto;')} */
+  /* ${({ sidebar }) =>
+    sidebar
+      ? 'grid-template-columns: 200px auto; '
+      : 'grid-template-columns: 80px auto;'} */
 
   width: 100%;
   /* height: 100vh; */
   height: 100vh;
   /* background: #f7f7f8; */
-  background: #e5e9ec;
+  /* background: #e5e9ec; */
   /* position: relative; */
 
   /* transition: width 0.3s; */
   /* overflow-x: hidden; */
+
+  ${({ darkMode }) =>
+    darkMode
+      ? 'color: #fff; '
+      : 'color: #000;'}
 `
 
 const Wrapper = styled.section`

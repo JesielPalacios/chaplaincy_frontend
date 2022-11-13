@@ -69,12 +69,14 @@ export const routes = [
     path: '/beneficiarios',
     notification: 0
   },
-  {
-    label: 'Administradores',
-    icon: 'people-outline',
-    path: '/administradores',
-    notification: 0
-  },
+  // -------------------------------
+  // {
+  //   label: 'Administradores',
+  //   icon: 'people-outline',
+  //   path: '/administradores',
+  //   notification: 0
+  // },
+  // -------------------------------
   // {
   //   label: 'Crear usuario',
   //   icon: 'person-add-outline',
