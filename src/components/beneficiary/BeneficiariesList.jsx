@@ -1,36 +1,32 @@
-// import { DataGrid } from '@mui/x-data-grid'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import html2canvas from 'html2canvas'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import html2canvas from 'html2canvas'
 // import { DataGrid, bgBG } from '@mui/x-data-grid'
-import { DataGrid, esES } from '@mui/x-data-grid'
-// import { bgBG as pickersBgBG } from '@mui/x-date-pickers'
-// import { bgBG as coreBgBG } from '@mui/material/locale'
-import { esES as coreBgBG } from '@mui/material/locale'
-import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined'
-// import { CachedOutlinedIcon } from '@mui/icons-material'
 import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined'
-import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import EditIcon from '@mui/icons-material/Edit'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
-
+import EditIcon from '@mui/icons-material/Edit'
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined'
+import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import { esES as coreBgBG } from '@mui/material/locale'
+import { DataGrid, esES } from '@mui/x-data-grid'
 import Swal from 'sweetalert2'
+
 import { useUser } from '../../core/hooks/useUser'
-import {
-  deleteBeneficiaryService,
-  getAllCustomersService,
-} from './beneficiaryService'
+import { DashboardSection, DashboradLayout } from '../layout/Layout'
+import { Seo } from '../layout/Seo'
 import {
   AddUser,
   ButtonsWrapper,
   Container,
-  Loading,
+  Loading
 } from './BeneficiariesList.styles'
-import { DashboardSection, DashboradLayout } from '../layout/Layout'
-import { Seo } from '../layout/Seo'
+import {
+  deleteBeneficiaryService,
+  getAllCustomersService
+} from './beneficiaryService'
 
 export default function CustomersList() {
   let navigate = useNavigate()
@@ -53,13 +49,13 @@ export default function CustomersList() {
 
         !(loading && error) &&
           Swal.fire(
-            'Plant deleted!',
-            'Plant has been deleted successfully!',
+            'Beneficiario eliminado',
+            'El beneficiario ha sido eliminado exitosamente.',
             'success'
           )
+        navigate('/beneficiarios')
       }
     })
-    navigate('/beneficiarios')
   }
 
   const actionColumn = [
@@ -112,63 +108,35 @@ export default function CustomersList() {
       description: 'Imágen del beneficiario',
       sortable: false,
       width: 20,
-      // valueGetter: (params) =>
-      // `${params.row.firstName || ""} ${params.row.lastName || ""}`,
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
-            {/* <img className="cellImg" src={params.row.img} alt="avatar" /> */}
-            {/* <img
-              className="cellImg"
-              src="https://via.placeholder.com/520x460"
-              alt="avatar"
-            /> */}
-
-            {params.row.beneficiaryPhoto ? (
+            {params.row.beneficiaryPhoto != 'null' ? (
               <img
-                // crossorigin="anonymous"
                 crossOrigin="anonymous"
+                crossorigin="anonymous"
                 className="cellImg"
-                // src="https://via.placeholder.com/520x460"
-                // src="https://www.elmueble.com/medio/2019/01/22/plantas-medicinales-valeriana_6340d15a_543x543.jpg"
-                src={
-                  params.row.beneficiaryPhoto
-                    ? 'http://localhost:3001' + params.row.beneficiaryPhoto
-                    : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                }
-
-                // alt="plant avatar image of plant"
+                src={'http://localhost:3001' + params.row.beneficiaryPhoto}
+                alt="avatar"
               />
             ) : (
               <img
-                // crossOrigin="anonymous"
                 className="cellImg"
-                // src="https://via.placeholder.com/520x460"
-                // src="https://www.elmueble.com/medio/2019/01/22/plantas-medicinales-valeriana_6340d15a_543x543.jpg"
-                src={
-                  params.row.beneficiaryPhoto
-                    ? 'http://localhost:3001' + params.row.beneficiaryPhoto
-                    : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                }
-                // alt="plant avatar image of plant"
+                src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                alt="avatar"
               />
             )}
           </div>
         )
       },
     },
+
     {
       field: 'fullName',
       headerName: 'Nombre',
       description: 'Nombre y apellido del beneficiario',
       width: 160,
       valueGetter: (params) =>
-        // ${
-        //   params.row.secondName != 'null'
-        //     ? params.row.secondName[0].toUpperCase() +
-        //       params.row.secondName.slice(1).toLowerCase()
-        //     : ''
-        // }
         `${
           params.row.firstName[0].toUpperCase() +
             params.row.firstName.slice(1).toLowerCase() || ''
@@ -178,13 +146,8 @@ export default function CustomersList() {
             params.row.firstSurname.slice(1).toLowerCase() || ''
         }
         `,
-      // ${
-      //   params.row.secondSurname != 'null'
-      //     ? params.row.secondSurname[0].toUpperCase() +
-      //       params.row.secondSurname.slice(1).toLowerCase()
-      //     : ''
-      // }
     },
+
     {
       field: 'email',
       headerName: 'Correo',

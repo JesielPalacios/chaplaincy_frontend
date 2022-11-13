@@ -1,20 +1,21 @@
-import * as React from 'react'
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+import Swal from 'sweetalert2'
+
 import { useUser } from '../../core/hooks/useUser'
-import { getCustomerService } from './beneficiaryService'
 import Chart from '../Chart'
-import {
-  AddUser,
-  Container,
-  Link,
-  LoadingWrapper,
-  Spinner,
-} from './Beneficiary.styles'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import { Seo } from '../layout/Seo'
-import { Loading } from './BeneficiariesList.styles'
+import { AddUser, ButtonsWrapper, Loading } from './BeneficiariesList.styles'
+import { Container } from './Beneficiary.styles'
+import {
+  deleteBeneficiaryService,
+  getAllCustomersService,
+  getCustomerService,
+} from './beneficiaryService'
 
 export default function Customer() {
   let navigate = useNavigate()
@@ -22,6 +23,32 @@ export default function Customer() {
   const dispatch = useDispatch()
   const { customer, loading, error } = useSelector((state) => state.customer)
   const { isAuth } = useUser()
+
+  function handleDelete(id) {
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: 'Esta acción no se podrá revertir.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'var(--first)',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, borrar.',
+      cancelButtonText: 'No, cancelar.',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await deleteBeneficiaryService(dispatch, isAuth, id)
+        getAllCustomersService(dispatch, isAuth)
+
+        !(loading && error) &&
+          Swal.fire(
+            'Beneficiario eliminado',
+            'El beneficiario ha sido eliminado exitosamente.',
+            'success'
+          )
+        navigate('/beneficiarios')
+      }
+    })
+  }
 
   useEffect(() => {
     getCustomerService(dispatch, isAuth, beneficiaryId)
@@ -36,10 +63,34 @@ export default function Customer() {
           .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
         subtitle="Perfil de beneficiario"
       />
+
+      <ButtonsWrapper>
+        {/* <Link to="/beneficiarios" top="-45px" right="40px">
+          <span className="tittle"> Ir a beneficiarios</span>
+          <span className="icon">
+            <ion-icon name="people-outline"></ion-icon>
+          </span>
+        </Link> */}
+        {beneficiaryId && (
+          <AddUser
+            onClick={() => {
+              handleDelete(beneficiaryId)
+            }}
+          >
+            Borrar este beneficiario
+            <DeleteOutlinedIcon className="productListDelete" />
+          </AddUser>
+        )}
+        <AddUser onClick={() => navigate('/beneficiarios')}>
+          Ir a beneficiarios
+          <ArrowBackOutlinedIcon className="productListDelete" />
+        </AddUser>
+      </ButtonsWrapper>
+
       <DashboardSection title={'ID: ' + customer._id}>
         <Container>
-          <Link to="/beneficiarios">Ir a beneficiarios</Link>
-          <AddUser>Eliminar beneficiario</AddUser>
+          {/* <Link to="/beneficiarios">Ir a beneficiarios</Link> */}
+          {/* <AddUser>Eliminar beneficiario</AddUser> */}
 
           {loading && <Loading />}
 
@@ -52,34 +103,24 @@ export default function Customer() {
                   <div className="left">
                     <h1 className="title">Información académica</h1>
                     <div className="item">
-                      {/* <img
-                        // src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-                        src="https://via.placeholder.com/520x460"
-                        alt={
-                          'Imágen del usuario ' +
-                          customer.firstName +
-                          ' ' +
-                          customer.firstSurname
-                        }
-                        className="itemImg"
-                      /> */}
-                      {customer.beneficiaryPhoto ? (
+                      {customer.beneficiaryPhoto != 'null' ? (
                         <img
+                          className="itemImg"
+                          crossOrigin="anonymous"
                           crossorigin="anonymous"
-                          // crossOrigin="anonymous"
                           src={
                             'http://localhost:3001' + customer.beneficiaryPhoto
                           }
-                          alt={'customer image or avatar ' + customer.name}
-                          className="itemImg"
+                          alt="avatar"
                         />
                       ) : (
                         <img
-                          src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                          alt={'customer image or avatar ' + customer.name}
                           className="itemImg"
+                          src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                          alt="avatar"
                         />
                       )}
+
                       <div className="details">
                         <h1 className="itemTitle">
                           {(customer.firstName + ' ' + customer.firstSurname)
@@ -93,7 +134,7 @@ export default function Customer() {
                           <div className="detailItem">
                             <span className="itemValue">
                               Estudiante de {customer.academicProgram}
-                            {customer.profilePicture}
+                              {customer.profilePicture}
                             </span>
                           </div>
                         )}
@@ -146,20 +187,38 @@ export default function Customer() {
                         <div className="detailItem">
                           <span className="itemKey">Nombre completo:</span>
                           <span className="itemValue">
-                            {(
-                              customer.firstName +
-                              ' ' +
-                              customer.secondName +
-                              ' ' +
-                              customer.firstSurname +
-                              ' ' +
-                              customer.secondSurname
-                            )
-                              .trim()
-                              .toLowerCase()
-                              .replace(/\w\S*/g, (w) =>
-                                w.replace(/^\w/, (c) => c.toUpperCase())
-                              )}
+                            {customer.firstName &&
+                              customer.firstName
+                                .trim()
+                                .toLowerCase()
+                                .replace(/\w\S*/g, (w) =>
+                                  w.replace(/^\w/, (c) => c.toUpperCase())
+                                )}{' '}
+                            {customer.secondName &&
+                            customer.secondName != 'null'
+                              ? customer.secondName
+                                  .trim()
+                                  .toLowerCase()
+                                  .replace(/\w\S*/g, (w) =>
+                                    w.replace(/^\w/, (c) => c.toUpperCase())
+                                  )
+                              : ''}
+                            {customer.firstSurname &&
+                              customer.firstSurname
+                                .trim()
+                                .toLowerCase()
+                                .replace(/\w\S*/g, (w) =>
+                                  w.replace(/^\w/, (c) => c.toUpperCase())
+                                )}
+                            {customer.secondSurname &&
+                            customer.secondSurname != 'null'
+                              ? customer.secondSurname
+                                  .trim()
+                                  .toLowerCase()
+                                  .replace(/\w\S*/g, (w) =>
+                                    w.replace(/^\w/, (c) => c.toUpperCase())
+                                  )
+                              : ''}
                           </span>
                         </div>
                         <div className="detailItem">

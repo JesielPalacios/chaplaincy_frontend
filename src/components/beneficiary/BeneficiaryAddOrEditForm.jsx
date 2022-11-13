@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined'
 import SaveIcon from '@mui/icons-material/Save'
-import Swal from 'sweetalert2'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 
 import { createCustomerService } from './beneficiaryService'
@@ -11,27 +10,44 @@ import { countries } from './countries'
 import { states } from './states'
 
 export default function CustomerAddOrEditForm(props) {
-  const [firstName, setFirstName] = useState('Pepito')
-  const [secondName, setSecondName] = useState(null)
-  const [firstSurname, setFirstSurname] = useState('Pérez')
-  const [secondSurname, setSecondSurname] = useState(null)
-  const [gender, setGender] = useState('Masculino')
-  const [typeCitizenshipNumberId, setTypeCitizenshipNumberId] = useState(
-    'Cédula de ciudadanía'
-  )
-  const [citizenshipNumberId, setCitizenshipNumberId] = useState('4567890123')
-  const [academicProgram, setAcademicProgram] = useState('No aplica')
-  const [studentCode, setStudentCode] = useState('No aplica')
-  const [semester, setSemester] = useState('No aplica')
-  const [email, setEmail] = useState(null)
-  const [cellPhoneNumber, setCellPhoneNumber] = useState(null)
-  const [address, setAddress] = useState(
-    'Carrera 84#33aa-01 La Castellana /Medellin-Colombia'
-  )
-  const [birthDate, setBirthDate] = useState('2018-01-01')
-  const [birthCountry, setBirthCountry] = useState('Colombia')
-  const [birthDepartment, setBirthDepartment] = useState('Antioquia')
-  const [birthCity, setBirthCity] = useState('Medellín')
+  // const [firstName, setFirstName] = useState('Pepito')
+  // const [secondName, setSecondName] = useState(null)
+  // const [firstSurname, setFirstSurname] = useState('Pérez')
+  // const [secondSurname, setSecondSurname] = useState(null)
+  // const [gender, setGender] = useState('Masculino')
+  // const [typeCitizenshipNumberId, setTypeCitizenshipNumberId] = useState(
+  //   'Cédula de ciudadanía'
+  // )
+  // const [citizenshipNumberId, setCitizenshipNumberId] = useState('4567890123')
+  // const [academicProgram, setAcademicProgram] = useState('No aplica')
+  // const [studentCode, setStudentCode] = useState('No aplica')
+  // const [semester, setSemester] = useState('No aplica')
+  // const [email, setEmail] = useState(null)
+  // const [cellPhoneNumber, setCellPhoneNumber] = useState(null)
+  // const [address, setAddress] = useState(
+  //   'Carrera 84#33aa-01 La Castellana /Medellin-Colombia'
+  // )
+  // const [birthDate, setBirthDate] = useState('2018-01-01')
+  // const [birthCountry, setBirthCountry] = useState('Colombia')
+  // const [birthDepartment, setBirthDepartment] = useState('Antioquia')
+  // const [birthCity, setBirthCity] = useState('Medellín')
+  const [firstName, setFirstName] = useState()
+  const [secondName, setSecondName] = useState()
+  const [firstSurname, setFirstSurname] = useState()
+  const [secondSurname, setSecondSurname] = useState()
+  const [gender, setGender] = useState()
+  const [typeCitizenshipNumberId, setTypeCitizenshipNumberId] = useState()
+  const [citizenshipNumberId, setCitizenshipNumberId] = useState()
+  const [academicProgram, setAcademicProgram] = useState()
+  const [studentCode, setStudentCode] = useState()
+  const [semester, setSemester] = useState()
+  const [email, setEmail] = useState()
+  const [cellPhoneNumber, setCellPhoneNumber] = useState()
+  const [address, setAddress] = useState()
+  const [birthDate, setBirthDate] = useState()
+  const [birthCountry, setBirthCountry] = useState()
+  const [birthDepartment, setBirthDepartment] = useState()
+  const [birthCity, setBirthCity] = useState()
   const [cities, setCities] = useState([])
   const navigate = useNavigate()
   const {
@@ -575,7 +591,7 @@ export default function CustomerAddOrEditForm(props) {
         />
       </FormItem>
 
-      <FormItem id="semester" title="Semestre académico">
+      <FormItem id="semester" title="Semestre académico actual">
         <Select
           inputId="semester"
           options={semesterOptions}

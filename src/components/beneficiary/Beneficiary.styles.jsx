@@ -1,4 +1,3 @@
-'react-redux'
 import { Link as LinkRouter } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -36,11 +35,10 @@ export const Container = styled.div`
     /* flex-wrap: nowrap; */
 
     .left {
+      overflow: hidden;
+      flex: 1;
       background-color: #fff;
       border-radius: 10px;
-      overflow: hidden;
-
-      flex: 1;
       -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
       box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
       padding: 20px;
@@ -149,27 +147,27 @@ export const Link = styled(LinkRouter)`
   }
 `
 
-export const AddUser = styled.button`
-  position: absolute;
-  top: ${({ top }) => (top ? top : '-50px')};
-  right: ${({ right }) => (right ? right : '5px')};
+// export const AddUser = styled.button`
+//   position: absolute;
+//   top: ${({ top }) => (top ? top : '-50px')};
+//   right: ${({ right }) => (right ? right : '5px')};
 
-  border: none;
-  // height: 100%;
-  margin: 0px;
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-  border: 1px solid #f5a800;
-  /* background: #f5f5f5; */
-  /* background: #eeeeee; */
-  background: none;
-  // color: #f5a800;
-  cursor: pointer;
-  transition: all 500ms ease 0s;
+//   border: none;
+//   // height: 100%;
+//   margin: 0px;
+//   border-radius: 0.5rem;
+//   padding: 0.5rem 1rem;
+//   font-weight: 600;
+//   border: 1px solid #f5a800;
+//   /* background: #f5f5f5; */
+//   /* background: #eeeeee; */
+//   background: none;
+//   // color: #f5a800;
+//   cursor: pointer;
+//   transition: all 500ms ease 0s;
 
-  :hover {
-    background-color: #f5a800;
-    color: #ffffff;
-  }
-`
+//   :hover {
+//     background-color: #f5a800;
+//     color: #ffffff;
+//   }
+// `
