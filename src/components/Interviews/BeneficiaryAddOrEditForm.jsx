@@ -1,6 +1,5 @@
 import SaveIcon from '@mui/icons-material/Save'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 import Swal from 'sweetalert2'
@@ -11,23 +10,20 @@ export default function CustomerAddOrEditForm(props) {
   const [topic, setTopic] = useState()
   const [topicDescription, setTopicDescription] = useState()
   const [actionsDescription, setActionsDescription] = useState()
-  const [referralDepartment, seRreferralDepartment] = useState()
+  const [referralDepartment, setReferralDepartment] = useState()
   const [status, setStatus] = useState()
   const [beneficiary, setBeneficiary] = useState()
   const [cities, setCities] = useState([])
   const navigate = useNavigate()
   const {
     isAuth,
-    // dispatch,
+    dispatch,
     customer,
-    // customers,
+    customers,
     title,
     beneficiaryId,
     beneficiaryPhoto,
   } = props
-
-  const { customers } = useSelector((state) => state.customer)
-  const dispatch = useDispatch()
 
   const customStyles = {
     control: () => ({
@@ -202,7 +198,7 @@ export default function CustomerAddOrEditForm(props) {
         <textarea
           id="actionsDescription"
           placeholder="Acciones a tomar a partir de las concluciones aquí"
-          onChange={(e) => setTopicDescription(e.target.value)}
+          onChange={(e) => setActionsDescription(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? customer.secondName && customer.secondSurname == 'null'
@@ -231,7 +227,7 @@ export default function CustomerAddOrEditForm(props) {
           hideSelectedOptions={true}
           isSearchable={false}
           styles={customStyles}
-          onChange={({ value }) => setTopic(value)}
+          onChange={({ value }) => setReferralDepartment(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -256,7 +252,7 @@ export default function CustomerAddOrEditForm(props) {
           hideSelectedOptions={true}
           isSearchable={false}
           styles={customStyles}
-          onChange={({ value }) => setTopic(value)}
+          onChange={({ value }) => setStatus(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -276,30 +272,59 @@ export default function CustomerAddOrEditForm(props) {
       >
         <Select
           inputId="beneficiary"
-          options={customers.sort().map((item) => ({
+          options={customers.map((item) => ({
             label:
-              item.firsttName &&
-              item.firsttName[0].toUpperCase() +
-                item.firsttName.slice(1).toLowerCase() +
+              // -----------------------------------------
+              item.firstName &&
+              item.firstName[0].toUpperCase() +
+                item.firstName.slice(1).toLowerCase() +
                 // -----------------------------------------
-                item.secondName &&
-              item.secondSurname == 'null'
-                ? ''
-                : item.secondName &&
-                  item.secondName[0].toUpperCase() +
-                    item.secondName.slice(1).toLowerCase() +
-                    // -----------------------------------------
-                    item.firstSurnName &&
-                  item.firstSurnName[0].toUpperCase() +
-                    item.firstSurnName.slice(1).toLowerCase(),
+                ' ' +
+                (item.secondName && item.secondName == 'null'
+                  ? ''
+                  : item.secondName &&
+                    item.secondName[0].toUpperCase() +
+                      item.secondName.slice(1).toLowerCase()) +
+                ' ' +
+                // -----------------------------------------
+                (item.firstSurname &&
+                  item.firstSurname[0].toUpperCase() +
+                    item.firstSurname.slice(1).toLowerCase()) +
+                ' ' +
+                // -----------------------------------------
+                (item.secondSurname && item.secondSurname == 'null'
+                  ? ''
+                  : item.secondSurname &&
+                    item.secondSurname[0].toUpperCase() +
+                      item.secondSurname.slice(1).toLowerCase()) +
+                // -----------------------------------------
+                ' - ' +
+                (item.email && item.email == 'null'
+                  ? ''
+                  : item.email && item.email) +
+                ' - ' +
+                // -----------------------------------------
+                (item.citizenshipNumberId &&
+                  item.citizenshipNumberId &&
+                  item.citizenshipNumberId) +
+                ' - ' +
+                // -----------------------------------------
+                (item.cellPhoneNumber && item.cellPhoneNumber == 'null'
+                  ? ''
+                  : item.cellPhoneNumber && item.cellPhoneNumber) +
+                ' - ' +
+                // -----------------------------------------
+                (item.address && item.address == 'null'
+                  ? ''
+                  : item.address && item.address),
+            // -----------------------------------------
             value: item._id,
           }))}
           placeholder={'Seleccione el beneficiario de la entrevista aquí'}
           isClearable={true}
           hideSelectedOptions={true}
-          isSearchable={false}
           styles={customStyles}
-          onChange={({ value }) => setTopic(value)}
+          onChange={({ value }) => setBeneficiary(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
@@ -310,7 +335,6 @@ export default function CustomerAddOrEditForm(props) {
           }
           required
         />
-        {console.log('customers', customers)}
       </FormItem>
 
       <button>

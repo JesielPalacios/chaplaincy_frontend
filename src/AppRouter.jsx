@@ -39,7 +39,7 @@ export const AppRouter = () => {
           <Route path="entrevistas">
             <Route index element={isAuth ? <Interviews /> : <Navigate replace to="/login" />} />
             <Route path="agregar" element={isAuth ? <InterviewAddOrEdit title="Agregar nueva entrevista" /> : <Navigate replace to="/login" />} />
-            <Route path=":beneficiaryId">
+            <Route path=":interviewId">
               <Route index element={isAuth ? <Interview /> : <Navigate replace to="/login" />} />
               <Route path="editar" element={isAuth ? <InterviewAddOrEdit title="Editar entrevista" /> : <Navigate replace to="/login" />} />
             </Route>

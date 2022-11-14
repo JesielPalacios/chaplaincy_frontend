@@ -16,18 +16,18 @@ import { resetCustomer } from './beneficiarySlice'
 
 export default function CustomerAddOrEdit({ title }) {
   let navigate = useNavigate()
-  const { beneficiaryId } = useParams()
+  const { interviewId } = useParams()
   const { isAuth } = useUser()
   const { customer, loading, error } = useSelector((state) => state.customer)
   const { customers } = useSelector((state) => state.customer)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    title === 'Crear nuevo beneficiario' &&
+    title === 'Agregar nueva entrevista' &&
       dispatch(resetCustomer()) &&
       getAllCustomersService(dispatch, isAuth)
-    title === 'Editar beneficiario' &&
-      getCustomerService(dispatch, isAuth, beneficiaryId)
+    title === 'Editar entrevista' &&
+      getCustomerService(dispatch, isAuth, interviewId)
   }, [])
 
   return (
@@ -35,7 +35,7 @@ export default function CustomerAddOrEdit({ title }) {
       <Seo
         title={
           title === 'Agregar nueva entrevista'
-            ? 'Nuevo beneficiario'
+            ? 'Nueva entrevista'
             : (customer.firstName + ' ' + customer.firstSurname)
                 .trim()
                 .toLowerCase()
@@ -43,17 +43,17 @@ export default function CustomerAddOrEdit({ title }) {
                   w.replace(/^\w/, (c) => c.toUpperCase())
                 )
         }
-        subtitle="Formulario de nuevo beneficiario"
+        subtitle="Formulario de nueva entrevista"
       />
       <ButtonsWrapper>
-        {beneficiaryId && (
-          <AddUser onClick={() => navigate('/beneficiarios/' + beneficiaryId)}>
+        {interviewId && (
+          <AddUser onClick={() => navigate('/entrevistas/' + interviewId)}>
             Ir al perfil de detalles del beneficiario
             <PersonOutlineOutlinedIcon className="productListDelete" />
           </AddUser>
         )}
-        <AddUser onClick={() => navigate('/beneficiarios')}>
-          Ir a beneficiarios
+        <AddUser onClick={() => navigate('/entrevistas')}>
+          Ir a entrevistas
           <PeopleAltOutlinedIcon className="productListDelete" />
         </AddUser>
       </ButtonsWrapper>
@@ -62,7 +62,7 @@ export default function CustomerAddOrEdit({ title }) {
         title={
           title === 'Agregar nueva entrevista'
             ? title
-            : title + ': ' + beneficiaryId
+            : title + ': ' + interviewId
         }
       >
         <Container>
@@ -80,7 +80,7 @@ export default function CustomerAddOrEdit({ title }) {
                     title={title}
                     isAuth={isAuth}
                     dispatch={dispatch}
-                    beneficiaryId={beneficiaryId}
+                    interviewId={interviewId}
                     customers={customers}
                   />
                 </div>
