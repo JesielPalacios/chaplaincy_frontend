@@ -2,17 +2,28 @@ import SaveIcon from '@mui/icons-material/Save'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
-import Swal from 'sweetalert2'
 import { getAllCustomersService } from '../beneficiary/beneficiaryService'
 import { createInterviewService } from './interviewService'
 
 export default function CustomerAddOrEditForm(props) {
-  const [topic, setTopic] = useState()
-  const [topicDescription, setTopicDescription] = useState()
-  const [actionsDescription, setActionsDescription] = useState()
-  const [referralDepartment, setReferralDepartment] = useState()
-  const [status, setStatus] = useState()
-  const [beneficiary, setBeneficiary] = useState()
+  // const [topic, setTopic] = useState()
+  // const [topicDescription, setTopicDescription] = useState()
+  // const [actionsDescription, setActionsDescription] = useState()
+  // const [referralDepartment, setReferralDepartment] = useState()
+  // const [status, setStatus] = useState()
+  // const [beneficiary, setBeneficiary] = useState()
+  const [topic, setTopic] = useState('Academico_Universitario')
+  const [topicDescription, setTopicDescription] = useState(
+    'El estudiante está pasando por un mal momento de su vida debido a...'
+  )
+  const [actionsDescription, setActionsDescription] = useState(
+    'Se le han dado una serie de indiaciones para...'
+  )
+  const [referralDepartment, setReferralDepartment] = useState(
+    'Centro_de_Psicologia'
+  )
+  const [status, setStatus] = useState('Pendiente')
+  const [beneficiary, setBeneficiary] = useState('63709eddac4c43c437194eb4')
   const navigate = useNavigate()
   const { isAuth, dispatch, interview, customers, title, beneficiaryId } = props
 
@@ -82,29 +93,38 @@ export default function CustomerAddOrEditForm(props) {
   function handleSubmit(e) {
     e.preventDefault()
 
-    if (checkDataValidation()) {
-      createInterviewService(dispatch, isAuth, title, beneficiaryId, {
-        topic: topic,
-        topicDescription: topicDescription,
-        actionsDescription: actionsDescription,
-        referralDepartment: referralDepartment,
-        status: status,
-        beneficiary: beneficiary,
-      }).then((id) => navigate('/beneficiario/' + id))
-    } else {
-      Swal.fire({
-        title: '<strong>Faltan datos</strong>',
-        icon: 'error',
-        html: 'Verifique la infromación suministrada!',
-        showCloseButton: true,
-        showCancelButton: true,
-        focusConfirm: false,
-        confirmButtonText: 'Intentar de nuevo',
-        confirmButtonAriaLabel: 'Intentar de nuevo',
-        cancelButtonText: 'Cancelar',
-        cancelButtonAriaLabel: 'Cancelar',
-      })
-    }
+    // if (checkDataValidation()) {
+    //   createInterviewService(dispatch, isAuth, title, beneficiaryId, {
+    //     topic: topic,
+    //     topicDescription: topicDescription,
+    //     actionsDescription: actionsDescription,
+    //     referralDepartment: referralDepartment,
+    //     status: status,
+    //     beneficiary: beneficiary,
+    //   }).then((id) => navigate('/entrevistas/' + id))
+    // } else {
+    //   Swal.fire({
+    //     title: '<strong>Faltan datos</strong>',
+    //     icon: 'error',
+    //     html: 'Verifique la infromación suministrada!',
+    //     showCloseButton: true,
+    //     showCancelButton: true,
+    //     focusConfirm: false,
+    //     confirmButtonText: 'Intentar de nuevo',
+    //     confirmButtonAriaLabel: 'Intentar de nuevo',
+    //     cancelButtonText: 'Cancelar',
+    //     cancelButtonAriaLabel: 'Cancelar',
+    //   })
+    // }
+
+    createInterviewService(dispatch, isAuth, title, beneficiaryId, {
+      topic: topic,
+      topicDescription: topicDescription,
+      actionsDescription: actionsDescription,
+      referralDepartment: referralDepartment,
+      status: status,
+      beneficiary: beneficiary,
+    })
   }
 
   useEffect(() => {

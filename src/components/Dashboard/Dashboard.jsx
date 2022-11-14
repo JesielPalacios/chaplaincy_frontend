@@ -8,6 +8,7 @@ import { useUser } from '../../core/hooks/useUser'
 // import { Container } from '../beneficiary/BeneficiariesList.styles'
 import { Container } from '../beneficiary/Beneficiary.styles'
 import { getAllCustomersService } from '../beneficiary/beneficiaryService'
+import { getAllInterviewsService } from '../interview/interviewService'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import Chart from './chart/Chart'
 // import Chart from '../Chart'
@@ -26,6 +27,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getAllCustomersService(dispatch, isAuth)
+    getAllInterviewsService(dispatch, isAuth)
   }, [])
 
   return (

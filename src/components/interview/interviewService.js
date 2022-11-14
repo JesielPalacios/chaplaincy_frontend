@@ -56,12 +56,12 @@ export async function createInterviewService(
   id,
   interviewData
 ) {
-  console.log('beneficiaryData', interviewData)
+  console.log(interviewData)
   dispatch(loading())
 
   try {
     const res =
-      title === 'Crear nuevo beneficiario'
+      title === 'Agregar nueva entrevista'
         ? await axios.post(
             process.env.REACT_APP_API_HOST + '/api/interviews',
             interviewData,
