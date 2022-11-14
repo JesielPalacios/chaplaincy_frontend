@@ -45,7 +45,7 @@ const DashboardContainer = styled.div`
   /* height: 100vh; */
   height: 100vh;
   /* background: #f7f7f8; */
-  /* background: #e5e9ec; */
+  background: #e5e9ec;
   /* position: relative; */
 
   /* transition: width 0.3s; */

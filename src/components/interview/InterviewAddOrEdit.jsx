@@ -8,26 +8,26 @@ import { useUser } from '../../core/hooks/useUser'
 import { getAllCustomersService } from '../beneficiary/beneficiaryService'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import { Seo } from '../layout/Seo'
-import { AddUser, ButtonsWrapper, Loading } from './BeneficiariesList.styles'
-import { Container } from './BeneficiaryAddOrEdit.styles'
-import CustomerAddOrEditForm from './BeneficiaryAddOrEditForm'
-import { getCustomerService } from './beneficiaryService'
-import { resetCustomer } from './beneficiarySlice'
+import { Container } from './InterviewAddOrEdit.styles'
+import CustomerAddOrEditForm from './InterviewAddOrEditForm'
+import { AddUser, ButtonsWrapper, Loading } from './InterviewList.styles'
+import { getInterviewService } from './interviewService'
+import { resetInterview } from './InterviewSlice'
 
 export default function CustomerAddOrEdit({ title }) {
   let navigate = useNavigate()
   const { interviewId } = useParams()
   const { isAuth } = useUser()
-  const { customer, loading, error } = useSelector((state) => state.customer)
+  const { interview, loading, error } = useSelector((state) => state.interview)
   const { customers } = useSelector((state) => state.customer)
   const dispatch = useDispatch()
 
   useEffect(() => {
     title === 'Agregar nueva entrevista' &&
-      dispatch(resetCustomer()) &&
+      dispatch(resetInterview()) &&
       getAllCustomersService(dispatch, isAuth)
     title === 'Editar entrevista' &&
-      getCustomerService(dispatch, isAuth, interviewId)
+      getInterviewService(dispatch, isAuth, interviewId)
   }, [])
 
   return (
@@ -36,7 +36,7 @@ export default function CustomerAddOrEdit({ title }) {
         title={
           title === 'Agregar nueva entrevista'
             ? 'Nueva entrevista'
-            : (customer.firstName + ' ' + customer.firstSurname)
+            : (interview.firstName + ' ' + interview.firstSurname)
                 .trim()
                 .toLowerCase()
                 .replace(/\w\S*/g, (w) =>
@@ -71,12 +71,12 @@ export default function CustomerAddOrEdit({ title }) {
 
             {error && 'Algo salió mal'}
 
-            {!(loading && error) && customer && (
+            {!(loading && error) && interview && (
               <div className="bottom">
                 {/* <div className="left"></div> */}
                 <div className="right">
                   <CustomerAddOrEditForm
-                    customer={customer}
+                    interview={interview}
                     title={title}
                     isAuth={isAuth}
                     dispatch={dispatch}

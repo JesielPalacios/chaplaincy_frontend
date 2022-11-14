@@ -11,9 +11,9 @@ const Dashboard = React.lazy(() => import('./components/Dashboard/Dashboard'))
 const CustomersList = React.lazy(() => import('./components/beneficiary/BeneficiariesList'))
 const Customer = React.lazy(() => import('./components/beneficiary/Beneficiary'))
 const CustomerAddOrEdit = React.lazy(() => import('./components/beneficiary/BeneficiaryAddOrEdit'))
-const Interviews = React.lazy(() => import('./components/Interviews/InterviewsList'))
-const Interview = React.lazy(() => import('./components/Interviews/Beneficiary'))
-const InterviewAddOrEdit = React.lazy(() => import('./components/Interviews/BeneficiaryAddOrEdit'))
+const Interviews = React.lazy(() => import('./components/interview/InterviewsList'))
+const Interview = React.lazy(() => import('./components/interview/Interview'))
+const InterviewAddOrEdit = React.lazy(() => import('./components/interview/InterviewAddOrEdit'))
 
 export const AppRouter = () => {
   const { isAuth } = useUser()
@@ -21,6 +21,7 @@ export const AppRouter = () => {
   return (
     <Suspense fallback={<Loading />}>
       <GlobalStyle />
+
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />

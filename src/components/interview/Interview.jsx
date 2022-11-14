@@ -9,13 +9,13 @@ import { useUser } from '../../core/hooks/useUser'
 import Chart from '../Chart'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import { Seo } from '../layout/Seo'
-import { AddUser, ButtonsWrapper, Loading } from './BeneficiariesList.styles'
-import { Container } from './Beneficiary.styles'
+import { AddUser, ButtonsWrapper, Loading } from './InterviewList.styles'
+import { Container } from './Interview.styles'
 import {
-  deleteBeneficiaryService,
-  getAllCustomersService,
-  getCustomerService,
-} from './beneficiaryService'
+  deleteInterviewService,
+  getAllInterviewsService,
+  getInterviewService,
+} from './interviewService'
 
 export default function Customer() {
   let navigate = useNavigate()
@@ -36,8 +36,8 @@ export default function Customer() {
       cancelButtonText: 'No, cancelar.',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await deleteBeneficiaryService(dispatch, isAuth, id)
-        getAllCustomersService(dispatch, isAuth)
+        await deleteInterviewService(dispatch, isAuth, id)
+        getAllInterviewsService(dispatch, isAuth)
 
         !(loading && error) &&
           Swal.fire(
@@ -51,7 +51,7 @@ export default function Customer() {
   }
 
   useEffect(() => {
-    getCustomerService(dispatch, isAuth, beneficiaryId)
+    getInterviewService(dispatch, isAuth, beneficiaryId)
   }, [])
 
   return (

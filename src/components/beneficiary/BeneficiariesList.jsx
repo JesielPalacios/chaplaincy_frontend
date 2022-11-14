@@ -154,10 +154,11 @@ export default function CustomersList() {
       field: 'email',
       headerName: 'Correo',
       description: 'Correo electrónico de beneficiarios',
-      width: 250,
+      width: 240,
       valueGetter: (params) =>
         `${params.row.email != 'null' ? params.row.email : 'Inexistente'}`,
     },
+
     {
       field: 'citizenshipNumberId',
       headerName: 'Núm. de ident.',
@@ -170,6 +171,7 @@ export default function CustomersList() {
             : 'Inexistente'
         }`,
     },
+
     {
       field: 'cellPhoneNumber',
       headerName: 'Teléfono',
@@ -182,6 +184,7 @@ export default function CustomersList() {
             : 'Inexistente'
         }`,
     },
+
     {
       field: 'genre',
       headerName: 'Género',

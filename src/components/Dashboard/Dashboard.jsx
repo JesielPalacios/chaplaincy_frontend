@@ -1,3 +1,4 @@
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
 import { useEffect } from 'react'
@@ -17,7 +18,10 @@ import Widget from './widget/Widget'
 
 const Dashboard = () => {
   const { isAuth } = useUser()
-  const { customers, loading, error } = useSelector((state) => state.customer)
+  const {
+    customer: { customers, loading, error },
+    interview: { interviews },
+  } = useSelector((state) => state)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -65,8 +69,39 @@ const Dashboard = () => {
                       />
                     </div>
                   </div>
+                  <div className="widget">
+                    <div className="left">
+                      <span className="widgetTitle">Entrevistas</span>
+                      <span className="counter">
+                        {interviews && interviews.length}
+                      </span>
+                      {/* <span>
+                        <Link to="/beneficiarios" className="link">
+                          Ver todos los beneficiarios
+                        </Link>
+                      </span> */}
+                      <Link to="/entrevistas">
+                        <span className="link">Ver todas las entrevistas</span>
+                      </Link>
+                    </div>
+                    <div className="right">
+                      <div className="percentage positive">
+                        <KeyboardArrowUpIcon />
+                        20 %
+                      </div>
+                      <AccountBalanceWalletOutlinedIcon
+                        className="icon"
+                        style={{
+                          // backgroundColor: 'rgba(128, 0, 128, 0.2)',
+                          // color: 'purple',
+                          backgroundColor: 'rgba(218, 165, 32, 0.2)',
+                          color: 'goldenrod',
+                        }}
+                      />
+                    </div>
+                  </div>
                   {/* <Widget type="user" /> */}
-                  <Widget type="order" />
+                  {/* <Widget type="order" /> */}
                   <Widget type="earning" />
                   <Widget type="balance" />
                 </div>

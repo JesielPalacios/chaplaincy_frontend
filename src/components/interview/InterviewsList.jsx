@@ -1,17 +1,17 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import html2canvas from 'html2canvas'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-// import { DataGrid, bgBG } from '@mui/x-data-grid'
 import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
 import PostAddIcon from '@mui/icons-material/PostAdd'
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+// import { DataGrid, bgBG } from '@mui/x-data-grid'
 import { esES as coreBgBG } from '@mui/material/locale'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { DataGrid, esES } from '@mui/x-data-grid'
+import html2canvas from 'html2canvas'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 import { useUser } from '../../core/hooks/useUser'
@@ -21,17 +21,17 @@ import {
   AddUser,
   ButtonsWrapper,
   Container,
-  Loading,
-} from './BeneficiariesList.styles'
+  Loading
+} from './InterviewList.styles'
 import {
-  deleteBeneficiaryService,
-  getAllCustomersService,
-} from './beneficiaryService'
+  deleteInterviewService,
+  getAllInterviewsService
+} from './interviewService'
 
 export default function CustomersList() {
   let navigate = useNavigate()
   const { isAuth } = useUser()
-  const { customers, loading, error } = useSelector((state) => state.customer)
+  const { interviews, loading, error } = useSelector((state) => state.interview)
   const dispatch = useDispatch()
 
   function handleDelete(id) {
@@ -46,8 +46,8 @@ export default function CustomersList() {
       cancelButtonText: 'No, cancelar.',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await deleteBeneficiaryService(dispatch, isAuth, id)
-        getAllCustomersService(dispatch, isAuth)
+        await deleteInterviewService(dispatch, isAuth, id)
+        getAllInterviewsService(dispatch, isAuth)
 
         !(loading && error) &&
           Swal.fire(
@@ -279,7 +279,7 @@ export default function CustomersList() {
             clearInterval(timerInterval)
           },
         }).then((result) => {
-          getAllCustomersService(dispatch, isAuth)
+          getAllInterviewsService(dispatch, isAuth)
           /* Read more about handling dismissals below */
           if (result.dismiss === Swal.DismissReason.timer) {
             // console.log('I was closed by the timer')
@@ -292,7 +292,7 @@ export default function CustomersList() {
   }
 
   useEffect(() => {
-    getAllCustomersService(dispatch, isAuth)
+    getAllInterviewsService(dispatch, isAuth)
   }, [])
 
   return (
@@ -323,7 +323,7 @@ export default function CustomersList() {
             ) : (
               <DataGrid
                 className="datagrid cell--textCenter"
-                rows={customers}
+                rows={interviews}
                 columns={userColumns.concat(actionColumn)}
                 pageSize={50}
                 rowsPerPageOptions={[50]}

@@ -1,5 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import customerReducer from '../../../components/beneficiary/beneficiarySlice.js'
+import interviewReducer from '../../../components/interview/InterviewSlice.js'
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 // import storage from "redux-persist/lib/storage";
 
@@ -9,7 +10,10 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 //   storage,
 // };
 
-const rootReducer = combineReducers({ customer: customerReducer })
+const rootReducer = combineReducers({
+  customer: customerReducer,
+  interview: interviewReducer,
+})
 
 // const persistedReducer = persistReducer(persistConfig, rootReducer)
 
