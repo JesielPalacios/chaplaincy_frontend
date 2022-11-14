@@ -73,7 +73,7 @@ export default function CustomerAddOrEditForm(props) {
     'Pastor',
   ]
 
-  const statusOptions = ['Pendiente', 'Completa', 'Cancelada']
+  const statusOptions = ['Pendiente', 'Completada', 'Cancelada']
 
   function checkDataValidation() {
     if (

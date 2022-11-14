@@ -4,8 +4,10 @@ import EditIcon from '@mui/icons-material/Edit'
 import PostAddIcon from '@mui/icons-material/PostAdd'
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-// import { DataGrid, bgBG } from '@mui/x-data-grid'
-import { esES as coreBgBG } from '@mui/material/locale'
+import {
+  // bgBG
+  esES as coreBgBG,
+} from '@mui/material/locale'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { DataGrid, esES } from '@mui/x-data-grid'
 import html2canvas from 'html2canvas'
@@ -15,23 +17,27 @@ import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 import { useUser } from '../../core/hooks/useUser'
+import { getAllCustomersService } from '../beneficiary/beneficiaryService'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import { Seo } from '../layout/Seo'
 import {
   AddUser,
   ButtonsWrapper,
   Container,
-  Loading
+  Loading,
 } from './InterviewList.styles'
 import {
   deleteInterviewService,
-  getAllInterviewsService
+  getAllInterviewsService,
 } from './interviewService'
 
 export default function CustomersList() {
   let navigate = useNavigate()
   const { isAuth } = useUser()
-  const { interviews, loading, error } = useSelector((state) => state.interview)
+  const {
+    customer: { customers },
+    interview: { interviews, loading, error },
+  } = useSelector((state) => state)
   const dispatch = useDispatch()
 
   function handleDelete(id) {
@@ -102,6 +108,10 @@ export default function CustomersList() {
     },
   ]
 
+  useEffect(() => {
+    getAllCustomersService(dispatch, isAuth)
+  }, [])
+
   const userColumns = [
     {
       field: '_id',
@@ -113,7 +123,7 @@ export default function CustomersList() {
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
-            {params.row.beneficiaryPhoto != 'null' ? (
+            {/* {params.row.beneficiaryPhoto != 'null' ? (
               <img
                 crossOrigin="anonymous"
                 crossorigin="anonymous"
@@ -127,74 +137,70 @@ export default function CustomersList() {
                 src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                 alt="avatar"
               />
-            )}
+            )} */}
           </div>
         )
       },
     },
 
+    // {
+    //   field: 'beneficiary',
+    //   headerName: 'Beneficiario',
+    //   description: 'Nombre y apellido del beneficiario',
+    //   width: 160,
+    //   valueGetter: (params) =>
+    //     `${
+    //       params.row.firstName[0].toUpperCase() +
+    //         params.row.firstName.slice(1).toLowerCase() || ''
+    //     }
+    //     ${
+    //       params.row.firstSurname[0].toUpperCase() +
+    //         params.row.firstSurname.slice(1).toLowerCase() || ''
+    //     }
+    //     `,
+    // },
+
     {
-      field: 'fullName',
+      field: 'beneficiary',
       headerName: 'Beneficiario',
       description: 'Nombre y apellido del beneficiario',
       width: 160,
-      valueGetter: (params) =>
-        `${
-          params.row.firstName[0].toUpperCase() +
-            params.row.firstName.slice(1).toLowerCase() || ''
-        }
-        ${
-          params.row.firstSurname[0].toUpperCase() +
-            params.row.firstSurname.slice(1).toLowerCase() || ''
-        }
-        `,
+      valueGetter: ({ row: { beneficiary } }) => beneficiary,
     },
 
     {
-      field: 'email',
+      field: 'topicDescription',
       headerName: 'Descripción de la entrevista',
-      description: 'Correo electrónico de beneficiarios',
-      width: 250,
-      valueGetter: (params) =>
-        `${params.row.email != 'null' ? params.row.email : 'Inexistente'}`,
+      description:
+        'Descripción e información detallada de la entrevista beneficiarios',
+      width: 240,
+      valueGetter: ({ row: { topicDescription } }) => topicDescription,
     },
+
     {
-      field: 'citizenshipNumberId',
+      field: 'topic',
       headerName: 'Categoría',
-      description: 'Número de identificación del beneficiario',
+      description: 'Categoría o tipo de la entrevista',
       width: 132,
-      valueGetter: (params) =>
-        `${
-          params.row.cellPhoneNumber != 'null'
-            ? params.row.citizenshipNumberId
-            : 'Inexistente'
-        }`,
+      valueGetter: ({ row: { topic } }) => topic,
     },
+
     {
-      field: 'cellPhoneNumber',
+      field: 'userCreate',
       headerName: 'Capellán',
-      description: 'Número celular de beneficiario',
+      description: 'Capellan de la entrevista',
       width: 120,
-      valueGetter: (params) =>
-        `${
-          params.row.cellPhoneNumber != 'null'
-            ? params.row.cellPhoneNumber
-            : 'Inexistente'
-        }`,
+      valueGetter: ({ row: { userCreate } }) => userCreate,
     },
+
     {
-      field: 'genre',
+      field: 'status',
       headerName: 'Estado',
-      description: 'Género del beneficiarios',
-      // sortable: false,
+      description: 'Estado del proceso de la entrevista',
       width: 110,
-      renderCell: (params) => {
-        return (
-          <div className={`cellWithStatus ${params.row.gender}`}>
-            {params.row.gender}
-          </div>
-        )
-      },
+      renderCell: ({ row: { status } }) => (
+        <div className={`cellWithStatus ${status}`}>{status}</div>
+      ),
     },
   ]
 
@@ -329,7 +335,7 @@ export default function CustomersList() {
                 rowsPerPageOptions={[50]}
                 // checkboxSelection={true}
                 showColumnRightBorder={true}
-                getRowId={(row) => row.citizenshipNumberId}
+                getRowId={(row) => row._id}
                 loading={loading}
                 // rowHeight={38}
                 rowHeight={65}

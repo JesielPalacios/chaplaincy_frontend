@@ -86,6 +86,15 @@ export const Container = styled.div`
       background-color: #fdf2ee;
       color: #fc8e6a;
     }
+
+    &.Completada {
+      color: green;
+      background-color: rgba(0, 128, 0, 0.151);
+    }
+    &.Pendiente {
+      color: goldenrod;
+      background-color: rgba(189, 189, 3, 0.103);
+    }
   }
 
   .cellAction {
