@@ -27,6 +27,7 @@ import {
   deleteBeneficiaryService,
   getAllCustomersService,
 } from './beneficiaryService'
+import styled from 'styled-components'
 
 export default function CustomersList() {
   let navigate = useNavigate()
@@ -352,6 +353,13 @@ export default function CustomersList() {
                 //   // }
                 //   localizedTextsMap
                 // }
+                components={{
+                  NoRowsOverlay: () => (
+                    <NoRows>
+                      <h2>No hay beneficiarios</h2>
+                    </NoRows>
+                  ),
+                }}
               />
             )}
           </ThemeProvider>
@@ -360,3 +368,16 @@ export default function CustomersList() {
     </DashboradLayout>
   )
 }
+
+export const NoRows = styled.div`
+  text-align: center;
+  font-size: 40px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`

@@ -1,6 +1,5 @@
 import SaveIcon from '@mui/icons-material/Save'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 import { getAllCustomersService } from '../beneficiary/beneficiaryService'
 import { createInterviewService } from './interviewService'
@@ -23,8 +22,7 @@ export default function CustomerAddOrEditForm(props) {
     'Centro_de_Psicologia'
   )
   const [status, setStatus] = useState('Pendiente')
-  const [beneficiary, setBeneficiary] = useState('63709eddac4c43c437194eb4')
-  const navigate = useNavigate()
+  const [beneficiary, setBeneficiary] = useState()
   const { isAuth, dispatch, interview, customers, title, beneficiaryId } = props
 
   const customStyles = {
@@ -188,7 +186,7 @@ export default function CustomerAddOrEditForm(props) {
                   : item.address && item.address),
             // -----------------------------------------
 
-            value: item._id,
+            value: item.citizenshipNumberId,
           }))}
           placeholder={'Seleccione el beneficiario de la entrevista aquí'}
           isClearable={true}
@@ -248,7 +246,7 @@ export default function CustomerAddOrEditForm(props) {
                               : item.address && item.address),
                         // -----------------------------------------
 
-                        value: item._id,
+                        value: item.citizenshipNumberId,
                       }
                     }
                 })

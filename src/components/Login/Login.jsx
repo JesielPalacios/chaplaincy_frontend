@@ -11,7 +11,7 @@ import { Seo } from '../layout/Seo'
 const Login = () => {
   // const [email, setEmail] = useState(null)
   // const [password, setPassword] = useState(null)
-  const [email, setEmail] = useState('jesielvirtualsa@gmail.com')
+  const [email, setEmail] = useState('luis.angel@capellania.unac.edu.co')
   const [password, setPassword] = useState('1234567890')
   const [remember, setRemember] = useState(false)
 

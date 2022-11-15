@@ -33,7 +33,7 @@ export async function getInterviewService(dispatch, token, id) {
 
   try {
     const res = await axios.get(
-      process.env.REACT_APP_API_HOST + '/api/beneficiary/' + id,
+      process.env.REACT_APP_API_HOST + '/api/interview/' + id,
       {
         headers: {
           Authorization: token,

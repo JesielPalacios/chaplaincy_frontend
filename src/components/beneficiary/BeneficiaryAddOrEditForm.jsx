@@ -1,7 +1,6 @@
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined'
 import SaveIcon from '@mui/icons-material/Save'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 
 import { createCustomerService } from './beneficiaryService'
@@ -50,7 +49,6 @@ export default function CustomerAddOrEditForm(props) {
   // const [birthDepartment, setBirthDepartment] = useState()
   // const [birthCity, setBirthCity] = useState()
   const [cities, setCities] = useState([])
-  const navigate = useNavigate()
   const {
     isAuth,
     dispatch,

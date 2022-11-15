@@ -19,9 +19,12 @@ import {
 
 export default function Customer() {
   let navigate = useNavigate()
-  const { beneficiaryId } = useParams()
+  const { interviewId } = useParams()
   const dispatch = useDispatch()
-  const { customer, loading, error } = useSelector((state) => state.customer)
+  const {
+    interview: { interview, loading, error },
+    customer: { customers },
+  } = useSelector((state) => state)
   const { isAuth } = useUser()
 
   function handleDelete(id) {
@@ -50,14 +53,28 @@ export default function Customer() {
     })
   }
 
+  function setBeneficiary() {
+    let name
+
+    customers.map((item) => {
+      if (item.citizenshipNumberId === interview.beneficiary)
+        name = (item.firstName + ' ' + item.firstSurname)
+          .trim()
+          .toLowerCase()
+          .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))
+    })
+
+    return name
+  }
+
   useEffect(() => {
-    getInterviewService(dispatch, isAuth, beneficiaryId)
+    getInterviewService(dispatch, isAuth, interviewId)
   }, [])
 
   return (
     <DashboradLayout>
       <Seo
-        title={(customer.firstName + ' ' + customer.firstSurname)
+        title={(interview.firstName + ' ' + interview.firstSurname)
           .trim()
           .toLowerCase()
           .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
@@ -71,23 +88,23 @@ export default function Customer() {
             <ion-icon name="people-outline"></ion-icon>
           </span>
         </Link> */}
-        {beneficiaryId && (
+        {interviewId && (
           <AddUser
             onClick={() => {
-              handleDelete(beneficiaryId)
+              handleDelete(interviewId)
             }}
           >
-            Borrar este beneficiario
+            Borrar esta entrevista
             <DeleteOutlinedIcon className="productListDelete" />
           </AddUser>
         )}
         <AddUser onClick={() => navigate('/beneficiarios')}>
-          Ir a beneficiarios
+          Ir a entrevistas
           <ArrowBackOutlinedIcon className="productListDelete" />
         </AddUser>
       </ButtonsWrapper>
 
-      <DashboardSection title={'ID: ' + customer._id}>
+      <DashboardSection title={'ID: ' + interview._id}>
         <Container>
           {/* <Link to="/beneficiarios">Ir a beneficiarios</Link> */}
           {/* <AddUser>Eliminar beneficiario</AddUser> */}
@@ -101,15 +118,15 @@ export default function Customer() {
               <>
                 <div className="top">
                   <div className="left">
-                    <h1 className="title">Información académica</h1>
+                    <h1 className="title">Beneficiario de la entrevista</h1>
                     <div className="item">
-                      {customer.beneficiaryPhoto != 'null' ? (
+                      {interview.beneficiaryPhoto != 'null' ? (
                         <img
                           className="itemImg"
                           crossOrigin="anonymous"
                           crossorigin="anonymous"
                           src={
-                            'http://localhost:3001' + customer.beneficiaryPhoto
+                            'http://localhost:3001' + interview.beneficiaryPhoto
                           }
                           alt="avatar"
                         />
@@ -122,51 +139,44 @@ export default function Customer() {
                       )}
 
                       <div className="details">
-                        <h1 className="itemTitle">
-                          {(customer.firstName + ' ' + customer.firstSurname)
-                            .trim()
-                            .toLowerCase()
-                            .replace(/\w\S*/g, (w) =>
-                              w.replace(/^\w/, (c) => c.toUpperCase())
-                            )}
-                        </h1>
-                        {customer.academicProgram && (
+                        <h1 className="itemTitle">{setBeneficiary()}</h1>
+                        {interview.academicProgram && (
                           <div className="detailItem">
                             <span className="itemValue">
-                              Estudiante de {customer.academicProgram}
-                              {customer.profilePicture}
+                              Estudiante de {interview.academicProgram}
+                              {interview.profilePicture}
                             </span>
                           </div>
                         )}
-                        {customer.studentCode && (
+                        {interview.studentCode && (
                           <div className="detailItem">
                             <span className="itemKey">Facultad de:</span>
                             <span className="itemValue">
-                              {customer.academicProgram}
+                              {interview.academicProgram}
                             </span>
                           </div>
                         )}
-                        {customer.studentCode && (
+                        {interview.studentCode && (
                           <div className="detailItem">
                             <span className="itemKey">Código estudiantil:</span>
                             <span className="itemValue">
-                              {customer.studentCode}
+                              {interview.studentCode}
                             </span>
                           </div>
                         )}
-                        {customer.semester && (
+                        {interview.semester && (
                           <div className="detailItem">
                             <span className="itemKey">
                               Semestre académico actual:
                             </span>
                             <span className="itemValue">
-                              {customer.semester}
+                              {interview.semester}
                             </span>
                           </div>
                         )}
                         <div className="detailItem">
                           <span className="itemKey">Correo:</span>
-                          <span className="itemValue">{customer.email}</span>
+                          <span className="itemValue">{interview.email}</span>
                         </div>
                       </div>
                     </div>
@@ -176,7 +186,7 @@ export default function Customer() {
                     <div
                       className="editButton"
                       onClick={() =>
-                        navigate('/beneficiarios/' + beneficiaryId + '/editar')
+                        navigate('/beneficiarios/' + interviewId + '/editar')
                       }
                     >
                       Editar la información del beneficiario
@@ -187,32 +197,32 @@ export default function Customer() {
                         <div className="detailItem">
                           <span className="itemKey">Nombre completo:</span>
                           <span className="itemValue">
-                            {customer.firstName &&
-                              customer.firstName
+                            {interview.firstName &&
+                              interview.firstName
                                 .trim()
                                 .toLowerCase()
                                 .replace(/\w\S*/g, (w) =>
                                   w.replace(/^\w/, (c) => c.toUpperCase())
                                 )}{' '}
-                            {customer.secondName &&
-                            customer.secondName != 'null'
-                              ? customer.secondName
+                            {interview.secondName &&
+                            interview.secondName != 'null'
+                              ? interview.secondName
                                   .trim()
                                   .toLowerCase()
                                   .replace(/\w\S*/g, (w) =>
                                     w.replace(/^\w/, (c) => c.toUpperCase())
                                   )
                               : ''}
-                            {customer.firstSurname &&
-                              customer.firstSurname
+                            {interview.firstSurname &&
+                              interview.firstSurname
                                 .trim()
                                 .toLowerCase()
                                 .replace(/\w\S*/g, (w) =>
                                   w.replace(/^\w/, (c) => c.toUpperCase())
                                 )}
-                            {customer.secondSurname &&
-                            customer.secondSurname != 'null'
-                              ? customer.secondSurname
+                            {interview.secondSurname &&
+                            interview.secondSurname != 'null'
+                              ? interview.secondSurname
                                   .trim()
                                   .toLowerCase()
                                   .replace(/\w\S*/g, (w) =>
@@ -226,7 +236,7 @@ export default function Customer() {
                             Tipo de documento de identidad:
                           </span>
                           <span className="itemValue">
-                            {customer.typeCitizenshipNumberId}
+                            {interview.typeCitizenshipNumberId}
                           </span>
                         </div>
                         <div className="detailItem">
@@ -234,32 +244,32 @@ export default function Customer() {
                             Número de identificación:
                           </span>
                           <span className="itemValue">
-                            {customer.citizenshipNumberId}
+                            {interview.citizenshipNumberId}
                           </span>
                         </div>
                         <div className="detailItem">
                           <span className="itemKey">Dirección:</span>
-                          <span className="itemValue">{customer.address}</span>
+                          <span className="itemValue">{interview.address}</span>
                         </div>
                         <div className="detailItem">
                           <span className="itemKey">Teléfono:</span>
                           <span className="itemValue">
-                            {customer.cellPhoneNumber}
+                            {interview.cellPhoneNumber}
                           </span>
                         </div>
                         <div className="detailItem">
                           <span className="itemKey">Fecha de nacimiento:</span>
                           <span className="itemValue">
-                            {customer.dateOfBirth &&
-                              customer.dateOfBirth.slice(8, 10) /
-                                customer.dateOfBirth.slice(6, 7) /
-                                customer.dateOfBirth.slice(0, 4)}
+                            {interview.dateOfBirth &&
+                              interview.dateOfBirth.slice(8, 10) /
+                                interview.dateOfBirth.slice(6, 7) /
+                                interview.dateOfBirth.slice(0, 4)}
                           </span>
                         </div>
                         <div className="detailItem">
                           <span className="itemKey">País de nacimiento:</span>
                           <span className="itemValue">
-                            {customer.countryOfBirth}
+                            {interview.countryOfBirth}
                           </span>
                         </div>
                       </div>

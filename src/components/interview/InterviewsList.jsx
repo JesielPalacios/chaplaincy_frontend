@@ -17,8 +17,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 import { useUser } from '../../core/hooks/useUser'
-import { getAllCustomersService } from '../beneficiary/beneficiaryService'
 import { getAllUsersService } from '../../services/user.service'
+import { NoRows } from '../beneficiary/BeneficiariesList'
+import { getAllCustomersService } from '../beneficiary/beneficiaryService'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import { Seo } from '../layout/Seo'
 import {
@@ -79,7 +80,7 @@ export default function CustomersList() {
         return (
           <div className="cellAction">
             <Link
-              to={'/beneficiarios/' + params.row._id}
+              to={'/entrevistas/' + params.row._id}
               style={{ textDecoration: 'none' }}
             >
               <div className="viewButton">
@@ -88,7 +89,7 @@ export default function CustomersList() {
               </div>
             </Link>
             <Link
-              to={'/beneficiarios/' + params.row._id + '/editar'}
+              to={'/entrevistas/' + params.row._id + '/editar'}
               style={{ textDecoration: 'none' }}
             >
               <div className="viewButton">
@@ -127,7 +128,7 @@ export default function CustomersList() {
         let dataFromItemMatched
 
         customers.map((item) => {
-          if (item._id === params.row.beneficiary) {
+          if (item.citizenshipNumberId === params.row.beneficiary) {
             dataFromItemMatched = item.beneficiaryPhoto
           }
         })
@@ -163,7 +164,7 @@ export default function CustomersList() {
         let dataFromItemMatched
 
         customers.map((item) => {
-          if (item._id === beneficiary) {
+          if (item.citizenshipNumberId === beneficiary) {
             dataFromItemMatched =
               item.firstName[0].toUpperCase() +
               item.firstName.slice(1).toLowerCase() +
@@ -202,13 +203,13 @@ export default function CustomersList() {
         let dataFromItemMatched
 
         users.map((item) => {
-          if (item._id === userCreate) {
+          if (item.citizenshipNumberId === userCreate) {
             dataFromItemMatched =
-              item.name[0].toUpperCase() +
-              item.name.slice(1).toLowerCase() +
+              item.firstName[0].toUpperCase() +
+              item.firstName.slice(1).toLowerCase() +
               ' ' +
-              item.surname[0].toUpperCase() +
-              item.surname.slice(1).toLowerCase()
+              item.firstSurname[0].toUpperCase() +
+              item.firstSurname.slice(1).toLowerCase()
           }
         })
         return dataFromItemMatched
@@ -362,21 +363,13 @@ export default function CustomersList() {
                 // rowHeight={38}
                 rowHeight={65}
                 disableSelectionOnClick
-                // localeText={
-                //   //   {
-                //   //   MuiTablePagination: {
-                //   //     labelDisplayedRows: ({ from, to, count }) =>
-                //   //       `${from} - ${to} de más de ${count}`,
-                //   //   },
-                //   //   // toolbarDensity: 'Size',
-                //   //   // toolbarDensityLabel: 'Size',
-                //   //   // toolbarDensityCompact: 'Small',
-                //   //   // toolbarDensityStandard: 'Medium',
-                //   //   // toolbarDensityComfortable: 'Large',
-
-                //   // }
-                //   localizedTextsMap
-                // }
+                components={{
+                  NoRowsOverlay: () => (
+                    <NoRows>
+                      <h2>No hay entrevistas</h2>
+                    </NoRows>
+                  ),
+                }}
               />
             )}
           </ThemeProvider>
