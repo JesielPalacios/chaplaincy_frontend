@@ -44,7 +44,7 @@ export const ToggleButton = styled.button`
 `
 
 export const ToggleIcon = styled.i`
-  color: #000;
+  ${({ darkMode }) => (darkMode ? 'color: #000;' : 'color: grey;')}
   margin-top: 6px;
   margin-right: 6px;
   padding: ${({ sidebar }) => (sidebar ? '10px' : '5px')};

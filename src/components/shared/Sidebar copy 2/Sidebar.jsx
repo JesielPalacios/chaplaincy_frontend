@@ -13,7 +13,7 @@ import { Container, LogoImg, ToggleButton, ToggleIcon } from './SidebarElements'
 import './styles.css'
 import { DarkModeContext } from '../../../core/context/darkModeContext'
 
-export const Sidebar = () => {
+export const Sidebar = ({ darkMode }) => {
   // let { url } = useRouteMatch()
 
   let itemList = useRef()
@@ -48,7 +48,15 @@ export const Sidebar = () => {
   }, [])
 
   return (
-    <Container className={sidebar ? 'navigation active' : 'navigation'}>
+    <Container
+      className={
+        sidebar
+          ? `navigation active ${darkMode && 'dark app'} ${
+              !darkMode && 'light app'
+            }`
+          : `navigation ${darkMode && 'dark app'} ${!darkMode && 'light app'}`
+      }
+    >
       <ToggleButton sidebar={sidebar} onClick={showSidebar}>
         <ToggleIcon
           sidebar={sidebar}
@@ -59,6 +67,7 @@ export const Sidebar = () => {
         // src={img}
         src="img/logo-unac.png"
         sidebar={sidebar}
+        darkMode={darkMode}
         onClick={() => {
           showSidebar()
         }}

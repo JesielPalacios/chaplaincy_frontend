@@ -133,12 +133,13 @@ export default function Customer() {
                         {customer.academicProgram && (
                           <div className="detailItem">
                             <span className="itemValue">
-                              Estudiante de {customer.academicProgram}
+                              {customer.academicProgram != 'No aplica' &&
+                                'Estudiante de ' + customer.academicProgram}
                               {customer.profilePicture}
                             </span>
                           </div>
                         )}
-                        {customer.studentCode && (
+                        {customer.academicProgram != 'No aplica' && (
                           <div className="detailItem">
                             <span className="itemKey">Facultad de:</span>
                             <span className="itemValue">
@@ -146,7 +147,7 @@ export default function Customer() {
                             </span>
                           </div>
                         )}
-                        {customer.studentCode && (
+                        {customer.studentCode != 'No aplica' && (
                           <div className="detailItem">
                             <span className="itemKey">Código estudiantil:</span>
                             <span className="itemValue">
@@ -154,7 +155,7 @@ export default function Customer() {
                             </span>
                           </div>
                         )}
-                        {customer.semester && (
+                        {customer.semester != 'No aplica' && (
                           <div className="detailItem">
                             <span className="itemKey">
                               Semestre académico actual:
@@ -164,10 +165,12 @@ export default function Customer() {
                             </span>
                           </div>
                         )}
-                        <div className="detailItem">
-                          <span className="itemKey">Correo:</span>
-                          <span className="itemValue">{customer.email}</span>
-                        </div>
+                        {customer.email != 'null' && (
+                          <div className="detailItem">
+                            <span className="itemKey">Correo:</span>
+                            <span className="itemValue">{customer.email}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -202,14 +205,14 @@ export default function Customer() {
                                   .replace(/\w\S*/g, (w) =>
                                     w.replace(/^\w/, (c) => c.toUpperCase())
                                   )
-                              : ''}
+                              : ''}{' '}
                             {customer.firstSurname &&
                               customer.firstSurname
                                 .trim()
                                 .toLowerCase()
                                 .replace(/\w\S*/g, (w) =>
                                   w.replace(/^\w/, (c) => c.toUpperCase())
-                                )}
+                                )}{' '}
                             {customer.secondSurname &&
                             customer.secondSurname != 'null'
                               ? customer.secondSurname
@@ -241,25 +244,47 @@ export default function Customer() {
                           <span className="itemKey">Dirección:</span>
                           <span className="itemValue">{customer.address}</span>
                         </div>
-                        <div className="detailItem">
-                          <span className="itemKey">Teléfono:</span>
-                          <span className="itemValue">
-                            {customer.cellPhoneNumber}
-                          </span>
-                        </div>
+                        {customer.cellPhoneNumber != 'null' && (
+                          <div className="detailItem">
+                            <span className="itemKey">Teléfono:</span>
+                            <span className="itemValue">
+                              {customer.cellPhoneNumber}
+                            </span>
+                          </div>
+                        )}
                         <div className="detailItem">
                           <span className="itemKey">Fecha de nacimiento:</span>
                           <span className="itemValue">
-                            {customer.dateOfBirth &&
-                              customer.dateOfBirth.slice(8, 10) /
-                                customer.dateOfBirth.slice(6, 7) /
-                                customer.dateOfBirth.slice(0, 4)}
+                            {customer.birthDate &&
+                              // customer.birthDate.slice(8, 10) /
+                              //   customer.birthDate.slice(6, 7) /
+                              //   customer.birthDate.slice(0, 4)
+                              // ----------------------------------
+                              customer.birthDate.slice(8, 10) +
+                                ' - ' +
+                                customer.birthDate.slice(5, 7) +
+                                ' - ' +
+                                customer.birthDate.slice(0, 4)}
                           </span>
                         </div>
                         <div className="detailItem">
                           <span className="itemKey">País de nacimiento:</span>
                           <span className="itemValue">
-                            {customer.countryOfBirth}
+                            {customer.birthCountry}
+                          </span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">
+                            Departamento de nacimiento:
+                          </span>
+                          <span className="itemValue">
+                            {customer.birthDepartment}
+                          </span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">Ciudad de nacimiento:</span>
+                          <span className="itemValue">
+                            {customer.birthCity}
                           </span>
                         </div>
                       </div>

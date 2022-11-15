@@ -15,7 +15,7 @@ export const DashboradLayout = ({ children }) => {
       darkMode={darkMode}
       className={darkMode ? 'app dark' : 'app'}
     >
-      <Sidebar />
+      <Sidebar className={darkMode ? 'app dark' : 'app'} darkMode={darkMode} />
 
       {/* <Wrapper sidebar={sidebar}>{children}</Wrapper> */}
       {children}
@@ -51,10 +51,7 @@ const DashboardContainer = styled.div`
   /* transition: width 0.3s; */
   /* overflow-x: hidden; */
 
-  ${({ darkMode }) =>
-    darkMode
-      ? 'color: #fff; '
-      : 'color: #000;'}
+  ${({ darkMode }) => (darkMode ? 'color: #fff; ' : 'color: #000;')}
 `
 
 const Wrapper = styled.section`

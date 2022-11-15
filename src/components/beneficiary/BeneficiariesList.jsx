@@ -190,7 +190,7 @@ export default function CustomersList() {
       headerName: 'Género',
       description: 'Género del beneficiarios',
       // sortable: false,
-      width: 110,
+      width: 100,
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.gender}`}>

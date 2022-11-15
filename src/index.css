@@ -5,3 +5,23 @@
   --secondary: #000;
   --first: #2A5784;
 }
+
+
+.light {
+  background-color: #fff;
+  /* color: 000; */
+  /* border-radius: 10px; */
+  transition: all .25s ease-in-out;
+  /* -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47); */
+  /* box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47); */
+}
+
+.dark {
+  transition: all .25s ease-in-out;
+  /* -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47); */
+  /* box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47); */
+}
+
+.border {
+  border-radius: 10px;
+}

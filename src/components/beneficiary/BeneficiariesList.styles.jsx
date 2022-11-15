@@ -10,6 +10,13 @@ export const Container = styled.div`
 
   padding: 10px 10px;
   padding-left: 5px;
+  padding-right: 0;
+
+  overflow: hidden;
+  overflow-y: scroll;
+  /* width: 100%; */
+  /* height: 100%; */
+  /* padding-right: 15px; */
 
   .datagrid {
     background-color: #fff;

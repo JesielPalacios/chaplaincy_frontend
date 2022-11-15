@@ -18,6 +18,7 @@ import Swal from 'sweetalert2'
 
 import { useUser } from '../../core/hooks/useUser'
 import { getAllCustomersService } from '../beneficiary/beneficiaryService'
+import { getAllUsersService } from '../../services/user.service'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import { Seo } from '../layout/Seo'
 import {
@@ -37,6 +38,7 @@ export default function CustomersList() {
   const {
     customer: { customers },
     interview: { interviews, loading, error },
+    user: { users },
   } = useSelector((state) => state)
   const dispatch = useDispatch()
 
@@ -110,6 +112,7 @@ export default function CustomersList() {
 
   useEffect(() => {
     getAllCustomersService(dispatch, isAuth)
+    getAllUsersService(dispatch, isAuth)
   }, [])
 
   const userColumns = [
@@ -121,51 +124,56 @@ export default function CustomersList() {
       sortable: false,
       width: 20,
       renderCell: (params) => {
+        let dataFromItemMatched
+
+        customers.map((item) => {
+          if (item._id === params.row.beneficiary) {
+            dataFromItemMatched = item.beneficiaryPhoto
+          }
+        })
+
         return (
           <div className="cellWithImg">
-            {/* {params.row.beneficiaryPhoto != 'null' ? (
+            {dataFromItemMatched != 'null' ? (
               <img
                 crossOrigin="anonymous"
                 crossorigin="anonymous"
                 className="cellImg"
-                src={'http://localhost:3001' + params.row.beneficiaryPhoto}
-                alt="avatar"
+                src={'http://localhost:3001' + dataFromItemMatched}
+                alt=" "
               />
             ) : (
               <img
                 className="cellImg"
                 src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                alt="avatar"
+                alt=" "
               />
-            )} */}
+            )}
           </div>
         )
       },
     },
-
-    // {
-    //   field: 'beneficiary',
-    //   headerName: 'Beneficiario',
-    //   description: 'Nombre y apellido del beneficiario',
-    //   width: 160,
-    //   valueGetter: (params) =>
-    //     `${
-    //       params.row.firstName[0].toUpperCase() +
-    //         params.row.firstName.slice(1).toLowerCase() || ''
-    //     }
-    //     ${
-    //       params.row.firstSurname[0].toUpperCase() +
-    //         params.row.firstSurname.slice(1).toLowerCase() || ''
-    //     }
-    //     `,
-    // },
 
     {
       field: 'beneficiary',
       headerName: 'Beneficiario',
       description: 'Nombre y apellido del beneficiario',
       width: 160,
-      valueGetter: ({ row: { beneficiary } }) => beneficiary,
+      valueGetter: ({ row: { beneficiary } }) => {
+        let dataFromItemMatched
+
+        customers.map((item) => {
+          if (item._id === beneficiary) {
+            dataFromItemMatched =
+              item.firstName[0].toUpperCase() +
+              item.firstName.slice(1).toLowerCase() +
+              ' ' +
+              item.firstSurname[0].toUpperCase() +
+              item.firstSurname.slice(1).toLowerCase()
+          }
+        })
+        return dataFromItemMatched
+      },
     },
 
     {
@@ -190,7 +198,21 @@ export default function CustomersList() {
       headerName: 'Capellán',
       description: 'Capellan de la entrevista',
       width: 120,
-      valueGetter: ({ row: { userCreate } }) => userCreate,
+      valueGetter: ({ row: { userCreate } }) => {
+        let dataFromItemMatched
+
+        users.map((item) => {
+          if (item._id === userCreate) {
+            dataFromItemMatched =
+              item.name[0].toUpperCase() +
+              item.name.slice(1).toLowerCase() +
+              ' ' +
+              item.surname[0].toUpperCase() +
+              item.surname.slice(1).toLowerCase()
+          }
+        })
+        return dataFromItemMatched
+      },
     },
 
     {
