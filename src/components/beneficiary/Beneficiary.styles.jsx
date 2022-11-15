@@ -5,9 +5,7 @@ export const Container = styled.div`
   width: 95%;
   width: 100%;
   height: 85%;
-
   transform: translateY(20px);
-
   transform: translateY(25px);
   /* padding: 20px; */
 

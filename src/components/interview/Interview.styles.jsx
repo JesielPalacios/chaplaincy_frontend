@@ -9,6 +9,9 @@ export const Container = styled.div`
   transform: translateY(20px);
 
   transform: translateY(25px);
+  transform: translateY(15px);
+  transform: translateY(10px);
+  transform: translateY(5px);
   /* padding: 20px; */
 
   padding: 10px 10px;
@@ -39,9 +42,11 @@ export const Container = styled.div`
     /* padding: 0 0 0 60px; */
     display: flex;
     gap: 20px;
+    gap: 10px;
     /* align-items: stretch; */
     /* flex-grow: 1; */
     /* flex-wrap: nowrap; */
+    margin-bottom: 10px;
 
     .left {
       overflow: hidden;
@@ -50,7 +55,7 @@ export const Container = styled.div`
       border-radius: 10px;
       -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
       box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-      padding: 20px;
+      padding: 20px; 
       position: relative;
 
       .editButton {

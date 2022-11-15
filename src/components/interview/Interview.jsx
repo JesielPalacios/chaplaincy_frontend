@@ -54,17 +54,21 @@ export default function Customer() {
   }
 
   function setBeneficiary() {
+    let beneficiary
     let name
 
     customers.map((item) => {
-      if (item.citizenshipNumberId === interview.beneficiary)
+      if (item.citizenshipNumberId === interview.beneficiary) {
+        beneficiary = item
+
         name = (item.firstName + ' ' + item.firstSurname)
           .trim()
           .toLowerCase()
           .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))
+      }
     })
 
-    return name
+    return { beneficiary: beneficiary, name: name }
   }
 
   useEffect(() => {
@@ -98,7 +102,7 @@ export default function Customer() {
             <DeleteOutlinedIcon className="productListDelete" />
           </AddUser>
         )}
-        <AddUser onClick={() => navigate('/beneficiarios')}>
+        <AddUser onClick={() => navigate('/entrevistas')}>
           Ir a entrevistas
           <ArrowBackOutlinedIcon className="productListDelete" />
         </AddUser>
@@ -139,14 +143,23 @@ export default function Customer() {
                       )}
 
                       <div className="details">
-                        <h1 className="itemTitle">{setBeneficiary()}</h1>
-                        {interview.academicProgram && (
-                          <div className="detailItem">
-                            <span className="itemValue">
-                              Estudiante de {interview.academicProgram}
-                              {interview.profilePicture}
-                            </span>
+                        <h1 className="itemTitle">{setBeneficiary().name}</h1>
+                        {/* {setBeneficiary().beneficiary.academicProgram && (
+                          <div>
+                            {setBeneficiary().beneficiary.academicProgram !=
+                              'null' && (
+                              <div className="detailItem">
+                                <span className="itemValue">
+                                  Estudiante de{' '}
+                                  {setBeneficiary().beneficiary.academicProgram}
+                                </span>
+                              </div>
+                            )}
                           </div>
+                        )} */}
+                        {console.log(
+                          'setBeneficiary().beneficiary',
+                          setBeneficiary()
                         )}
                         {interview.studentCode && (
                           <div className="detailItem">
@@ -182,6 +195,42 @@ export default function Customer() {
                     </div>
                   </div>
 
+                  <div className="left">  
+                    <div
+                      className="editButton"
+                      onClick={() =>
+                        navigate('/beneficiarios/' + interviewId + '/editar')
+                      }
+                    >
+                      Editar la información de la entrevista
+                    </div>
+                    <h1 className="title">Detalles de la entrevista</h1>
+                    <div className="item">
+                      <div className="details">
+                        <div className="detailItem">
+                          <span className="itemKey">
+                            Tipo / categoría de la entrevista:
+                          </span>
+                          <span className="itemValue">{interview.topic}</span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">
+                            Departamento de remisión:
+                          </span>
+                          <span className="itemValue">
+                            {interview.referralDepartment}
+                          </span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">Estado de revisión:</span>
+                          <span className="itemValue">{interview.status}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="top">
                   <div className="left">
                     <div
                       className="editButton"
@@ -189,99 +238,33 @@ export default function Customer() {
                         navigate('/beneficiarios/' + interviewId + '/editar')
                       }
                     >
-                      Editar la información del beneficiario
+                      Editar la información de la entrevista
                     </div>
-                    <h1 className="title">Detalles personales</h1>
+                    <h1 className="title">Descripción de la entrevista</h1>
                     <div className="item">
                       <div className="details">
-                        <div className="detailItem">
-                          <span className="itemKey">Nombre completo:</span>
-                          <span className="itemValue">
-                            {interview.firstName &&
-                              interview.firstName
-                                .trim()
-                                .toLowerCase()
-                                .replace(/\w\S*/g, (w) =>
-                                  w.replace(/^\w/, (c) => c.toUpperCase())
-                                )}{' '}
-                            {interview.secondName &&
-                            interview.secondName != 'null'
-                              ? interview.secondName
-                                  .trim()
-                                  .toLowerCase()
-                                  .replace(/\w\S*/g, (w) =>
-                                    w.replace(/^\w/, (c) => c.toUpperCase())
-                                  )
-                              : ''}
-                            {interview.firstSurname &&
-                              interview.firstSurname
-                                .trim()
-                                .toLowerCase()
-                                .replace(/\w\S*/g, (w) =>
-                                  w.replace(/^\w/, (c) => c.toUpperCase())
-                                )}
-                            {interview.secondSurname &&
-                            interview.secondSurname != 'null'
-                              ? interview.secondSurname
-                                  .trim()
-                                  .toLowerCase()
-                                  .replace(/\w\S*/g, (w) =>
-                                    w.replace(/^\w/, (c) => c.toUpperCase())
-                                  )
-                              : ''}
-                          </span>
-                        </div>
-                        <div className="detailItem">
-                          <span className="itemKey">
-                            Tipo de documento de identidad:
-                          </span>
-                          <span className="itemValue">
-                            {interview.typeCitizenshipNumberId}
-                          </span>
-                        </div>
-                        <div className="detailItem">
-                          <span className="itemKey">
-                            Número de identificación:
-                          </span>
-                          <span className="itemValue">
-                            {interview.citizenshipNumberId}
-                          </span>
-                        </div>
-                        <div className="detailItem">
-                          <span className="itemKey">Dirección:</span>
-                          <span className="itemValue">{interview.address}</span>
-                        </div>
-                        <div className="detailItem">
-                          <span className="itemKey">Teléfono:</span>
-                          <span className="itemValue">
-                            {interview.cellPhoneNumber}
-                          </span>
-                        </div>
-                        <div className="detailItem">
-                          <span className="itemKey">Fecha de nacimiento:</span>
-                          <span className="itemValue">
-                            {interview.dateOfBirth &&
-                              interview.dateOfBirth.slice(8, 10) /
-                                interview.dateOfBirth.slice(6, 7) /
-                                interview.dateOfBirth.slice(0, 4)}
-                          </span>
-                        </div>
-                        <div className="detailItem">
-                          <span className="itemKey">País de nacimiento:</span>
-                          <span className="itemValue">
-                            {interview.countryOfBirth}
-                          </span>
+                        <div className="details">
+                          <div className="detailItem">
+                            <span className="itemKey">
+                              Detalle de la descripción
+                            </span>
+                            <span className="itemValue">
+                              {interview.topicDescription}
+                            </span>
+                          </div>
+                          <div className="detailItem">
+                            <span className="itemKey">
+                              Pasos a seguir de acuerdo a la descripción de la
+                              entrevista:
+                            </span>
+                            <span className="itemValue">
+                              {interview.actionsDescription}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div className="right">
-                  <Chart
-                    aspect={3 / 1}
-                    title="Cantidad de entrevistas ( Últimos 6 meses)"
-                  />
                 </div>
               </>
             )}
