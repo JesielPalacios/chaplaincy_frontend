@@ -35,7 +35,7 @@ export default function CustomerAddOrEdit({ title }) {
       await getAllCustomersService(dispatch, isAuth)
     }
 
-    title === 'Agregar nueva entrevista' && dispatch(resetInterview())
+    title === 'Agregar nueva entrevista' && resetOldData()
 
     title === 'Editar entrevista' && setInterview()
   }, [])

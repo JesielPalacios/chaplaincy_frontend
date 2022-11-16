@@ -124,7 +124,8 @@ export default function CustomerAddOrEditForm(props) {
       referralDepartment: referralDepartment,
       status: status,
       beneficiary: beneficiary,
-    }).then((id) => navigate('/entrevistas/' + id))
+    })
+    // .then((id) => navigate('/entrevistas/' + id))
   }
 
   function handleSubmit(e) {

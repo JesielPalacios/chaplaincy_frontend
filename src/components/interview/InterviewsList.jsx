@@ -6,7 +6,7 @@ import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import {
   // bgBG
-  esES as coreBgBG
+  esES as coreBgBG,
 } from '@mui/material/locale'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { DataGrid, esES } from '@mui/x-data-grid'
@@ -26,11 +26,11 @@ import {
   AddUser,
   ButtonsWrapper,
   Container,
-  Loading
+  Loading,
 } from './InterviewList.styles'
 import {
   deleteInterviewService,
-  getAllInterviewsService
+  getAllInterviewsService,
 } from './interviewService'
 
 export default function CustomersList() {
@@ -64,7 +64,7 @@ export default function CustomersList() {
             'El beneficiario ha sido eliminado exitosamente.',
             'success'
           )
-        navigate('/beneficiarios')
+        navigate('/entrevistas')
       }
     })
   }
@@ -110,11 +110,6 @@ export default function CustomersList() {
       },
     },
   ]
-
-  useEffect(() => {
-    getAllCustomersService(dispatch, isAuth)
-    getAllUsersService(dispatch, isAuth)
-  }, [])
 
   const userColumns = [
     {
@@ -190,7 +185,7 @@ export default function CustomersList() {
       field: 'topic',
       headerName: 'Categoría',
       description: 'Categoría o tipo de la entrevista',
-      width: 132,
+      width: 145,
       valueGetter: ({ row: { topic } }) => topic,
     },
 
@@ -322,6 +317,8 @@ export default function CustomersList() {
 
   useEffect(() => {
     getAllInterviewsService(dispatch, isAuth)
+    getAllCustomersService(dispatch, isAuth)
+    getAllUsersService(dispatch, isAuth)
   }, [])
 
   return (
@@ -356,11 +353,9 @@ export default function CustomersList() {
                 columns={userColumns.concat(actionColumn)}
                 pageSize={50}
                 rowsPerPageOptions={[50]}
-                // checkboxSelection={true}
                 showColumnRightBorder={true}
                 getRowId={(row) => row._id}
                 loading={loading}
-                // rowHeight={38}
                 rowHeight={65}
                 disableSelectionOnClick
                 components={{
