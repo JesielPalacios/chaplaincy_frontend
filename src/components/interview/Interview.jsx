@@ -2,7 +2,7 @@ import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 import { useUser } from '../../core/hooks/useUser'
@@ -122,15 +122,28 @@ export default function Customer() {
               <>
                 <div className="top">
                   <div className="left">
+                    {setBeneficiary().beneficiary && (
+                      <Link
+                        className="editButton"
+                        to={
+                          '/beneficiarios/' + setBeneficiary().beneficiary._id
+                        }
+                      >
+                        Ver este beneficiario
+                      </Link>
+                    )}
                     <h1 className="title">Beneficiario de la entrevista</h1>
                     <div className="item">
-                      {interview.beneficiaryPhoto != 'null' ? (
+                      {setBeneficiary().beneficiary &&
+                      setBeneficiary().beneficiary.beneficiaryPhoto !=
+                        'null' ? (
                         <img
                           className="itemImg"
                           crossOrigin="anonymous"
                           crossorigin="anonymous"
                           src={
-                            'http://localhost:3001' + interview.beneficiaryPhoto
+                            'http://localhost:3001' +
+                            setBeneficiary().beneficiary.beneficiaryPhoto
                           }
                           alt="avatar"
                         />
@@ -144,58 +157,67 @@ export default function Customer() {
 
                       <div className="details">
                         <h1 className="itemTitle">{setBeneficiary().name}</h1>
-                        {/* {setBeneficiary().beneficiary.academicProgram && (
-                          <div>
-                            {setBeneficiary().beneficiary.academicProgram !=
-                              'null' && (
-                              <div className="detailItem">
-                                <span className="itemValue">
-                                  Estudiante de{' '}
-                                  {setBeneficiary().beneficiary.academicProgram}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                        )} */}
+
                         {console.log(
                           'setBeneficiary().beneficiary',
                           setBeneficiary()
                         )}
-                        {interview.studentCode && (
+
+                        {setBeneficiary().beneficiary &&
+                        setBeneficiary().beneficiary.academicProgram !=
+                          'null' ? (
                           <div className="detailItem">
                             <span className="itemKey">Facultad de:</span>
                             <span className="itemValue">
-                              {interview.academicProgram}
+                              {setBeneficiary().beneficiary.academicProgram}
                             </span>
                           </div>
+                        ) : (
+                          ''
                         )}
-                        {interview.studentCode && (
+
+                        {setBeneficiary().beneficiary &&
+                        setBeneficiary().beneficiary.studentCode != 'null' ? (
                           <div className="detailItem">
                             <span className="itemKey">Código estudiantil:</span>
                             <span className="itemValue">
-                              {interview.studentCode}
+                              {setBeneficiary().beneficiary.studentCode}
                             </span>
                           </div>
+                        ) : (
+                          ''
                         )}
-                        {interview.semester && (
+
+                        {setBeneficiary().beneficiary &&
+                        setBeneficiary().beneficiary.semester != 'null' ? (
                           <div className="detailItem">
                             <span className="itemKey">
                               Semestre académico actual:
                             </span>
                             <span className="itemValue">
-                              {interview.semester}
+                              {setBeneficiary().beneficiary.semester}
                             </span>
                           </div>
+                        ) : (
+                          ''
                         )}
-                        <div className="detailItem">
-                          <span className="itemKey">Correo:</span>
-                          <span className="itemValue">{interview.email}</span>
-                        </div>
+
+                        {setBeneficiary().beneficiary &&
+                        setBeneficiary().beneficiary.email != 'null' ? (
+                          <div className="detailItem">
+                            <span className="itemKey">Correo:</span>
+                            <span className="itemValue">
+                              {setBeneficiary().beneficiary.email}
+                            </span>
+                          </div>
+                        ) : (
+                          ''
+                        )}
                       </div>
                     </div>
                   </div>
 
-                  <div className="left">  
+                  <div className="left">
                     <div
                       className="editButton"
                       onClick={() =>
@@ -252,10 +274,31 @@ export default function Customer() {
                               {interview.topicDescription}
                             </span>
                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="top">
+                  <div className="left">
+                    <div
+                      className="editButton"
+                      onClick={() =>
+                        navigate('/beneficiarios/' + interviewId + '/editar')
+                      }
+                    >
+                      Editar la información de la entrevista
+                    </div>
+                    <h1 className="title">
+                      Descripción de los pasos a seguir de la entrevista
+                    </h1>
+                    <div className="item">
+                      <div className="details">
+                        <div className="details">
                           <div className="detailItem">
                             <span className="itemKey">
-                              Pasos a seguir de acuerdo a la descripción de la
-                              entrevista:
+                              Pasos a seguir de acuerdo a la descripción:
                             </span>
                             <span className="itemValue">
                               {interview.actionsDescription}

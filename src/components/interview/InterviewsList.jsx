@@ -6,7 +6,7 @@ import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import {
   // bgBG
-  esES as coreBgBG,
+  esES as coreBgBG
 } from '@mui/material/locale'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { DataGrid, esES } from '@mui/x-data-grid'
@@ -26,11 +26,11 @@ import {
   AddUser,
   ButtonsWrapper,
   Container,
-  Loading,
+  Loading
 } from './InterviewList.styles'
 import {
   deleteInterviewService,
-  getAllInterviewsService,
+  getAllInterviewsService
 } from './interviewService'
 
 export default function CustomersList() {

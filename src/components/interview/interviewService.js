@@ -56,7 +56,6 @@ export async function createInterviewService(
   id,
   interviewData
 ) {
-  console.log(interviewData)
   dispatch(loading())
 
   try {
@@ -84,9 +83,6 @@ export async function createInterviewService(
           )
 
     dispatch(resetFlags())
-    // return res
-    console.log('res', res)
-
     return res.data._id
   } catch (err) {
     dispatch(getInterview({}))

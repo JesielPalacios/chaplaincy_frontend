@@ -23,11 +23,18 @@ export default function CustomerAddOrEdit({ title }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    title === 'Agregar nueva entrevista' &&
-      dispatch(resetInterview()) &&
-      getAllCustomersService(dispatch, isAuth)
-    title === 'Editar entrevista' &&
-      getInterviewService(dispatch, isAuth, interviewId)
+    async function resetOldData() {
+      await dispatch(resetInterview())
+    }
+
+    async function setInterview() {
+      await getInterviewService(dispatch, isAuth, interviewId)
+      await getAllCustomersService(dispatch, isAuth)
+    }
+
+    title === 'Agregar nueva entrevista' && resetOldData()
+
+    title === 'Editar entrevista' && setInterview()
   }, [])
 
   return (
@@ -35,13 +42,8 @@ export default function CustomerAddOrEdit({ title }) {
       <Seo
         title={
           title === 'Agregar nueva entrevista'
-            ? 'Nueva entrevista'
-            : (interview.firstName + ' ' + interview.firstSurname)
-                .trim()
-                .toLowerCase()
-                .replace(/\w\S*/g, (w) =>
-                  w.replace(/^\w/, (c) => c.toUpperCase())
-                )
+            ? 'Agregar entrevista'
+            : 'Actualizar entrevista'
         }
         subtitle="Formulario de nueva entrevista"
       />
@@ -71,7 +73,7 @@ export default function CustomerAddOrEdit({ title }) {
 
             {error && 'Algo salió mal'}
 
-            {!(loading && error) && interview && (
+            {!(loading && error) && (
               <div className="bottom">
                 {/* <div className="left"></div> */}
                 <div className="right">

@@ -1,29 +1,33 @@
 import SaveIcon from '@mui/icons-material/Save'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
-import { getAllCustomersService } from '../beneficiary/beneficiaryService'
+import Swal from 'sweetalert2'
 import { createInterviewService } from './interviewService'
 
 export default function CustomerAddOrEditForm(props) {
-  // const [topic, setTopic] = useState()
-  // const [topicDescription, setTopicDescription] = useState()
-  // const [actionsDescription, setActionsDescription] = useState()
-  // const [referralDepartment, setReferralDepartment] = useState()
-  // const [status, setStatus] = useState()
-  // const [beneficiary, setBeneficiary] = useState()
-  const [topic, setTopic] = useState('Academico_Universitario')
-  const [topicDescription, setTopicDescription] = useState(
-    'El estudiante está pasando por un mal momento de su vida debido a...'
-  )
-  const [actionsDescription, setActionsDescription] = useState(
-    'Se le han dado una serie de indiaciones para...'
-  )
-  const [referralDepartment, setReferralDepartment] = useState(
-    'Centro_de_Psicologia'
-  )
-  const [status, setStatus] = useState('Pendiente')
+  let navigate = useNavigate()
+  const [topic, setTopic] = useState()
+  const [topicDescription, setTopicDescription] = useState()
+  const [actionsDescription, setActionsDescription] = useState()
+  const [referralDepartment, setReferralDepartment] = useState()
+  const [status, setStatus] = useState()
   const [beneficiary, setBeneficiary] = useState()
-  const { isAuth, dispatch, interview, customers, title, beneficiaryId } = props
+  // -------------------------------------------------------------------------
+  // const [topic, setTopic] = useState('Academico_Universitario')
+  // const [topicDescription, setTopicDescription] = useState(
+  //   'El estudiante está pasando por un mal momento de su vida debido a...'
+  // )
+  // const [actionsDescription, setActionsDescription] = useState(
+  //   'Se le han dado una serie de indiaciones para...'
+  // )
+  // const [referralDepartment, setReferralDepartment] = useState(
+  //   'Centro_de_Psicologia'
+  // )
+  // const [status, setStatus] = useState('Pendiente')
+  // const [beneficiary, setBeneficiary] = useState()
+  // -------------------------------------------------------------------------
+  const { isAuth, dispatch, interview, customers, title, interviewId } = props
 
   const customStyles = {
     control: () => ({
@@ -91,44 +95,30 @@ export default function CustomerAddOrEditForm(props) {
   function handleSubmit(e) {
     e.preventDefault()
 
-    // if (checkDataValidation()) {
-    //   createInterviewService(dispatch, isAuth, title, beneficiaryId, {
-    //     topic: topic,
-    //     topicDescription: topicDescription,
-    //     actionsDescription: actionsDescription,
-    //     referralDepartment: referralDepartment,
-    //     status: status,
-    //     beneficiary: beneficiary,
-    //   }).then((id) => navigate('/entrevistas/' + id))
-    // } else {
-    //   Swal.fire({
-    //     title: '<strong>Faltan datos</strong>',
-    //     icon: 'error',
-    //     html: 'Verifique la infromación suministrada!',
-    //     showCloseButton: true,
-    //     showCancelButton: true,
-    //     focusConfirm: false,
-    //     confirmButtonText: 'Intentar de nuevo',
-    //     confirmButtonAriaLabel: 'Intentar de nuevo',
-    //     cancelButtonText: 'Cancelar',
-    //     cancelButtonAriaLabel: 'Cancelar',
-    //   })
-    // }
-
-    createInterviewService(dispatch, isAuth, title, beneficiaryId, {
-      topic: topic,
-      topicDescription: topicDescription,
-      actionsDescription: actionsDescription,
-      referralDepartment: referralDepartment,
-      status: status,
-      beneficiary: beneficiary,
-    })
+    if (checkDataValidation()) {
+      createInterviewService(dispatch, isAuth, title, interviewId, {
+        topic: topic,
+        topicDescription: topicDescription,
+        actionsDescription: actionsDescription,
+        referralDepartment: referralDepartment,
+        status: status,
+        beneficiary: beneficiary,
+      }).then((id) => navigate('/entrevistas/' + id))
+    } else {
+      Swal.fire({
+        title: '<strong>Faltan datos</strong>',
+        icon: 'error',
+        html: 'Verifique la infromación suministrada!',
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: 'Intentar de nuevo',
+        confirmButtonAriaLabel: 'Intentar de nuevo',
+        cancelButtonText: 'Cancelar',
+        cancelButtonAriaLabel: 'Cancelar',
+      })
+    }
   }
-
-  useEffect(() => {
-    title === 'Crear nuevo beneficiario' &&
-      getAllCustomersService(dispatch, isAuth)
-  }, [])
 
   return (
     <form onSubmit={handleSubmit}>
@@ -194,10 +184,10 @@ export default function CustomerAddOrEditForm(props) {
           styles={customStyles}
           onChange={({ value }) => setBeneficiary(value)}
           defaultValue={
-            title === 'Editar beneficiario'
+            title === 'Editar entrevista'
               ? customers.map((item) => {
                   if (interview.beneficiary)
-                    if (item._id === interview.beneficiary) {
+                    if (item.citizenshipNumberId == interview.beneficiary) {
                       return {
                         label:
                           // -----------------------------------------
@@ -270,10 +260,10 @@ export default function CustomerAddOrEditForm(props) {
           styles={customStyles}
           onChange={({ value }) => setTopic(value)}
           defaultValue={
-            title === 'Editar beneficiario'
+            title === 'Editar entrevista'
               ? {
-                  value: interview.gender,
-                  label: interview.gender,
+                  value: interview.topic,
+                  label: interview.topic,
                 }
               : ''
           }
@@ -299,10 +289,10 @@ export default function CustomerAddOrEditForm(props) {
           styles={customStyles}
           onChange={({ value }) => setReferralDepartment(value)}
           defaultValue={
-            title === 'Editar beneficiario'
+            title === 'Editar entrevista'
               ? {
-                  value: interview.gender,
-                  label: interview.gender,
+                  value: interview.referralDepartment,
+                  label: interview.referralDepartment,
                 }
               : ''
           }
@@ -324,10 +314,10 @@ export default function CustomerAddOrEditForm(props) {
           styles={customStyles}
           onChange={({ value }) => setStatus(value)}
           defaultValue={
-            title === 'Editar beneficiario'
+            title === 'Editar entrevista'
               ? {
-                  value: interview.gender,
-                  label: interview.gender,
+                  value: interview.status,
+                  label: interview.status,
                 }
               : ''
           }
@@ -342,16 +332,11 @@ export default function CustomerAddOrEditForm(props) {
       >
         <textarea
           id="topicDescription"
+          required
           placeholder="Información y conclusiones de la entrevista - informe aquí"
           onChange={(e) => setTopicDescription(e.target.value)}
           defaultValue={
-            title === 'Editar beneficiario'
-              ? interview.secondName && interview.secondSurname == 'null'
-                ? ''
-                : interview.secondName &&
-                  interview.secondName[0].toUpperCase() +
-                    interview.secondName.slice(1).toLowerCase()
-              : ''
+            title === 'Editar entrevista' ? interview.topicDescription : ''
           }
         />
       </FormItem>
@@ -363,16 +348,11 @@ export default function CustomerAddOrEditForm(props) {
       >
         <textarea
           id="actionsDescription"
+          required
           placeholder="Acciones a tomar a partir de las concluciones aquí"
           onChange={(e) => setActionsDescription(e.target.value)}
           defaultValue={
-            title === 'Editar beneficiario'
-              ? interview.secondName && interview.secondSurname == 'null'
-                ? ''
-                : interview.secondName &&
-                  interview.secondName[0].toUpperCase() +
-                    interview.secondName.slice(1).toLowerCase()
-              : ''
+            title === 'Editar entrevista' ? interview.actionsDescription : ''
           }
         />
       </FormItem>
