@@ -3,7 +3,6 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-
 import { useUser } from '../../core/hooks/useUser'
 import { getAllCustomersService } from '../beneficiary/beneficiaryService'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
@@ -19,7 +18,11 @@ export default function CustomerAddOrEdit({ title }) {
   const { interviewId } = useParams()
   const { isAuth } = useUser()
   const { interview, loading, error } = useSelector((state) => state.interview)
-  const { customers } = useSelector((state) => state.customer)
+  let { customer } = useSelector((state) => state)
+  let customerSlice = customer
+  let customers = customerSlice.customers
+  let loadingCustomer = customerSlice.loading
+  let errorCustomer = customerSlice.error
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -32,7 +35,7 @@ export default function CustomerAddOrEdit({ title }) {
       await getAllCustomersService(dispatch, isAuth)
     }
 
-    title === 'Agregar nueva entrevista' && resetOldData()
+    title === 'Agregar nueva entrevista' && dispatch(resetInterview())
 
     title === 'Editar entrevista' && setInterview()
   }, [])
@@ -73,7 +76,7 @@ export default function CustomerAddOrEdit({ title }) {
 
             {error && 'Algo salió mal'}
 
-            {!(loading && error) && (
+            {!(loading && error && loadingCustomer && errorCustomer) && (
               <div className="bottom">
                 {/* <div className="left"></div> */}
                 <div className="right">

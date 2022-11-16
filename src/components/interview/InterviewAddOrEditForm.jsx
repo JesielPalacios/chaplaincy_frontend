@@ -77,56 +77,80 @@ export default function CustomerAddOrEditForm(props) {
 
   const statusOptions = ['Pendiente', 'Completada', 'Cancelada']
 
-  function checkDataValidation() {
+  function checkDataValidationForNewInterview() {
     if (
-      topic != null &&
-      topicDescription != null &&
-      actionsDescription != null &&
-      referralDepartment != null &&
-      status != null &&
-      beneficiary != null
-    ) {
+      topic === undefined ||
+      topicDescription === undefined ||
+      actionsDescription === undefined ||
+      referralDepartment === undefined ||
+      status === undefined ||
+      beneficiary === undefined
+    )
       return true
-    } else {
-      return false
-    }
+  }
+
+  function checkDataValidationForOldInterview() {
+    if (
+      interview.topic === 'null' ||
+      interview.topicDescription === 'null' ||
+      interview.actionsDescription === 'null' ||
+      interview.referralDepartment === 'null' ||
+      interview.status === 'null' ||
+      interview.beneficiary === 'null'
+    )
+      return true
+  }
+
+  function showError() {
+    Swal.fire({
+      title: '<strong>Faltan datos</strong>',
+      icon: 'error',
+      html: 'Verifique la infromación suministrada!',
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: 'Intentar de nuevo',
+      confirmButtonAriaLabel: 'Intentar de nuevo',
+      cancelButtonText: 'Cancelar',
+      cancelButtonAriaLabel: 'Cancelar',
+    })
+  }
+
+  function createOrEditInterview() {
+    createInterviewService(dispatch, isAuth, title, interviewId, {
+      topic: topic,
+      topicDescription: topicDescription,
+      actionsDescription: actionsDescription,
+      referralDepartment: referralDepartment,
+      status: status,
+      beneficiary: beneficiary,
+    }).then((id) => navigate('/entrevistas/' + id))
   }
 
   function handleSubmit(e) {
     e.preventDefault()
 
-    if (checkDataValidation()) {
-      createInterviewService(dispatch, isAuth, title, interviewId, {
-        topic: topic,
-        topicDescription: topicDescription,
-        actionsDescription: actionsDescription,
-        referralDepartment: referralDepartment,
-        status: status,
-        beneficiary: beneficiary,
-      }).then((id) => navigate('/entrevistas/' + id))
-    } else {
-      Swal.fire({
-        title: '<strong>Faltan datos</strong>',
-        icon: 'error',
-        html: 'Verifique la infromación suministrada!',
-        showCloseButton: true,
-        showCancelButton: true,
-        focusConfirm: false,
-        confirmButtonText: 'Intentar de nuevo',
-        confirmButtonAriaLabel: 'Intentar de nuevo',
-        cancelButtonText: 'Cancelar',
-        cancelButtonAriaLabel: 'Cancelar',
-      })
+    if (title === 'Agregar nueva entrevista') {
+      if (checkDataValidationForNewInterview()) {
+        showError()
+      } else {
+        createOrEditInterview()
+      }
+    } else if (title === 'Editar entrevista') {
+      if (checkDataValidationForOldInterview()) {
+        showError()
+      } else {
+        createOrEditInterview()
+      }
     }
   }
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <FormItem
-        id="beneficiary"
-        title="Beneficiario de la entrevista"
-        important={true}
-      >
+  const fields = [
+    {
+      id: 'beneficiary',
+      title: 'Beneficiario de la entrevista',
+      important: true,
+      element: (
         <Select
           inputId="beneficiary"
           options={customers.map((item) => ({
@@ -188,6 +212,8 @@ export default function CustomerAddOrEditForm(props) {
               ? customers.map((item) => {
                   if (interview.beneficiary)
                     if (item.citizenshipNumberId == interview.beneficiary) {
+                      // setBeneficiary(item.citizenshipNumberId)
+
                       return {
                         label:
                           // -----------------------------------------
@@ -244,9 +270,13 @@ export default function CustomerAddOrEditForm(props) {
           }
           required
         />
-      </FormItem>
-
-      <FormItem id="topic" title="Tipo de problemática / tema" important={true}>
+      ),
+    },
+    {
+      id: 'topic',
+      title: 'Tipo de problemática / tema',
+      important: true,
+      element: (
         <Select
           inputId="topic"
           options={topicOptions.sort().map((item) => ({
@@ -269,13 +299,13 @@ export default function CustomerAddOrEditForm(props) {
           }
           required
         />
-      </FormItem>
-
-      <FormItem
-        id="referralDepartment"
-        title="Departamento de remisión"
-        important={true}
-      >
+      ),
+    },
+    {
+      id: 'referralDepartment',
+      title: 'Departamento de remisión',
+      important: true,
+      element: (
         <Select
           inputId="referralDepartment"
           options={referralDepartmentOptions.sort().map((item) => ({
@@ -298,9 +328,13 @@ export default function CustomerAddOrEditForm(props) {
           }
           required
         />
-      </FormItem>
-
-      <FormItem id="status" title="Estado de la entrevista" important={true}>
+      ),
+    },
+    {
+      id: 'status',
+      title: 'Estado de la entrevista',
+      important: true,
+      element: (
         <Select
           inputId="status"
           options={statusOptions.sort().map((item) => ({
@@ -323,39 +357,54 @@ export default function CustomerAddOrEditForm(props) {
           }
           required
         />
-      </FormItem>
-
-      <FormItem
-        id="topicDescription"
-        title="Descripción de la entrevista - informe"
-        important={true}
-      >
+      ),
+    },
+    {
+      id: 'topicDescription',
+      title: 'Descripción de la entrevista - informe',
+      important: true,
+      element: (
         <textarea
           id="topicDescription"
-          required
+          // required
           placeholder="Información y conclusiones de la entrevista - informe aquí"
           onChange={(e) => setTopicDescription(e.target.value)}
           defaultValue={
             title === 'Editar entrevista' ? interview.topicDescription : ''
           }
         />
-      </FormItem>
-
-      <FormItem
-        id="actionsDescription"
-        title="Descripción de acciones"
-        important={true}
-      >
+      ),
+    },
+    {
+      id: 'actionsDescription',
+      title: 'Descripción de acciones',
+      important: true,
+      element: (
         <textarea
           id="actionsDescription"
-          required
+          // required
           placeholder="Acciones a tomar a partir de las concluciones aquí"
           onChange={(e) => setActionsDescription(e.target.value)}
           defaultValue={
             title === 'Editar entrevista' ? interview.actionsDescription : ''
           }
         />
-      </FormItem>
+      ),
+    },
+  ]
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {fields.map((item) => (
+        <FormItem
+          key={item.id}
+          id={item.id}
+          title={item.title}
+          important={item.important}
+        >
+          {item.element}
+        </FormItem>
+      ))}
 
       <button>
         Guardar entrevista <SaveIcon className="icon" />

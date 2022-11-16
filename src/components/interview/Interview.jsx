@@ -157,12 +157,6 @@ export default function Customer() {
 
                       <div className="details">
                         <h1 className="itemTitle">{setBeneficiary().name}</h1>
-
-                        {console.log(
-                          'setBeneficiary().beneficiary',
-                          setBeneficiary()
-                        )}
-
                         {setBeneficiary().beneficiary &&
                         setBeneficiary().beneficiary.academicProgram !=
                           'null' ? (
