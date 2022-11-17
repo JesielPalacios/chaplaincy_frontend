@@ -9,7 +9,6 @@ import {
 } from 'recharts'
 
 const Chart = (props) => {
-  console.log('props', props)
   return (
     <div
       className={

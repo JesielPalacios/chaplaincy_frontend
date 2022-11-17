@@ -43,7 +43,7 @@ const Featured = (props) => {
         <p className="title">Entrevistas por seguimiento de revisión</p>
         <p className="amount">{pendingInterviews}</p>
         <p className="desc">
-          El porcentaje de enrevistas completadas sólo se saca de acuerdo a las
+          El porcentaje de entrevistas completadas sólo se saca de acuerdo a las
           entrevistas completadas y las pendientes, las entrevistas canceladas
           no se toman en cuenta..
         </p>

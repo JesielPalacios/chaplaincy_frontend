@@ -6,6 +6,7 @@ import {
   getCustomer,
   resetFlags,
   getBeneficiaryPhoto,
+  getBeneficiaryStats,
 } from './beneficiarySlice.js'
 
 export async function getAllCustomersService(dispatch, token) {
@@ -160,6 +161,28 @@ export async function getBeneficiaryImageService(dispatch, id) {
     // console.log('res', res.data)
   } catch (err) {
     dispatch(getBeneficiaryPhoto(''))
+    // console.log('error', err)
+    dispatch(error())
+  }
+}
+
+export async function getBeneficiaryStatsService(dispatch, token) {
+  dispatch(loading())
+
+  try {
+    const res = await axios.get(
+      process.env.REACT_APP_API_HOST + '/api/beneficiaryStats',
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
+
+    // console.log('res', res)
+    dispatch(getBeneficiaryStats(res.data))
+  } catch (err) {
+    dispatch(getBeneficiaryStats({}))
     // console.log('error', err)
     dispatch(error())
   }

@@ -6,6 +6,7 @@ import {
   loading,
   resetFlags,
   getInterviewStats,
+  getLatestInterviews,
 } from './InterviewSlice.js'
 
 export async function getAllInterviewsService(dispatch, token) {
@@ -23,6 +24,27 @@ export async function getAllInterviewsService(dispatch, token) {
 
     // console.log('res', res)
     dispatch(getAllInterviews(res.data))
+  } catch (err) {
+    console.log('error', err)
+    dispatch(error())
+  }
+}
+
+export async function getLatestInterviewsService(dispatch, token) {
+  dispatch(loading())
+
+  try {
+    const res = await axios.get(
+      process.env.REACT_APP_API_HOST + '/api/interviews?new=true',
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
+
+    // console.log('res', res)
+    dispatch(getLatestInterviews(res.data))
   } catch (err) {
     console.log('error', err)
     dispatch(error())
@@ -130,7 +152,7 @@ export async function getInterviewStatsService(dispatch, token) {
     // console.log('res', res)
     dispatch(getInterviewStats(res.data))
   } catch (err) {
-    dispatch(getInterview({}))
+    dispatch(getInterviewStats({}))
     // console.log('error', err)
     dispatch(error())
   }

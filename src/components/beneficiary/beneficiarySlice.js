@@ -5,6 +5,7 @@ const customerSlice = createSlice({
   initialState: {
     customers: [],
     customer: {},
+    stats: {},
     loading: false,
     error: false,
   },
@@ -40,6 +41,11 @@ const customerSlice = createSlice({
       state.loading = false
       state.error = false
     },
+    getBeneficiaryStats: (state, action) => {
+      state.loading = false
+      state.error = false
+      state.stats = action.payload
+    },
   },
 })
 
@@ -52,4 +58,5 @@ export const {
   getBeneficiaryPhoto,
   resetCustomer,
   resetFlags,
+  getBeneficiaryStats,
 } = customerSlice.actions

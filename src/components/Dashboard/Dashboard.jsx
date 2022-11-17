@@ -1,17 +1,21 @@
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
 import { useContext, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { DarkModeContext } from '../../core/context/darkModeContext'
 import { useUser } from '../../core/hooks/useUser'
+import { getAllUsersService } from '../../services/user.service'
 import { Container } from '../beneficiary/BeneficiariesList.styles'
 // import { Container } from '../beneficiary/Beneficiary.styles'
-import { getAllCustomersService } from '../beneficiary/beneficiaryService'
+import {
+  getAllCustomersService,
+  getBeneficiaryStatsService,
+} from '../beneficiary/beneficiaryService'
+import { getAllCustomers } from '../beneficiary/beneficiarySlice'
 import {
   getAllInterviewsService,
   getInterviewStatsService,
+  getLatestInterviewsService,
 } from '../interview/interviewService'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import Chart from './chart/Chart'
@@ -24,10 +28,10 @@ import Widget from './widget/Widget'
 const Dashboard = () => {
   const { isAuth } = useUser()
   const { darkMode } = useContext(DarkModeContext)
-  const {
-    customer: { customers, loading, error },
-    interview,
-  } = useSelector((state) => state)
+  const { customer, interview, user, beneficiary } = useSelector(
+    (state) => state
+  )
+
   const dispatch = useDispatch()
 
   function setInterviewsReferrals() {
@@ -173,7 +177,7 @@ const Dashboard = () => {
   const widgets = [
     {
       widgetTitle: 'Beneficiarios',
-      counter: customers.length,
+      counter: customer.customers.length,
       link: '/beneficiarios',
       linkLabel: 'Ver todos los beneficiarios',
       percentage: '20',
@@ -246,10 +250,41 @@ const Dashboard = () => {
     },
   ]
 
+  function setBeneficiariesStats() {
+    let fullInterviews = 0
+    let pendingInterviews = 0
+    let canceledInterviews = 0
+    let interviewsCounter = 0
+
+    beneficiary.stats.interviewsPerStatus &&
+      beneficiary.stats.interviewsPerStatus.map((item) => {
+        if (item._id === 'Completada') {
+          fullInterviews += item.count
+        } else if (item._id === 'Pendiente') {
+          pendingInterviews += item.count
+        } else if (item._id === 'Cancelada') {
+          canceledInterviews += item.count
+        }
+        interviewsCounter += item.count
+      })
+
+    return {
+      fullInterviews,
+      pendingInterviews,
+      canceledInterviews,
+      interviewsCounter,
+    }
+  }
+
   useEffect(() => {
     getAllCustomersService(dispatch, isAuth)
     getAllInterviewsService(dispatch, isAuth)
     getInterviewStatsService(dispatch, isAuth)
+    getAllUsersService(dispatch, isAuth)
+    getLatestInterviewsService(dispatch, isAuth)
+
+    getInterviewStatsService(dispatch, isAuth)
+    getBeneficiaryStatsService(dispatch, isAuth)
   }, [])
 
   return (
@@ -280,7 +315,7 @@ const Dashboard = () => {
                   />
                   <Chart
                     darkMode={darkMode}
-                    title="Entevistas de los últimos 6 meses"
+                    title="Entrevistas de los últimos 6 meses"
                     aspect={2 / 1}
                     setInterviewsPerMonth={setInterviewsPerMonthInSemester()}
                   />
@@ -293,7 +328,347 @@ const Dashboard = () => {
                   }
                 >
                   <div className="listTitle">Últimas entrevistas</div>
-                  <Table />
+                  <Table
+                    interviews={interview.latestInterviews}
+                    customers={customer.customers}
+                    users={user.users}
+                  />
+                </div>
+                {/*  */}
+                {/*  */}
+                {/*  */}
+                {/*  */}
+                {/*  */}
+
+                {/* <div className="top">
+                  <div className="left">
+                    <h1 className="title">Beneficiario de la entrevista</h1>
+                    <div className="item">
+                      kjmnbghjmnb
+                      <div className="details">
+                        <h1 className="itemTitle">sdfgb vfgb vfgv</h1>
+                        dcfgbhnbvgbfhb
+                        <div className="detailItem">
+                          <span className="itemKey">Código estudiantil:</span>
+                          <span className="itemValue">sdvsdvsdvs</span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">Código estudiantil:</span>
+                          <span className="itemValue">sdvsdvsdvs</span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">Código estudiantil:</span>
+                          <span className="itemValue">sdvsdvsdvs</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
+
+                <div className="charts">
+                  <div
+                    className={
+                      darkMode
+                        ? 'featured border app dark'
+                        : 'featured border app light'
+                    }
+                  >
+                    {' '}
+                    <div className="top">
+                      <h1 className="title">
+                        Estadísticas generales de las entrevistas
+                      </h1>
+                    </div>
+                    <div className="bottom">
+                      <p className="title">
+                        Entrevistas por tipo de departamento de remisión,
+                        tipo/categoría o tema, capellán y/o año. Es importate
+                        tener en cuenta que las categorías o filtros que no
+                        aparecen es porque no tienen información, es decir,
+                        todavía no hay entrevistas con esas categorías.:
+                      </p>
+                      {/* <p className="amount">{pendingInterviews}</p> */}
+
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por tipo/categoría o tema:
+                          </div>
+                          {interview.stats.interviewsPerTopic &&
+                            interview.stats.interviewsPerTopic.map(
+                              (item, index) => (
+                                <div className="itemResult" key={index}>
+                                  <div className="resultAmount">
+                                    {item._id}: {item.count}, con un porcentaje
+                                    del{' '}
+                                    {(item.count * 100) /
+                                      setInterviewsPerStatus()
+                                        .interviewsCounter}
+                                    %
+                                  </div>
+                                </div>
+                              )
+                            )}
+                        </div>
+                      </div>
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por departamento de remisión:
+                          </div>
+                          {interview.stats.interviewsPerReferralDepartment &&
+                            interview.stats.interviewsPerReferralDepartment.map(
+                              (item, index) => (
+                                <div className="itemResult" key={index}>
+                                  <div className="resultAmount">
+                                    {item._id}: {item.count}, con un porcentaje
+                                    del{' '}
+                                    {(item.count * 100) /
+                                      setInterviewsPerStatus()
+                                        .interviewsCounter}
+                                    %
+                                  </div>
+                                </div>
+                              )
+                            )}
+                        </div>
+                      </div>
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por estado de entrevista:
+                          </div>
+                          {interview.stats.interviewsPerStatus &&
+                            interview.stats.interviewsPerStatus.map(
+                              (item, index) => (
+                                <div className="itemResult" key={index}>
+                                  <div className="resultAmount">
+                                    {item._id}: {item.count}, con un porcentaje
+                                    del{' '}
+                                    {(item.count * 100) /
+                                      setInterviewsPerStatus()
+                                        .interviewsCounter}
+                                    %
+                                  </div>
+                                </div>
+                              )
+                            )}
+                        </div>
+                      </div>
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">Por año:</div>
+                          {interview.stats.createdPerYear &&
+                            interview.stats.createdPerYear.map(
+                              (item, index) => (
+                                <div className="itemResult" key={index}>
+                                  <div className="resultAmount">
+                                    {item._id}: {item.count}, con un porcentaje
+                                    del{' '}
+                                    {(item.count * 100) /
+                                      setInterviewsPerStatus()
+                                        .interviewsCounter}
+                                    %
+                                  </div>
+                                </div>
+                              )
+                            )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/*  */}
+                {/*  */}
+                {/*  */}
+                {/*  */}
+                {/*  */}
+
+                <div className="charts">
+                  <div
+                    className={
+                      darkMode
+                        ? 'featured border app dark'
+                        : 'featured border app light'
+                    }
+                  >
+                    {' '}
+                    <div className="top">
+                      <h1 className="title">
+                        Estadísticas generales de los beneficiarios
+                      </h1>
+                    </div>
+                    <div className="bottom">
+                      <p className="title">
+                        Empleados por tipo de departamento de remisión,
+                        tipo/categoría o tema, capellán y/o año. Es importate
+                        tener en cuenta que las categorías o filtros que no
+                        aparecen es porque no tienen información, es decir,
+                        todavía no hay entrevistas con esas categorías.:
+                      </p>
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por categoría o típo de género:
+                          </div>
+                          {customer.stats.gender &&
+                            customer.stats.gender.map((item, index) => (
+                              <div className="itemResult" key={index}>
+                                <div className="resultAmount">
+                                  {item._id}: {item.count}, con un porcentaje
+                                  del{' '}
+                                  {Math.round(
+                                    (item.count * 100) /
+                                      customer.customers.length
+                                  )}
+                                  %
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por categoría o típo de documento de identificación:
+                          </div>
+                          {customer.stats.typeCitizenshipNumberId &&
+                            customer.stats.typeCitizenshipNumberId.map(
+                              (item, index) => (
+                                <div className="itemResult" key={index}>
+                                  <div className="resultAmount">
+                                    {item._id}: {item.count}, con un porcentaje
+                                    del{' '}
+                                    {Math.round(
+                                      (item.count * 100) /
+                                        customer.customers.length
+                                    )}
+                                    %
+                                  </div>
+                                </div>
+                              )
+                            )}
+                        </div>
+                      </div>
+
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por categoría o típo de programa académico:
+                          </div>
+                          {customer.stats.academicProgram &&
+                            customer.stats.academicProgram.map(
+                              (item, index) => (
+                                <div className="itemResult" key={index}>
+                                  <div className="resultAmount">
+                                    {item._id}: {item.count}, con un porcentaje
+                                    del{' '}
+                                    {Math.round(
+                                      (item.count * 100) /
+                                        customer.customers.length
+                                    )}
+                                    %
+                                  </div>
+                                </div>
+                              )
+                            )}
+                        </div>
+                      </div>
+
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por número de semestre académico:
+                          </div>
+                          {customer.stats.semester &&
+                            customer.stats.semester.map((item, index) => (
+                              <div className="itemResult" key={index}>
+                                <div className="resultAmount">
+                                  {item._id}: {item.count}, con un porcentaje
+                                  del{' '}
+                                  {Math.round(
+                                    (item.count * 100) /
+                                      customer.customers.length
+                                  )}
+                                  %
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por país de orígen del beneficiario:
+                          </div>
+                          {customer.stats.birthCountry &&
+                            customer.stats.birthCountry.map((item, index) => (
+                              <div className="itemResult" key={index}>
+                                <div className="resultAmount">
+                                  {item._id}: {item.count}, con un porcentaje
+                                  del{' '}
+                                  {Math.round(
+                                    (item.count * 100) /
+                                      customer.customers.length
+                                  )}
+                                  %
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por departamento/provincia de orígen del
+                            beneficiario:
+                          </div>
+                          {customer.stats.birthDepartment &&
+                            customer.stats.birthDepartment.map(
+                              (item, index) => (
+                                <div className="itemResult" key={index}>
+                                  <div className="resultAmount">
+                                    {item._id}: {item.count}, con un porcentaje
+                                    del{' '}
+                                    {Math.round(
+                                      (item.count * 100) /
+                                        customer.customers.length
+                                    )}
+                                    %
+                                  </div>
+                                </div>
+                              )
+                            )}
+                        </div>
+                      </div>
+
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por ciudad de orígen del beneficiario:
+                          </div>
+                          {customer.stats.birthCity &&
+                            customer.stats.birthCity.map((item, index) => (
+                              <div className="itemResult" key={index}>
+                                <div className="resultAmount">
+                                  {item._id}: {item.count}, con un porcentaje
+                                  del{' '}
+                                  {Math.round(
+                                    (item.count * 100) /
+                                      customer.customers.length
+                                  )}
+                                  %
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
