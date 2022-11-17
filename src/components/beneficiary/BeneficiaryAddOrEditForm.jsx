@@ -2,7 +2,6 @@ import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUpload
 import SaveIcon from '@mui/icons-material/Save'
 import { useEffect, useState } from 'react'
 import Select from 'react-select'
-
 import { createCustomerService } from './beneficiaryService'
 import { demographic } from './cities'
 import { countries } from './countries'
@@ -42,14 +41,16 @@ export default function CustomerAddOrEditForm(props) {
   const [email, setEmail] = useState()
   const [cellPhoneNumber, setCellPhoneNumber] = useState()
   const [address, setAddress] = useState()
+  const [religion, setReligion] = useState()
   const [maritalStatus, setMaritalStatus] = useState()
   const [socialStratum, setSocialStratum] = useState()
-  const [academicProgram, setAcademicProgram] = useState()
-  const [studentCode, setStudentCode] = useState()
-  const [semester, setSemester] = useState()
+  const [categoryOcupation, setCategoryOcupation] = useState()
   const [birthDate, setBirthDate] = useState()
   const [birthCountry, setBirthCountry] = useState()
   const [birthDepartment, setBirthDepartment] = useState()
+  const [academicProgram, setAcademicProgram] = useState()
+  const [studentCode, setStudentCode] = useState()
+  const [semester, setSemester] = useState()
   const [birthCity, setBirthCity] = useState()
   // --------------------------------------------------------------------------
   const [cities, setCities] = useState([])
@@ -95,6 +96,57 @@ export default function CustomerAddOrEditForm(props) {
     { value: 'Visa', label: 'Visa' },
     { value: 'Pasaporte', label: 'Pasaporte' },
     { value: 'Registro Civil', label: 'Registro Civil' },
+  ]
+
+  const maritalStatusOptions = [
+    'Soltero/a',
+    'Casado/a',
+    'Unión libre o unión de hecho',
+    'Separado/a',
+    'Divorciado/a',
+    'Viudo/a.',
+  ]
+
+  const socialStratumOptions = [
+    'Estrato 1 - Bajo-bajo',
+    'Estrato 2 - Bajo',
+    'Estrato 3 - Medio-bajo',
+    'Estrato 4 - Medio',
+    'Estrato 5 - Medio - Alto',
+    'Estrato 6 - Alto',
+  ]
+
+  const religionOptions = ['Cristiano', 'Católico', 'Otra denominación']
+
+  const categoryOcupationOptions = [
+    'Otro',
+    'Estudiante de la UNAC',
+    'Estudiante de otra universidad',
+    'Profesor - docente de la UNAC',
+    'Profesor - docente de otra universidad',
+    'Coordinador de la UNAC',
+    'Coordinador de otra universidad',
+    'Decano de la UNAC',
+    'Decano de otra universidad',
+    'Rector de la UNAC',
+    'Rector de otra universidad',
+    'Estudiante de otra universidad',
+    'Miembro de la Iglesia Adventista del Séptimo Día (IASD)',
+    'Miembro de otra iglesia',
+    'Licenciatura en Educación Infantil',
+    'Licenciatura en Español e Inglés',
+    'Licenciatura en Matemáticas',
+    'Licenciatura en Música',
+    'Administración de Empresas',
+    'Contaduría Pública',
+    'Tecnología en Mercadeo',
+    'Enfermería Profesional',
+    'Tecnología en Atención Prehospitalaria - Medellín',
+    'Tecnología en Atención Prehospitalaria - Bucaramanga',
+    'Ingeniería Industrial',
+    'Ingeniería de Sistemas',
+    'Licenciatura en Educaión Religiosa',
+    'Teología',
   ]
 
   const academicProgramOptions = [
@@ -253,19 +305,526 @@ export default function CustomerAddOrEditForm(props) {
       gender: gender,
       typeCitizenshipNumberId: typeCitizenshipNumberId,
       citizenshipNumberId: citizenshipNumberId,
-      academicProgram: academicProgram,
-      studentCode: studentCode,
-      semester: semester,
       email: email,
       cellPhoneNumber: cellPhoneNumber,
       address: address,
+      religion: religion,
+      maritalStatus: maritalStatus,
+      socialStratum: socialStratum,
+      categoryOcupation: categoryOcupation,
       birthDate: birthDate,
       birthCountry: birthCountry,
       birthDepartment: birthDepartment,
       birthCity: birthCity,
+      academicProgram: academicProgram,
+      studentCode: studentCode,
+      semester: semester,
       beneficiaryPhoto,
     })
   }
+
+  const beneficiaryFields = [
+    {
+      id: 'firstName',
+      title: 'Primer nombre',
+      important: true,
+      element: (
+        <input
+          type="text"
+          id="firstName"
+          required
+          placeholder="Primer nombre aquí"
+          onChange={(e) => setFirstName(e.target.value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? customer.firstName &&
+                customer.firstName[0].toUpperCase() +
+                  customer.firstName.slice(1).toLowerCase()
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'secondName',
+      title: 'Segundo nombre',
+      element: (
+        <input
+          type="text"
+          id="secondName"
+          placeholder="Segundo nombre aquí"
+          onChange={(e) => setSecondName(e.target.value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? customer.secondName && customer.secondSurname == 'undefined'
+                ? ''
+                : customer.secondName &&
+                  customer.secondName[0].toUpperCase() +
+                    customer.secondName.slice(1).toLowerCase()
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'firstSurname',
+      title: 'Primer apellido',
+      important: true,
+      element: (
+        <input
+          type="text"
+          id="firstSurname"
+          required
+          placeholder="Primer apellido aquí"
+          onChange={(e) => setFirstSurname(e.target.value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? customer.firstSurname &&
+                customer.firstSurname[0].toUpperCase() +
+                  customer.firstSurname.slice(1).toLowerCase()
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'secondSurname',
+      title: 'Segundo apellido',
+      element: (
+        <input
+          type="text"
+          id="secondSurname"
+          placeholder="Segundo apellido aquí"
+          onChange={(e) => setSecondSurname(e.target.value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? customer.secondSurname && customer.secondSurname == 'undefined'
+                ? ''
+                : customer.secondSurname &&
+                  customer.secondSurname[0].toUpperCase() +
+                    customer.secondSurname.slice(1).toLowerCase()
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'gender',
+      title: 'Género',
+      important: true,
+      element: (
+        <Select
+          inputId="gender"
+          required
+          options={genderOptions}
+          placeholder={'Seleccione el género aquí'}
+          isClearable={true}
+          hideSelectedOptions={true}
+          isSearchable={false}
+          styles={customStyles}
+          onChange={({ value }) => setGender(value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? {
+                  value: customer.gender,
+                  label: customer.gender,
+                }
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'typeCitizenshipNumberId',
+      title: 'Tipo de documento de identificación',
+      important: true,
+      element: (
+        <Select
+          inputId="typeCitizenshipNumberId"
+          required
+          options={typeCitizenshipNumberIdOptions}
+          placeholder={'Seleccione el tipo de documento aquí'}
+          isClearable={true}
+          hideSelectedOptions={true}
+          isSearchable={false}
+          styles={customStyles}
+          onChange={({ value }) => setTypeCitizenshipNumberId(value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? {
+                  value: customer.typeCitizenshipNumberId,
+                  label: customer.typeCitizenshipNumberId,
+                }
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'citizenshipNumberId',
+      title: 'Número de identificación',
+      important: true,
+      element: (
+        <input
+          type="number"
+          id="citizenshipNumberId"
+          placeholder="Número de identificación aquí"
+          onChange={(e) => setCitizenshipNumberId(e.target.value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? customer.citizenshipNumberId && customer.citizenshipNumberId
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'email',
+      title: 'Correo electrónico',
+      element: (
+        <input
+          type="email"
+          id="email"
+          placeholder="Correo electrónico aquí"
+          onChange={(e) => setEmail(e.target.value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? customer.email && customer.email == 'undefined'
+                ? ''
+                : customer.email && customer.email
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'cellPhoneNumber',
+      title: 'Número de teléfono celular',
+      element: (
+        <input
+          type="number"
+          id="cellPhoneNumber"
+          placeholder="Teléfono celular aquí"
+          onChange={(e) => setCellPhoneNumber(e.target.value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? customer.cellPhoneNumber &&
+                customer.cellPhoneNumber == 'undefined'
+                ? ''
+                : customer.cellPhoneNumber && customer.cellPhoneNumber
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'address',
+      title: 'Dirección de residencia (domicilio)',
+      element: (
+        <input
+          type="text"
+          id="address"
+          placeholder="Dirección de residencia aquí"
+          onChange={(e) => setAddress(e.target.value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? customer.address && customer.address == 'undefined'
+                ? ''
+                : customer.address && customer.address
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'religion',
+      title: 'Religión',
+      important: true,
+      element: (
+        <Select
+          inputId="religion"
+          required
+          options={religionOptions.map((item) => ({
+            label: item,
+            value: item,
+          }))}
+          placeholder={'Click aquí para seleccionar o escribir'}
+          isClearable={true}
+          hideSelectedOptions={true}
+          styles={customStyles}
+          onChange={({ value }) => setReligion(value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? {
+                  value: customer.religion,
+                  label: customer.religion,
+                }
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'maritalStatus',
+      title: 'Estado civil',
+      important: true,
+      element: (
+        <Select
+          inputId="maritalStatus"
+          required
+          options={maritalStatusOptions.map((item) => ({
+            label: item,
+            value: item,
+          }))}
+          placeholder={'Seleccione el estado civil aquí'}
+          isClearable={true}
+          hideSelectedOptions={true}
+          isSearchable={false}
+          styles={customStyles}
+          onChange={({ value }) => setMaritalStatus(value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? {
+                  value: customer.maritalStatus,
+                  label: customer.maritalStatus,
+                }
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'socialStratum',
+      title: 'Estrato social',
+      important: true,
+      element: (
+        <Select
+          inputId="socialStratum"
+          required
+          options={socialStratumOptions.map((item) => ({
+            label: item,
+            value: item,
+          }))}
+          placeholder={'Seleccione el estrato social aquí'}
+          isClearable={true}
+          hideSelectedOptions={true}
+          isSearchable={false}
+          styles={customStyles}
+          onChange={({ value }) => setSocialStratum(value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? {
+                  value: customer.socialStratum,
+                  label: customer.socialStratum,
+                }
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'categoryOcupation',
+      title: 'Categoría o tipo de beneficiario',
+      important: true,
+      element: (
+        <Select
+          inputId="categoryOcupation"
+          required
+          options={categoryOcupationOptions.map((item) => ({
+            label: item,
+            value: item,
+          }))}
+          placeholder={'Click aquí para seleccionar o escribir'}
+          isClearable={true}
+          hideSelectedOptions={true}
+          styles={customStyles}
+          onChange={({ value }) => setCategoryOcupation(value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? {
+                  value: customer.categoryOcupation,
+                  label: customer.categoryOcupation,
+                }
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'birthDate',
+      title: 'Fecha de nacimiento',
+      important: true,
+      element: (
+        <input
+          type="date"
+          id="birthDate"
+          required
+          placeholder="Plant discovery date goes here"
+          onChange={(e) => setBirthDate(e.target.value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? formatDate(customer.birthDate)
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'birthCountry',
+      title: 'País de nacimiento',
+      important: true,
+      element: (
+        <Select
+          inputId="birthCountry"
+          required
+          options={countries.sort().map(({ name }) => ({
+            label: name,
+            value: name,
+          }))}
+          placeholder={'Seleccione el país de nacimiento aquí'}
+          isClearable={true}
+          hideSelectedOptions={true}
+          styles={customStyles}
+          onChange={({ value }) => setBirthCountry(value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? {
+                  value: customer.birthCountry,
+                  label: customer.birthCountry,
+                }
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'birthDepartment',
+      title: 'Departamento de nacimiento',
+      important: true,
+      element: (
+        <Select
+          inputId="birthDepartment"
+          required
+          options={states.sort().map(({ name }) => ({
+            label: name,
+            value: name,
+          }))}
+          placeholder={'Click aquí para seleccionar o escribir'}
+          isClearable={true}
+          hideSelectedOptions={true}
+          styles={customStyles}
+          onChange={({ value }) => setBirthDepartment(value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? {
+                  value: customer.birthDepartment,
+                  label: customer.birthDepartment,
+                }
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'birthCity',
+      title: 'Ciudad de nacimiento',
+      important: true,
+      element: (
+        <Select
+          inputId="birthCity"
+          required
+          options={cities.sort().map((city) => ({
+            label: city,
+            value: city,
+          }))}
+          placeholder={'Click aquí para seleccionar o escribir'}
+          isClearable={true}
+          hideSelectedOptions={true}
+          styles={customStyles}
+          onChange={({ value }) => setBirthCity(value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? {
+                  value: customer.birthCity,
+                  label: customer.birthCity,
+                }
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'academicProgram',
+      title: 'Programa académico',
+      important: true,
+      element: (
+        <Select
+          inputId="academicProgram"
+          required
+          options={academicProgramOptions}
+          placeholder={'Seleccione el programa académico aquí'}
+          isClearable={true}
+          hideSelectedOptions={true}
+          isSearchable={false}
+          styles={customStyles}
+          onChange={({ value }) => setAcademicProgram(value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? {
+                  value: customer.academicProgram,
+                  label: customer.academicProgram,
+                }
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'studentCode',
+      title: 'Código de estudiante',
+      element: (
+        <input
+          type="number"
+          id="studentCode"
+          placeholder="Código de estudiante aquí"
+          onChange={(e) => setStudentCode(e.target.value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? customer.studentCode && customer.studentCode == 'undefined'
+                ? ''
+                : customer.studentCode && customer.studentCode
+              : ''
+          }
+        />
+      ),
+    },
+    {
+      id: 'semester',
+      title: 'Semestre académico actual',
+      important: true,
+      element: (
+        <Select
+          inputId="semester"
+          required
+          options={semesterOptions}
+          placeholder={'Seleccione el semestre académico actual aquí'}
+          isClearable={true}
+          hideSelectedOptions={true}
+          isSearchable={false}
+          styles={customStyles}
+          onChange={({ value }) => setSemester(value)}
+          defaultValue={
+            title === 'Editar beneficiario'
+              ? {
+                  value: customer.semester,
+                  label: customer.semester,
+                }
+              : ''
+          }
+        />
+      ),
+    },
+  ]
 
   useEffect(() => {
     birthCityOptions()
@@ -286,342 +845,16 @@ export default function CustomerAddOrEditForm(props) {
         />
       </div>
 
-      <FormItem id="firstName" title="Primer nombre" important={true}>
-        <input
-          type="text"
-          id="firstName"
-          // required
-          placeholder="Primer nombre aquí"
-          onChange={(e) => setFirstName(e.target.value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? customer.firstName &&
-                customer.firstName[0].toUpperCase() +
-                  customer.firstName.slice(1).toLowerCase()
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem id="secondName" title="Segundo nombre">
-        <input
-          type="text"
-          id="secondName"
-          placeholder="Segundo nombre aquí"
-          onChange={(e) => setSecondName(e.target.value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? customer.secondName && customer.secondSurname == 'undefined'
-                ? ''
-                : customer.secondName &&
-                  customer.secondName[0].toUpperCase() +
-                    customer.secondName.slice(1).toLowerCase()
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem id="firstSurname" title="Primer apellido" important={true}>
-        <input
-          type="text"
-          id="firstSurname"
-          // required
-          placeholder="Primer apellido aquí"
-          onChange={(e) => setFirstSurname(e.target.value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? customer.firstSurname &&
-                customer.firstSurname[0].toUpperCase() +
-                  customer.firstSurname.slice(1).toLowerCase()
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem id="secondSurname" title="Segundo apellido">
-        <input
-          type="text"
-          id="secondSurname"
-          placeholder="Segundo apellido aquí"
-          onChange={(e) => setSecondSurname(e.target.value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? customer.secondSurname && customer.secondSurname == 'undefined'
-                ? ''
-                : customer.secondSurname &&
-                  customer.secondSurname[0].toUpperCase() +
-                    customer.secondSurname.slice(1).toLowerCase()
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem id="gender" title="Género" important={true}>
-        <Select
-          inputId="gender"
-          options={genderOptions}
-          placeholder={'Seleccione el género aquí'}
-          isClearable={true}
-          hideSelectedOptions={true}
-          isSearchable={false}
-          styles={customStyles}
-          onChange={({ value }) => setGender(value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? {
-                  value: customer.gender,
-                  label: customer.gender,
-                }
-              : ''
-          }
-          required
-        />
-      </FormItem>
-
-      <FormItem
-        id="typeCitizenshipNumberId"
-        title="Tipo de documento de identificación"
-        important={true}
-      >
-        <Select
-          inputId="typeCitizenshipNumberId"
-          options={typeCitizenshipNumberIdOptions}
-          placeholder={'Seleccione el tipo de documento aquí'}
-          isClearable={true}
-          hideSelectedOptions={true}
-          isSearchable={false}
-          styles={customStyles}
-          onChange={({ value }) => setTypeCitizenshipNumberId(value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? {
-                  value: customer.typeCitizenshipNumberId,
-                  label: customer.typeCitizenshipNumberId,
-                }
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem
-        id="citizenshipNumberId"
-        title="Número de identificación"
-        important={true}
-      >
-        <input
-          type="number"
-          id="citizenshipNumberId"
-          placeholder="Número de identificación aquí"
-          onChange={(e) => setCitizenshipNumberId(e.target.value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? customer.citizenshipNumberId && customer.citizenshipNumberId
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem id="email" title="Correo electrónico">
-        <input
-          type="text"
-          id="email"
-          placeholder="Correo electrónico aquí"
-          onChange={(e) => setEmail(e.target.value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? customer.email && customer.email == 'undefined'
-                ? ''
-                : customer.email && customer.email
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem id="cellPhoneNumber" title="Número de teléfono celular">
-        <input
-          type="number"
-          id="cellPhoneNumber"
-          placeholder="Teléfono celular aquí"
-          onChange={(e) => setCellPhoneNumber(e.target.value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? customer.cellPhoneNumber && customer.cellPhoneNumber == 'undefined'
-                ? ''
-                : customer.cellPhoneNumber && customer.cellPhoneNumber
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem id="address" title="Dirección de residencia (domicilio)">
-        <input
-          type="text"
-          id="address"
-          placeholder="Dirección de residencia aquí"
-          onChange={(e) => setAddress(e.target.value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? customer.address && customer.address == 'undefined'
-                ? ''
-                : customer.address && customer.address
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem id="birthDate" title="Fecha de nacimiento" important={true}>
-        <input
-          type="date"
-          id="birthDate"
-          // required
-          placeholder="Plant discovery date goes here"
-          onChange={(e) => setBirthDate(e.target.value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? formatDate(customer.birthDate)
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem id="birthCountry" title="País de nacimiento" important={true}>
-        <Select
-          inputId="birthCountry"
-          options={countries.sort().map(({ name }) => ({
-            label: name,
-            value: name,
-          }))}
-          placeholder={'Seleccione el país de nacimiento aquí'}
-          isClearable={true}
-          hideSelectedOptions={true}
-          styles={customStyles}
-          onChange={({ value }) => setBirthCountry(value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? {
-                  value: customer.birthCountry,
-                  label: customer.birthCountry,
-                }
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem
-        id="birthDepartment"
-        title="Departamento de nacimiento"
-        important={true}
-      >
-        <Select
-          inputId="birthDepartment"
-          options={states.sort().map(({ name }) => ({
-            label: name,
-            value: name,
-          }))}
-          placeholder={'Click aquí para seleccionar o escribir'}
-          isClearable={true}
-          hideSelectedOptions={true}
-          styles={customStyles}
-          onChange={({ value }) => setBirthDepartment(value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? {
-                  value: customer.birthDepartment,
-                  label: customer.birthDepartment,
-                }
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem id="birthCity" title="Ciudad de nacimiento" important={true}>
-        <Select
-          inputId="birthCity"
-          options={cities.sort().map((city) => ({
-            label: city,
-            value: city,
-          }))}
-          placeholder={'Click aquí para seleccionar o escribir'}
-          isClearable={true}
-          hideSelectedOptions={true}
-          styles={customStyles}
-          onChange={({ value }) => setBirthCity(value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? {
-                  value: customer.birthCity,
-                  label: customer.birthCity,
-                }
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem id="studentCode" title="Código de estudiante">
-        <input
-          type="number"
-          id="studentCode"
-          placeholder="Código de estudiante aquí"
-          onChange={(e) => setStudentCode(e.target.value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? customer.studentCode && customer.studentCode == 'undefined'
-                ? ''
-                : customer.studentCode && customer.studentCode
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem
-        id="academicProgram"
-        title="Programa académico"
-        important={true}
-      >
-        <Select
-          inputId="academicProgram"
-          options={academicProgramOptions}
-          placeholder={'Seleccione el programa académico aquí'}
-          isClearable={true}
-          hideSelectedOptions={true}
-          isSearchable={false}
-          styles={customStyles}
-          onChange={({ value }) => setAcademicProgram(value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? {
-                  value: customer.academicProgram,
-                  label: customer.academicProgram,
-                }
-              : ''
-          }
-        />
-      </FormItem>
-
-      <FormItem
-        id="semester"
-        title="Semestre académico actual"
-        important={true}
-      >
-        <Select
-          inputId="semester"
-          options={semesterOptions}
-          placeholder={'Seleccione el semestre académico actual aquí'}
-          isClearable={true}
-          hideSelectedOptions={true}
-          isSearchable={false}
-          styles={customStyles}
-          onChange={({ value }) => setSemester(value)}
-          defaultValue={
-            title === 'Editar beneficiario'
-              ? {
-                  value: customer.semester,
-                  label: customer.semester,
-                }
-              : ''
-          }
-        />
-      </FormItem>
+      {beneficiaryFields.map((item) => (
+        <FormItem
+          key={item.id}
+          id={item.id}
+          title={item.title}
+          important={item.important}
+        >
+          {item.element}
+        </FormItem>
+      ))}
 
       <button>
         Guardar beneficiario <SaveIcon className="icon" />
