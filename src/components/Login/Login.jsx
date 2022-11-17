@@ -9,12 +9,15 @@ import styles from './Login.module.css'
 import { Seo } from '../layout/Seo'
 
 const Login = () => {
-  // const [email, setEmail] = useState(null)
-  // const [password, setPassword] = useState(null)
-  const [email, setEmail] = useState('luis.angel@capellania.unac.edu.co')
-  const [password, setPassword] = useState('1234567890')
+  // --------------------------------------------------------------------------
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+  // --------------------------------------------------------------------------
+  // const [email, setEmail] = useState('luis.angel@capellania.unac.edu.co')
+  // const [password, setPassword] = useState('1234567890')
+  // --------------------------------------------------------------------------
+  
   const [remember, setRemember] = useState(false)
-
   const { login, loading, error } = useUser()
 
   const handleSubmit = (e) => {
@@ -24,16 +27,21 @@ const Login = () => {
       Swal.fire({
         title: '<strong>Faltan datos</strong>',
         icon: 'info',
-        html: 'Está intentando iniciar sesión sin <b>ninguna información</b>, ' + 'por favor ingrese sus credenciales!',
+        html:
+          'Está intentando iniciar sesión sin <b>ninguna información</b>, ' +
+          'por favor ingrese sus credenciales!',
         showCloseButton: true,
         showCancelButton: true,
         focusConfirm: false,
         confirmButtonText: 'Intentar de nuevo',
         confirmButtonAriaLabel: 'Intentar de nuevo',
         cancelButtonText: 'Cancelar',
-        cancelButtonAriaLabel: 'Cancelar'
+        cancelButtonAriaLabel: 'Cancelar',
       })
-    } else if ((email === null && password != null) || (password === null && email != null)) {
+    } else if (
+      (email === null && password != null) ||
+      (password === null && email != null)
+    ) {
       Swal.fire({
         title: '<strong>Faltan datos</strong>',
         icon: 'info',
@@ -44,12 +52,12 @@ const Login = () => {
         confirmButtonText: 'Intentar de nuevo',
         confirmButtonAriaLabel: 'Intentar de nuevo',
         cancelButtonText: 'Cancelar',
-        cancelButtonAriaLabel: 'Cancelar'
+        cancelButtonAriaLabel: 'Cancelar',
       })
     } else {
       login({
         email,
-        password
+        password,
       })
     }
   }
@@ -71,18 +79,35 @@ const Login = () => {
               <label htmlFor="email" className={styles.label_email}>
                 Dirección email
               </label>
-              <input type="email" id="email" className={styles.input_email} placeholder="Ingresa tu email aquí..." onChange={(e) => setEmail(e.target.value)} />
+              <input
+                type="email"
+                id="email"
+                className={styles.input_email}
+                placeholder="Ingresa tu email aquí..."
+                onChange={(e) => setEmail(e.target.value)}
+              />
               <br />
               <label htmlFor="password" className={styles.label_password}>
                 Contraseña
               </label>
-              <input type="password" id="password" className={styles.input_password} placeholder="Ingresa tu contraseña aquí..." onChange={(e) => setPassword(e.target.value)} />
+              <input
+                type="password"
+                id="password"
+                className={styles.input_password}
+                placeholder="Ingresa tu contraseña aquí..."
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
               <br />
 
               <div className={styles.wrapper_remember}>
                 <div className={styles.wrapper_checkbox}>
-                  <input type="checkbox" id="checkbox" className={styles.input_checkbox} onChange={(e) => setRemember(e.target.value)} />
+                  <input
+                    type="checkbox"
+                    id="checkbox"
+                    className={styles.input_checkbox}
+                    onChange={(e) => setRemember(e.target.value)}
+                  />
                   <label htmlFor="checkbox" className={styles.label_checkbox}>
                     Recordar contraseña
                   </label>
@@ -92,10 +117,15 @@ const Login = () => {
                 </a>
               </div>
 
-              {loading && <span className={styles.label_checkbox}>Cargando</span>}
+              {loading && (
+                <span className={styles.label_checkbox}>Cargando</span>
+              )}
 
               {error && (
-                <span className={styles.label_checkbox} style={{ color: 'red' }}>
+                <span
+                  className={styles.label_checkbox}
+                  style={{ color: 'red' }}
+                >
                   Error, intente nuevamente
                 </span>
               )}
