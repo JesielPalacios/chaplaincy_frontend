@@ -69,6 +69,107 @@ const Dashboard = () => {
     }
   }
 
+  function setInterviewsPerMonth() {
+    const yearMontsNameAndTotalValues = [
+      // { name: 'January', Total: 1200 },
+      // { name: 'February', Total: 2100 },
+      // { name: 'March', Total: 800 },
+      // { name: 'April', Total: 1600 },
+      // { name: 'May', Total: 900 },
+      // { name: 'June', Total: 1700 },
+      { number: 1, name: 'Enero', Total: 0 },
+      { number: 2, name: 'Febrero', Total: 0 },
+      { number: 3, name: 'Marzo', Total: 0 },
+      { number: 4, name: 'Abril', Total: 0 },
+      { number: 5, name: 'Mayo', Total: 0 },
+      { number: 6, name: 'Junio', Total: 0 },
+      { number: 7, name: 'Julio', Total: 0 },
+      { number: 8, name: 'Agosto', Total: 0 },
+      { number: 9, name: 'Septiembre', Total: 0 },
+      { number: 10, name: 'Octubre', Total: 0 },
+      { number: 11, name: 'Noviembre', Total: 0 },
+      { number: 12, name: 'Diciembre', Total: 0 },
+    ]
+    const secondSemester = [
+      { number: 1, name: 'Enero', Total: 0 },
+      { number: 2, name: 'Febrero', Total: 0 },
+      { number: 3, name: 'Marzo', Total: 0 },
+      { number: 4, name: 'Abril', Total: 0 },
+      { number: 5, name: 'Mayo', Total: 0 },
+      { number: 6, name: 'Junio', Total: 0 },
+    ]
+    const firstSemester = [
+      { number: 7, name: 'Julio', Total: 0 },
+      { number: 8, name: 'Agosto', Total: 0 },
+      { number: 9, name: 'Septiembre', Total: 0 },
+      { number: 10, name: 'Octubre', Total: 0 },
+      { number: 11, name: 'Noviembre', Total: 0 },
+      { number: 12, name: 'Diciembre', Total: 0 },
+    ]
+
+    let parsedData = []
+
+    interview.stats.createdPerMonth &&
+      interview.stats.createdPerMonth.map((item) => {
+        yearMontsNameAndTotalValues.map((month) => {
+          if (item._id === month.number) {
+            yearMontsNameAndTotalValues[month.number - 1].Total = item.count
+          }
+        })
+      })
+
+    yearMontsNameAndTotalValues.map((item) => {
+      parsedData.push({
+        name: item.name,
+        Total: item.Total,
+      })
+    })
+
+    return parsedData
+  }
+  function setInterviewsPerMonthInSemester() {
+    const firstSemester = [
+      { number: 1, name: 'Enero', Total: 0 },
+      { number: 2, name: 'Febrero', Total: 0 },
+      { number: 3, name: 'Marzo', Total: 0 },
+      { number: 4, name: 'Abril', Total: 0 },
+      { number: 5, name: 'Mayo', Total: 0 },
+      { number: 6, name: 'Junio', Total: 0 },
+    ]
+    const secondSemester = [
+      { number: 7, name: 'Julio', Total: 0 },
+      { number: 8, name: 'Agosto', Total: 0 },
+      { number: 9, name: 'Septiembre', Total: 0 },
+      { number: 10, name: 'Octubre', Total: 0 },
+      { number: 11, name: 'Noviembre', Total: 0 },
+      { number: 12, name: 'Diciembre', Total: 0 },
+    ]
+
+    let parsedData = []
+
+    interview.stats.createdPerMonth &&
+      interview.stats.createdPerMonth.map((item) => {
+        secondSemester.map((month) => {
+          if (item._id === month.number) {
+            secondSemester[
+              secondSemester.findIndex((object) => {
+                return object.number === month.number
+              })
+            ].Total = item.count
+          }
+        })
+      })
+
+    secondSemester.map((item) => {
+      parsedData.push({
+        name: item.name,
+        Total: item.Total,
+      })
+    })
+
+    return parsedData
+  }
+
   const widgets = [
     {
       widgetTitle: 'Beneficiarios',
@@ -153,7 +254,6 @@ const Dashboard = () => {
 
   return (
     <DashboradLayout className={darkMode ? 'app dark' : 'app ligth'}>
-      {console.log('setInterviewsPerStatus()', setInterviewsPerStatus())}
       <DashboardSection title={'Panel de control'}>
         <Container>
           <div className="scroll ">
@@ -182,6 +282,7 @@ const Dashboard = () => {
                     darkMode={darkMode}
                     title="Entevistas de los últimos 6 meses"
                     aspect={2 / 1}
+                    setInterviewsPerMonth={setInterviewsPerMonthInSemester()}
                   />
                 </div>
                 <div

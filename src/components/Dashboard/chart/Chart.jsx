@@ -8,24 +8,20 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 
-const data = [
-  { name: 'January', Total: 1200 },
-  { name: 'February', Total: 2100 },
-  { name: 'March', Total: 800 },
-  { name: 'April', Total: 1600 },
-  { name: 'May', Total: 900 },
-  { name: 'June', Total: 1700 },
-]
-
-const Chart = ({ aspect, title, darkMode }) => {
+const Chart = (props) => {
+  console.log('props', props)
   return (
-    <div className={darkMode ? 'chart border app dark' : 'chart border app light'}>
-      <div className="title">{title}</div>
-      <ResponsiveContainer width="100%" aspect={aspect}>
+    <div
+      className={
+        props.darkMode ? 'chart border app dark' : 'chart border app light'
+      }
+    >
+      <div className="title">{props.title}</div>
+      <ResponsiveContainer width="100%" aspect={props.aspect}>
         <AreaChart
           width={730}
           height={250}
-          data={data}
+          data={props.setInterviewsPerMonth}
           margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         >
           <defs>

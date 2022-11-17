@@ -108,7 +108,7 @@ export const MainContainer = styled.section`
 
 export const Header = styled.div`
   width: 100%;
-  width: auto;
+  /* width: auto; */
   height: 50px;
   border: 5px;
   /* border: 1px solid #00800088; */
@@ -122,6 +122,14 @@ export const Header = styled.div`
   left: 30px;
   left: 10px;
   /* left: 5px; */
+  /* background: #ad2121; */
+
+  border-bottom-color: rgba(60, 60, 60, 0.12);
+  /* background-color: #f9f9f9; */
+  backdrop-filter: saturate(50%) blur(8px);
+  transition: border-color 0.5s, background-color 0.5s;
+  /* background: rgba(255, 255, 255, 0.7); */
+  font-weight: 500;
 `
 
 export const SectionTittle = styled.h1`
