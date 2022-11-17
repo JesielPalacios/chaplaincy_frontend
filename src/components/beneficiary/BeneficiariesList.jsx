@@ -114,7 +114,7 @@ export default function CustomersList() {
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
-            {params.row.beneficiaryPhoto != 'null' ? (
+            {params.row.beneficiaryPhoto != 'undefined' ? (
               <img
                 crossOrigin="anonymous"
                 crossorigin="anonymous"
@@ -157,7 +157,7 @@ export default function CustomersList() {
       description: 'Correo electrónico de beneficiarios',
       width: 240,
       valueGetter: (params) =>
-        `${params.row.email != 'null' ? params.row.email : 'Inexistente'}`,
+        `${params.row.email != 'undefined' ? params.row.email : 'Inexistente'}`,
     },
 
     {
@@ -165,12 +165,7 @@ export default function CustomersList() {
       headerName: 'Núm. de ident.',
       description: 'Número de identificación del beneficiario',
       width: 132,
-      valueGetter: (params) =>
-        `${
-          params.row.cellPhoneNumber != 'null'
-            ? params.row.citizenshipNumberId
-            : 'Inexistente'
-        }`,
+      valueGetter: (params) => params.row.citizenshipNumberId,
     },
 
     {
@@ -180,7 +175,7 @@ export default function CustomersList() {
       width: 120,
       valueGetter: (params) =>
         `${
-          params.row.cellPhoneNumber != 'null'
+          params.row.cellPhoneNumber != 'undefined'
             ? params.row.cellPhoneNumber
             : 'Inexistente'
         }`,

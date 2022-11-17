@@ -39,12 +39,14 @@ export default function CustomerAddOrEditForm(props) {
   const [gender, setGender] = useState()
   const [typeCitizenshipNumberId, setTypeCitizenshipNumberId] = useState()
   const [citizenshipNumberId, setCitizenshipNumberId] = useState()
-  const [academicProgram, setAcademicProgram] = useState()
-  const [studentCode, setStudentCode] = useState()
-  const [semester, setSemester] = useState()
   const [email, setEmail] = useState()
   const [cellPhoneNumber, setCellPhoneNumber] = useState()
   const [address, setAddress] = useState()
+  const [maritalStatus, setMaritalStatus] = useState()
+  const [socialStratum, setSocialStratum] = useState()
+  const [academicProgram, setAcademicProgram] = useState()
+  const [studentCode, setStudentCode] = useState()
+  const [semester, setSemester] = useState()
   const [birthDate, setBirthDate] = useState()
   const [birthCountry, setBirthCountry] = useState()
   const [birthDepartment, setBirthDepartment] = useState()
@@ -309,7 +311,7 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setSecondName(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? customer.secondName && customer.secondSurname == 'null'
+              ? customer.secondName && customer.secondSurname == 'undefined'
                 ? ''
                 : customer.secondName &&
                   customer.secondName[0].toUpperCase() +
@@ -344,7 +346,7 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setSecondSurname(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? customer.secondSurname && customer.secondSurname == 'null'
+              ? customer.secondSurname && customer.secondSurname == 'undefined'
                 ? ''
                 : customer.secondSurname &&
                   customer.secondSurname[0].toUpperCase() +
@@ -427,7 +429,7 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setEmail(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? customer.email && customer.email == 'null'
+              ? customer.email && customer.email == 'undefined'
                 ? ''
                 : customer.email && customer.email
               : ''
@@ -443,7 +445,7 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setCellPhoneNumber(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? customer.cellPhoneNumber && customer.cellPhoneNumber == 'null'
+              ? customer.cellPhoneNumber && customer.cellPhoneNumber == 'undefined'
                 ? ''
                 : customer.cellPhoneNumber && customer.cellPhoneNumber
               : ''
@@ -459,7 +461,7 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setAddress(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? customer.address && customer.address == 'null'
+              ? customer.address && customer.address == 'undefined'
                 ? ''
                 : customer.address && customer.address
               : ''
@@ -563,7 +565,7 @@ export default function CustomerAddOrEditForm(props) {
           onChange={(e) => setStudentCode(e.target.value)}
           defaultValue={
             title === 'Editar beneficiario'
-              ? customer.studentCode && customer.studentCode == 'null'
+              ? customer.studentCode && customer.studentCode == 'undefined'
                 ? ''
                 : customer.studentCode && customer.studentCode
               : ''
@@ -571,7 +573,11 @@ export default function CustomerAddOrEditForm(props) {
         />
       </FormItem>
 
-      <FormItem id="academicProgram" title="Programa académico">
+      <FormItem
+        id="academicProgram"
+        title="Programa académico"
+        important={true}
+      >
         <Select
           inputId="academicProgram"
           options={academicProgramOptions}
@@ -592,7 +598,11 @@ export default function CustomerAddOrEditForm(props) {
         />
       </FormItem>
 
-      <FormItem id="semester" title="Semestre académico actual">
+      <FormItem
+        id="semester"
+        title="Semestre académico actual"
+        important={true}
+      >
         <Select
           inputId="semester"
           options={semesterOptions}
