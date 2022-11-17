@@ -1,13 +1,16 @@
 import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUploadOutlined'
 import SaveIcon from '@mui/icons-material/Save'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
+import Swal from 'sweetalert2'
 import { createCustomerService } from './beneficiaryService'
 import { demographic } from './cities'
 import { countries } from './countries'
 import { states } from './states'
 
 export default function CustomerAddOrEditForm(props) {
+  let navigate = useNavigate()
   // --------------------------------------------------------------------------
   // const [firstName, setFirstName] = useState('Pepito')
   // const [secondName, setSecondName] = useState(null)
@@ -237,66 +240,66 @@ export default function CustomerAddOrEditForm(props) {
     }
   }
 
-  function handleSubmit(e) {
-    e.preventDefault()
+  function checkDataValidationForNewBeneficiary() {
+    if (
+      firstName === undefined ||
+      firstSurname === undefined ||
+      gender === undefined ||
+      typeCitizenshipNumberId === undefined ||
+      citizenshipNumberId === undefined ||
+      address === undefined ||
+      religion === undefined ||
+      maritalStatus === undefined ||
+      socialStratum === undefined ||
+      categoryOcupation === undefined ||
+      birthDate === undefined ||
+      birthCountry === undefined ||
+      birthDepartment === undefined ||
+      academicProgram === undefined ||
+      semester === undefined ||
+      birthCity === undefined
+    )
+      return true
+  }
 
-    // if (checkDataValidation()) {
-    //   if (beneficiaryPhoto != null) {
-    //     if (
-    //       !(
-    //         beneficiaryPhoto.name.endsWith('.png') ||
-    //         beneficiaryPhoto.name.endsWith('.jpg') ||
-    //         beneficiaryPhoto.name.endsWith('.jpeg')
-    //       )
-    //     ) {
-    //       Swal.fire({
-    //         title: '<strong>Error de archivo</strong>',
-    //         icon: 'error',
-    //         html: 'No se puede aceptar este tipo de archivo, elija una imágen del tipo indicado!',
-    //         showCloseButton: true,
-    //         showCancelButton: false,
-    //         focusConfirm: false,
-    //         confirmButtonText: 'Aceptar',
-    //         confirmButtonAriaLabel: 'Aceptar',
-    //       })
-    //     }
-    //   }
+  function checkDataValidationForOldBeneficiary() {
+    if (
+      customer.firstName === 'null' ||
+      customer.firstSurname === 'null' ||
+      customer.gender === 'null' ||
+      customer.typeCitizenshipNumberId === 'null' ||
+      customer.citizenshipNumberId === 'null' ||
+      customer.address === 'null' ||
+      customer.religion === 'null' ||
+      customer.maritalStatus === 'null' ||
+      customer.socialStratum === 'null' ||
+      customer.categoryOcupation === 'null' ||
+      customer.birthDate === 'null' ||
+      customer.birthCountry === 'null' ||
+      customer.birthDepartment === 'null' ||
+      customer.academicProgram === 'null' ||
+      customer.semester === 'null' ||
+      customer.birthCity === 'null'
+    )
+      return true
+  }
 
-    //   createCustomerService(dispatch, isAuth, title, beneficiaryId, {
-    //     firstName: firstName,
-    //     secondName: secondName,
-    //     firstSurname: firstSurname,
-    //     secondSurname: secondSurname,
-    //     gender: gender,
-    //     typeCitizenshipNumberId: typeCitizenshipNumberId,
-    //     citizenshipNumberId: citizenshipNumberId,
-    //     academicProgram: academicProgram,
-    //     studentCode: studentCode,
-    //     semester: semester,
-    //     email: email,
-    //     cellPhoneNumber: cellPhoneNumber,
-    //     address: address,
-    //     birthDate: birthDate,
-    //     birthCountry: birthCountry,
-    //     birthDepartment: birthDepartment,
-    //     birthCity: birthCity,
-    //     beneficiaryPhoto,
-    //   }).then((id) => navigate('/beneficiario/' + id))
-    // } else {
-    //   Swal.fire({
-    //     title: '<strong>Faltan datos</strong>',
-    //     icon: 'error',
-    //     html: 'Verifique la infromación suministrada!',
-    //     showCloseButton: true,
-    //     showCancelButton: true,
-    //     focusConfirm: false,
-    //     confirmButtonText: 'Intentar de nuevo',
-    //     confirmButtonAriaLabel: 'Intentar de nuevo',
-    //     cancelButtonText: 'Cancelar',
-    //     cancelButtonAriaLabel: 'Cancelar',
-    //   })
-    // }
+  function showError() {
+    Swal.fire({
+      title: '<strong>Faltan datos</strong>',
+      icon: 'error',
+      html: 'Verifique la infromación suministrada!',
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: 'Intentar de nuevo',
+      confirmButtonAriaLabel: 'Intentar de nuevo',
+      cancelButtonText: 'Cancelar',
+      cancelButtonAriaLabel: 'Cancelar',
+    })
+  }
 
+  function createOrEditBeneficiary() {
     createCustomerService(dispatch, isAuth, title, beneficiaryId, {
       firstName: firstName,
       secondName: secondName,
@@ -320,7 +323,46 @@ export default function CustomerAddOrEditForm(props) {
       studentCode: studentCode,
       semester: semester,
       beneficiaryPhoto,
-    })
+    }).then((id) => navigate('/entrevistas/' + id))
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+
+    if (title === 'Crear nuevo beneficiario') {
+      if (beneficiaryPhoto != undefined) {
+        if (
+          !(
+            beneficiaryPhoto.name.endsWith('.png') ||
+            beneficiaryPhoto.name.endsWith('.jpg') ||
+            beneficiaryPhoto.name.endsWith('.jpeg')
+          )
+        ) {
+          Swal.fire({
+            title: '<strong>Error de archivo</strong>',
+            icon: 'error',
+            html: 'No se puede aceptar este tipo de archivo, elija una imágen del tipo indicado!',
+            showCloseButton: true,
+            showCancelButton: false,
+            focusConfirm: false,
+            confirmButtonText: 'Aceptar',
+            confirmButtonAriaLabel: 'Aceptar',
+          })
+        }
+      }
+
+      if (checkDataValidationForNewBeneficiary()) {
+        showError()
+      } else {
+        createOrEditBeneficiary()
+      }
+    } else if (title === 'Editar entrevista') {
+      if (checkDataValidationForOldBeneficiary()) {
+        showError()
+      } else {
+        createOrEditBeneficiary()
+      }
+    }
   }
 
   const beneficiaryFields = [
