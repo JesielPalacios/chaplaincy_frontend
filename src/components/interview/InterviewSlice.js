@@ -5,6 +5,7 @@ const interviewSlice = createSlice({
   initialState: {
     interviews: [],
     interview: {},
+    stats: {},
     loading: false,
     error: false,
   },
@@ -35,6 +36,11 @@ const interviewSlice = createSlice({
       state.loading = false
       state.error = false
     },
+    getInterviewStats: (state, action) => {
+      state.loading = false
+      state.error = false
+      state.stats = action.payload
+    },
   },
 })
 
@@ -46,4 +52,5 @@ export const {
   getInterview,
   resetInterview,
   resetFlags,
+  getInterviewStats,
 } = interviewSlice.actions

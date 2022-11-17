@@ -9,7 +9,10 @@ import { useUser } from '../../core/hooks/useUser'
 import { Container } from '../beneficiary/BeneficiariesList.styles'
 // import { Container } from '../beneficiary/Beneficiary.styles'
 import { getAllCustomersService } from '../beneficiary/beneficiaryService'
-import { getAllInterviewsService } from '../interview/interviewService'
+import {
+  getAllInterviewsService,
+  getInterviewStatsService,
+} from '../interview/interviewService'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import Chart from './chart/Chart'
 // import Chart from '../Chart'
@@ -23,9 +26,48 @@ const Dashboard = () => {
   const { darkMode } = useContext(DarkModeContext)
   const {
     customer: { customers, loading, error },
-    interview: { interviews },
+    interview,
   } = useSelector((state) => state)
   const dispatch = useDispatch()
+
+  function setInterviewsReferrals() {
+    let interviewsReferrals = 0
+
+    interview.stats.interviewsPerReferralDepartment &&
+      interview.stats.interviewsPerReferralDepartment.map((item) => {
+        if (item._id != 'No necesita remisión') {
+          interviewsReferrals += item.count
+        }
+      })
+
+    return interviewsReferrals
+  }
+
+  function setInterviewsPerStatus() {
+    let fullInterviews = 0
+    let pendingInterviews = 0
+    let canceledInterviews = 0
+    let interviewsCounter = 0
+
+    interview.stats.interviewsPerStatus &&
+      interview.stats.interviewsPerStatus.map((item) => {
+        if (item._id === 'Completada') {
+          fullInterviews += item.count
+        } else if (item._id === 'Pendiente') {
+          pendingInterviews += item.count
+        } else if (item._id === 'Cancelada') {
+          canceledInterviews += item.count
+        }
+        interviewsCounter += item.count
+      })
+
+    return {
+      fullInterviews,
+      pendingInterviews,
+      canceledInterviews,
+      interviewsCounter,
+    }
+  }
 
   const widgets = [
     {
@@ -53,7 +95,7 @@ const Dashboard = () => {
 
     {
       widgetTitle: 'Entrevistas',
-      counter: interviews.length,
+      counter: interview.interviews.length,
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
       percentage: '20',
@@ -70,7 +112,7 @@ const Dashboard = () => {
 
     {
       widgetTitle: 'Remisiones',
-      counter: interviews.length,
+      counter: setInterviewsReferrals(),
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
       percentage: '20',
@@ -87,7 +129,7 @@ const Dashboard = () => {
 
     {
       widgetTitle: 'Administradores',
-      counter: interviews.length,
+      counter: interview.interviews.length,
       link: '/administradores',
       linkLabel: 'Ver todos los administradores',
       percentage: '20',
@@ -106,14 +148,16 @@ const Dashboard = () => {
   useEffect(() => {
     getAllCustomersService(dispatch, isAuth)
     getAllInterviewsService(dispatch, isAuth)
+    getInterviewStatsService(dispatch, isAuth)
   }, [])
 
   return (
     <DashboradLayout className={darkMode ? 'app dark' : 'app ligth'}>
+      {console.log('setInterviewsPerStatus()', setInterviewsPerStatus())}
       <DashboardSection title={'Panel de control'}>
         <Container>
-          <div className="scroll">
-            <div className="home">
+          <div className="scroll ">
+            <div className=" home">
               <div className="homeContainer">
                 <div className="widgets">
                   {widgets.map((item) => (
@@ -130,7 +174,10 @@ const Dashboard = () => {
                   ))}
                 </div>
                 <div className="charts">
-                  <Featured darkMode={darkMode} />
+                  <Featured
+                    darkMode={darkMode}
+                    setInterviewsPerStatus={setInterviewsPerStatus()}
+                  />
                   <Chart
                     darkMode={darkMode}
                     title="Entevistas de los últimos 6 meses"

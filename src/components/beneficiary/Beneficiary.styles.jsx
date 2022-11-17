@@ -78,6 +78,7 @@ export const Container = styled.div`
           .itemTitle {
             margin-bottom: 10px;
             color: #555;
+            line-height: 40px;
 
             display: block;
             font-size: 2em;

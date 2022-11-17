@@ -43,10 +43,26 @@ export default function CustomersList() {
   } = useSelector((state) => state)
   const dispatch = useDispatch()
 
-  function handleDelete(id) {
+  function handleDelete(id, params) {
+    let dataFromItemMatched
+
+    customers.map((item) => {
+      if (item.citizenshipNumberId === params.row.beneficiary) {
+        dataFromItemMatched =
+          item.firstName[0].toUpperCase() +
+          item.firstName.slice(1).toLowerCase() +
+          ' ' +
+          item.firstSurname[0].toUpperCase() +
+          item.firstSurname.slice(1).toLowerCase()
+      }
+    })
+
     Swal.fire({
-      title: '¿Está seguro?',
-      text: 'Esta acción no se podrá revertir.',
+      title: '¿Está seguro de eliminar?',
+      text:
+        'Esta acción no se podrá revertir, y se habrá borrado esta entrevista para el usuario ' +
+        dataFromItemMatched +
+        '.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'var(--first)',
@@ -100,7 +116,7 @@ export default function CustomersList() {
             {/* <div className="deleteButton" onClick={() => handleDelete(params.row.id)}> */}
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row._id)}
+              onClick={() => handleDelete(params.row._id, params)}
             >
               Borrar
               <DeleteOutlinedIcon className="productListDelete" />
