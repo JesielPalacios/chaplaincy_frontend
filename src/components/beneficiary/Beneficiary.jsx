@@ -133,19 +133,32 @@ export default function Customer() {
                         <div className="detailItem">
                           <span className="itemKey">Tipo de beneficiario:</span>
                           <span className="itemValue">
+                            {customer.categoryOrTypeOfOcupation &&
+                              customer.categoryOrTypeOfOcupation}
+                          </span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">Género:</span>
+                          <span className="itemValue">
                             {customer.gender && customer.gender}
                           </span>
                         </div>
                         <div className="detailItem">
-                          <div className="detailItem">
-                            <span className="itemKey">Género:</span>
-                            <span className="itemValue">
-                              {customer.gender && customer.gender}
-                            </span>
-                          </div>
+                          <span className="itemKey">Estado civil:</span>
+                          <span className="itemValue">
+                            {customer.maritalStatus && customer.maritalStatus}
+                          </span>
+                        </div>
+                        <div className="detailItem">
                           <span className="itemKey">Estrato social:</span>
                           <span className="itemValue">
-                            {customer.gender && customer.gender}
+                            {customer.socialStratum && customer.socialStratum}
+                          </span>
+                        </div>
+                        <div className="detailItem">
+                          <span className="itemKey">Religión:</span>
+                          <span className="itemValue">
+                            {customer.religion && customer.religion}
                           </span>
                         </div>
                         {customer.academicProgram && (

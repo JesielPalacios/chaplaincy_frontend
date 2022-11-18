@@ -13,9 +13,9 @@ export default function CustomerAddOrEditForm(props) {
   let navigate = useNavigate()
   // --------------------------------------------------------------------------
   // const [firstName, setFirstName] = useState('Pepito')
-  // const [secondName, setSecondName] = useState(null)
+  // const [secondName, setSecondName] = useState(undefined)
   // const [firstSurname, setFirstSurname] = useState('Pérez')
-  // const [secondSurname, setSecondSurname] = useState(null)
+  // const [secondSurname, setSecondSurname] = useState(undefined)
   // const [gender, setGender] = useState('Masculino')
   // const [typeCitizenshipNumberId, setTypeCitizenshipNumberId] = useState(
   //   'Cédula de ciudadanía'
@@ -24,8 +24,8 @@ export default function CustomerAddOrEditForm(props) {
   // const [academicProgram, setAcademicProgram] = useState('No aplica')
   // const [studentCode, setStudentCode] = useState('No aplica')
   // const [semester, setSemester] = useState('No aplica')
-  // const [email, setEmail] = useState(null)
-  // const [cellPhoneNumber, setCellPhoneNumber] = useState(null)
+  // const [email, setEmail] = useState(undefined)
+  // const [cellPhoneNumber, setCellPhoneNumber] = useState(undefined)
   // const [address, setAddress] = useState(
   //   'Carrera 84#33aa-01 La Castellana /Medellin-Colombia'
   // )
@@ -47,7 +47,7 @@ export default function CustomerAddOrEditForm(props) {
   const [religion, setReligion] = useState()
   const [maritalStatus, setMaritalStatus] = useState()
   const [socialStratum, setSocialStratum] = useState()
-  const [categoryOcupation, setCategoryOcupation] = useState()
+  const [categoryOrTypeOfOcupation, setCategoryOrTypeOfOcupation] = useState()
   const [birthDate, setBirthDate] = useState()
   const [birthCountry, setBirthCountry] = useState()
   const [birthDepartment, setBirthDepartment] = useState()
@@ -223,16 +223,16 @@ export default function CustomerAddOrEditForm(props) {
 
   function checkDataValidation() {
     if (
-      firstName != null &&
-      firstSurname != null &&
-      gender != null &&
-      typeCitizenshipNumberId != null &&
-      citizenshipNumberId != null &&
-      address != null &&
-      birthDate != null &&
-      birthCountry != null &&
-      birthDepartment != null &&
-      birthCity != null
+      firstName != undefined &&
+      firstSurname != undefined &&
+      gender != undefined &&
+      typeCitizenshipNumberId != undefined &&
+      citizenshipNumberId != undefined &&
+      address != undefined &&
+      birthDate != undefined &&
+      birthCountry != undefined &&
+      birthDepartment != undefined &&
+      birthCity != undefined
     ) {
       return true
     } else {
@@ -247,11 +247,10 @@ export default function CustomerAddOrEditForm(props) {
       gender === undefined ||
       typeCitizenshipNumberId === undefined ||
       citizenshipNumberId === undefined ||
-      address === undefined ||
       religion === undefined ||
       maritalStatus === undefined ||
       socialStratum === undefined ||
-      categoryOcupation === undefined ||
+      categoryOrTypeOfOcupation === undefined ||
       birthDate === undefined ||
       birthCountry === undefined ||
       birthDepartment === undefined ||
@@ -264,22 +263,21 @@ export default function CustomerAddOrEditForm(props) {
 
   function checkDataValidationForOldBeneficiary() {
     if (
-      customer.firstName === 'null' ||
-      customer.firstSurname === 'null' ||
-      customer.gender === 'null' ||
-      customer.typeCitizenshipNumberId === 'null' ||
-      customer.citizenshipNumberId === 'null' ||
-      customer.address === 'null' ||
-      customer.religion === 'null' ||
-      customer.maritalStatus === 'null' ||
-      customer.socialStratum === 'null' ||
-      customer.categoryOcupation === 'null' ||
-      customer.birthDate === 'null' ||
-      customer.birthCountry === 'null' ||
-      customer.birthDepartment === 'null' ||
-      customer.academicProgram === 'null' ||
-      customer.semester === 'null' ||
-      customer.birthCity === 'null'
+      customer.firstName === 'undefined' ||
+      customer.firstSurname === 'undefined' ||
+      customer.gender === 'undefined' ||
+      customer.typeCitizenshipNumberId === 'undefined' ||
+      customer.citizenshipNumberId === 'undefined' ||
+      customer.religion === 'undefined' ||
+      customer.maritalStatus === 'undefined' ||
+      customer.socialStratum === 'undefined' ||
+      customer.categoryOrTypeOfOcupation === 'undefined' ||
+      customer.birthDate === 'undefined' ||
+      customer.birthCountry === 'undefined' ||
+      customer.birthDepartment === 'undefined' ||
+      customer.academicProgram === 'undefined' ||
+      customer.semester === 'undefined' ||
+      customer.birthCity === 'undefined'
     )
       return true
   }
@@ -314,7 +312,7 @@ export default function CustomerAddOrEditForm(props) {
       religion: religion,
       maritalStatus: maritalStatus,
       socialStratum: socialStratum,
-      categoryOcupation: categoryOcupation,
+      categoryOrTypeOfOcupation: categoryOrTypeOfOcupation,
       birthDate: birthDate,
       birthCountry: birthCountry,
       birthDepartment: birthDepartment,
@@ -323,46 +321,57 @@ export default function CustomerAddOrEditForm(props) {
       studentCode: studentCode,
       semester: semester,
       beneficiaryPhoto,
-    }).then((id) => navigate('/entrevistas/' + id))
+    })
+    // .then((id) => navigate('/beneficiarios/' + id))
   }
 
   function handleSubmit(e) {
     e.preventDefault()
 
-    if (title === 'Crear nuevo beneficiario') {
-      if (beneficiaryPhoto != undefined) {
-        if (
-          !(
-            beneficiaryPhoto.name.endsWith('.png') ||
-            beneficiaryPhoto.name.endsWith('.jpg') ||
-            beneficiaryPhoto.name.endsWith('.jpeg')
-          )
-        ) {
-          Swal.fire({
-            title: '<strong>Error de archivo</strong>',
-            icon: 'error',
-            html: 'No se puede aceptar este tipo de archivo, elija una imágen del tipo indicado!',
-            showCloseButton: true,
-            showCancelButton: false,
-            focusConfirm: false,
-            confirmButtonText: 'Aceptar',
-            confirmButtonAriaLabel: 'Aceptar',
-          })
-        }
-      }
+    // // checkDataValidationForNewBeneficiary()
+    // console.log(
+    //   'checkDataValidationForNewBeneficiary()',
+    //   checkDataValidationForNewBeneficiary()
+    // )
+    // if (title === 'Crear nuevo beneficiario') {
+    //   if (beneficiaryPhoto != undefined) {
+    //     if (
+    //       !(
+    //         beneficiaryPhoto.name.endsWith('.png') ||
+    //         beneficiaryPhoto.name.endsWith('.jpg') ||
+    //         beneficiaryPhoto.name.endsWith('.jpeg')
+    //       )
+    //     ) {
+    //       Swal.fire({
+    //         title: '<strong>Error de archivo</strong>',
+    //         icon: 'error',
+    //         html: 'No se puede aceptar este tipo de archivo, elija una imágen del tipo indicado!',
+    //         showCloseButton: true,
+    //         showCancelButton: false,
+    //         focusConfirm: false,
+    //         confirmButtonText: 'Aceptar',
+    //         confirmButtonAriaLabel: 'Aceptar',
+    //       })
+    //     }
+    //   }
 
-      if (checkDataValidationForNewBeneficiary()) {
-        showError()
-      } else {
-        createOrEditBeneficiary()
-      }
-    } else if (title === 'Editar entrevista') {
-      if (checkDataValidationForOldBeneficiary()) {
-        showError()
-      } else {
-        createOrEditBeneficiary()
-      }
-    }
+    //   if (checkDataValidationForNewBeneficiary()) {
+    //     showError()
+    //   } else {
+    //     createOrEditBeneficiary()
+    //   }
+    // } else if (title === 'Editar beneficiario') {
+    //   // if (!checkDataValidationForOldBeneficiary()) {
+    //   //   showError()
+    //   // } else {
+    //   //   createOrEditBeneficiary()
+    //   // }
+    //   createOrEditBeneficiary()
+    // }
+
+    //
+    createOrEditBeneficiary()
+    //
   }
 
   const beneficiaryFields = [
@@ -665,12 +674,12 @@ export default function CustomerAddOrEditForm(props) {
       ),
     },
     {
-      id: 'categoryOcupation',
+      id: 'categoryOrTypeOfOcupation',
       title: 'Categoría o tipo de beneficiario',
       important: true,
       element: (
         <Select
-          inputId="categoryOcupation"
+          inputId="categoryOrTypeOfOcupation"
           required
           options={categoryOcupationOptions.map((item) => ({
             label: item,
@@ -680,12 +689,12 @@ export default function CustomerAddOrEditForm(props) {
           isClearable={true}
           hideSelectedOptions={true}
           styles={customStyles}
-          onChange={({ value }) => setCategoryOcupation(value)}
+          onChange={({ value }) => setCategoryOrTypeOfOcupation(value)}
           defaultValue={
             title === 'Editar beneficiario'
               ? {
-                  value: customer.categoryOcupation,
-                  label: customer.categoryOcupation,
+                  value: customer.categoryOrTypeOfOcupation,
+                  label: customer.categoryOrTypeOfOcupation,
                 }
               : ''
           }

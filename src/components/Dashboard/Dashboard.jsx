@@ -505,7 +505,7 @@ const Dashboard = () => {
                         tipo/categoría o tema, capellán y/o año. Es importate
                         tener en cuenta que las categorías o filtros que no
                         aparecen es porque no tienen información, es decir,
-                        todavía no hay entrevistas con esas categorías.:
+                        todavía no hay beneficiarios con esas categorías.:
                       </p>
                       <div className="summary">
                         <div className="item">
@@ -653,6 +653,94 @@ const Dashboard = () => {
                           </div>
                           {customer.stats.birthCity &&
                             customer.stats.birthCity.map((item, index) => (
+                              <div className="itemResult" key={index}>
+                                <div className="resultAmount">
+                                  {item._id}: {item.count}, con un porcentaje
+                                  del{' '}
+                                  {Math.round(
+                                    (item.count * 100) /
+                                      customer.customers.length
+                                  )}
+                                  %
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por estado civil:
+                          </div>
+                          {customer.stats.maritalStatus &&
+                            customer.stats.maritalStatus.map((item, index) => (
+                              <div className="itemResult" key={index}>
+                                <div className="resultAmount">
+                                  {item._id}: {item.count}, con un porcentaje
+                                  del{' '}
+                                  {Math.round(
+                                    (item.count * 100) /
+                                      customer.customers.length
+                                  )}
+                                  %
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por estrato social:
+                          </div>
+                          {customer.stats.socialStratum &&
+                            customer.stats.socialStratum.map((item, index) => (
+                              <div className="itemResult" key={index}>
+                                <div className="resultAmount">
+                                  {item._id}: {item.count}, con un porcentaje
+                                  del{' '}
+                                  {Math.round(
+                                    (item.count * 100) /
+                                      customer.customers.length
+                                  )}
+                                  %
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por religión:
+                          </div>
+                          {customer.stats.religion &&
+                            customer.stats.religion.map((item, index) => (
+                              <div className="itemResult" key={index}>
+                                <div className="resultAmount">
+                                  {item._id}: {item.count}, con un porcentaje
+                                  del{' '}
+                                  {Math.round(
+                                    (item.count * 100) /
+                                      customer.customers.length
+                                  )}
+                                  %
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      <div className="summary">
+                        <div className="item">
+                          <div className="itemTitle">
+                            Por tipo de beneficiario:
+                          </div>
+                          {customer.stats.categoryOrTypeOfOcupation &&
+                            customer.stats.categoryOrTypeOfOcupation.map((item, index) => (
                               <div className="itemResult" key={index}>
                                 <div className="resultAmount">
                                   {item._id}: {item.count}, con un porcentaje

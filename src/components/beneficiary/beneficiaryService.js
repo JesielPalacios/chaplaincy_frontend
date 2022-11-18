@@ -7,6 +7,7 @@ import {
   resetFlags,
   getBeneficiaryPhoto,
   getBeneficiaryStats,
+  setErrorInfo,
 } from './beneficiarySlice.js'
 
 export async function getAllCustomersService(dispatch, token) {
@@ -17,9 +18,6 @@ export async function getAllCustomersService(dispatch, token) {
       process.env.REACT_APP_API_HOST + '/api/beneficiaries',
       {
         headers: {
-          // crossOriginIsolated:"anonymous",
-          // crossOrigin: 'anonymous',
-
           Authorization: token,
         },
       }
@@ -27,7 +25,8 @@ export async function getAllCustomersService(dispatch, token) {
 
     dispatch(getAllCustomers(res.data))
   } catch (err) {
-    console.log('error', err)
+    console.log('error in getAllCustomersService', err)
+    dispatch(setErrorInfo(err))
     dispatch(error())
   }
 }
@@ -48,8 +47,9 @@ export async function getCustomerService(dispatch, token, id) {
     dispatch(getCustomer(res.data))
   } catch (err) {
     dispatch(getCustomer({}))
-    console.log('error', err)
+    dispatch(setErrorInfo(err))
     dispatch(error())
+    console.log('error in getCustomerService', err)
   }
 }
 
@@ -120,7 +120,8 @@ export async function createCustomerService(
     return res.data._id
   } catch (err) {
     dispatch(getCustomer({}))
-    console.log('error', err.response.data)
+    console.log('error in createCustomerService', err)
+    dispatch(setErrorInfo({...err}))
     dispatch(error())
   }
 }
@@ -142,7 +143,8 @@ export async function deleteBeneficiaryService(dispatch, token, id) {
     dispatch(resetFlags())
   } catch (err) {
     dispatch(getCustomer({}))
-    // console.log('error', err)
+    console.log('error in deleteBeneficiaryService', err)
+    dispatch(setErrorInfo(err))
     dispatch(error())
   }
 }
@@ -161,7 +163,8 @@ export async function getBeneficiaryImageService(dispatch, id) {
     // console.log('res', res.data)
   } catch (err) {
     dispatch(getBeneficiaryPhoto(''))
-    // console.log('error', err)
+    console.log('error in getBeneficiaryImageService', err)
+    dispatch(setErrorInfo(err))
     dispatch(error())
   }
 }
@@ -183,7 +186,8 @@ export async function getBeneficiaryStatsService(dispatch, token) {
     dispatch(getBeneficiaryStats(res.data))
   } catch (err) {
     dispatch(getBeneficiaryStats({}))
-    // console.log('error', err)
+    console.log('error in getBeneficiaryStatsService', err)
+    dispatch(setErrorInfo(err))
     dispatch(error())
   }
 }

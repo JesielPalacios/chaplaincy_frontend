@@ -116,7 +116,7 @@ export const List = (props) => {
               <TableRow key={row._id}>
                 <TableCell className="tableCell">
                   <div className="cellWrapper">
-                    {/* {setBeneficiary(row.beneficiary).beneficiaryFound
+                    {setBeneficiary(row.beneficiary).beneficiaryFound
                       .beneficiaryPhoto != 'null' ? (
                       <img
                         crossOrigin="anonymous"
@@ -135,7 +135,7 @@ export const List = (props) => {
                         src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                         alt=" "
                       />
-                    )} */}
+                    )}
                     {setBeneficiary(row.beneficiary).name}
                   </div>
                 </TableCell>

@@ -152,6 +152,45 @@ export const Container = styled.div`
       color: #ffffff;
     }
   }
+
+  /*  */
+  /*  */
+  /*  */
+  /* Accordion */
+  details {
+    overflow: hidden;
+    margin-top: 0.125em;
+    border: 1px solid #dddddd;
+    background: #ffffff;
+    color: #333333;
+    border-radius: 3px;
+  }
+
+  details summary {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    padding: 0.5em 0.5em 0.5em 0.7em;
+    background: #ededed;
+    color: #2b2b2b;
+    border-radius: 3px 3px 0 0;
+  }
+
+  details:not([open]) summary:hover,
+  details:not([open]) summary:focus {
+    background: #f6f6f6;
+    color: #454545;
+  }
+
+  details[open] summary {
+    border: 1px solid #003eff;
+    background: #007fff;
+    color: #ffffff;
+  }
+
+  details main {
+    padding: 1em 2.2em;
+  }
 `
 
 export const customerInputs = [

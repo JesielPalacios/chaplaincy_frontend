@@ -8,6 +8,7 @@ const customerSlice = createSlice({
     stats: {},
     loading: false,
     error: false,
+    errorInfo: {},
   },
   reducers: {
     loading: (state) => {
@@ -46,6 +47,9 @@ const customerSlice = createSlice({
       state.error = false
       state.stats = action.payload
     },
+    setErrorInfo: (state, action) => {
+      state.errorInfo = action.payload
+    },
   },
 })
 
@@ -59,4 +63,5 @@ export const {
   resetCustomer,
   resetFlags,
   getBeneficiaryStats,
+  setErrorInfo,
 } = customerSlice.actions
