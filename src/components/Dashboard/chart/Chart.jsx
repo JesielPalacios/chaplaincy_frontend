@@ -14,13 +14,14 @@ const Chart = (props) => {
       className={
         props.darkMode ? 'chart border app dark' : 'chart border app light'
       }
+      style={props.flex ? { flex: props.flex } : {}}
     >
       <div className="title">{props.title}</div>
       <ResponsiveContainer width="100%" aspect={props.aspect}>
         <AreaChart
           width={730}
           height={250}
-          data={props.setInterviewsPerMonth}
+          data={props.data}
           margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         >
           <defs>

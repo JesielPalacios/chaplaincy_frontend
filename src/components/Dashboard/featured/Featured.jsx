@@ -8,7 +8,7 @@ import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutl
 const Featured = (props) => {
   const {
     setInterviewsPerStatus: {
-      fullInterviews,
+      completedInterviews,
       pendingInterviews,
       canceledInterviews,
       interviewsCounter,
@@ -30,10 +30,10 @@ const Featured = (props) => {
         <div className="featuredChart">
           <CircularProgressbar
             value={
-              (fullInterviews * 100) / (interviewsCounter - canceledInterviews)
+              (completedInterviews * 100) / (interviewsCounter - canceledInterviews)
             }
             text={
-              (fullInterviews * 100) /
+              (completedInterviews * 100) /
                 (interviewsCounter - canceledInterviews) +
               '%'
             }
@@ -59,7 +59,7 @@ const Featured = (props) => {
             <div className="itemTitle">Completadas</div>
             <div className="itemResult positive">
               <KeyboardArrowUpOutlinedIcon fontSize="small" />
-              <div className="resultAmount">{fullInterviews}</div>
+              <div className="resultAmount">{completedInterviews}</div>
             </div>
           </div>
           <div className="item">

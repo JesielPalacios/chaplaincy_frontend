@@ -168,6 +168,113 @@ export const Container = styled.div`
       background-color: #9697af;
     } */
   }
+
+  /*  */
+  /*  */
+  /*  */
+
+  .itemImg {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .stats {
+    /* max-width: 900px; */
+    display: flex;
+    /* flex-wrap: wrap; */
+
+    /* display: flex; */
+    /* -webkit-box-pack: center; */
+    /* justify-content: center; */
+    /* -webkit-box-align: center; */
+    /* align-items: center; */
+    flex-wrap: wrap;
+    /* max-width: 1920px; */
+    gap: 10px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+  .summary {
+    /* width: auto; */
+  }
+  .details {
+    .itemTitle {
+      margin-bottom: 10px;
+      color: #555;
+      line-height: 40px;
+
+      display: block;
+      font-size: 2em;
+      /* margin-block-start: 0.67em; */
+      /* margin-block-start: 0.27em; */
+      /* margin-block-end: 0.67em; */
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      font-weight: bold;
+
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    }
+    .itemTitle2 {
+      /* margin-top: 10px; */
+      color: #555;
+      line-height: 40px;
+
+      display: block;
+      font-size: 1.5em;
+      /* margin-block-start: 0.67em; */
+      /* margin-block-start: 0.27em; */
+      /* margin-block-end: 0.67em; */
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      font-weight: bold;
+
+      /* padding-bottom: 10px; */
+      border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    }
+
+    .detailItem {
+      /* margin-bottom: 10px; */
+      font-size: 14px;
+
+      .itemKey {
+        font-weight: bold;
+        color: gray;
+        /* margin-right: 5px; */
+      }
+
+      .itemValue {
+        font-weight: 300;
+      }
+    }
+  }
+
+  .itemResult {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+    /* background-color: gray; */
+    padding: 5px;
+
+    /* background-color: rgba(128, 128, 128, 0.324); */
+    /* color: rgb(221, 221, 221); */
+    /* color: gray; */
+
+    border-radius: 10px;
+
+    &.positive {
+      color: green;
+    }
+
+    &.negative {
+      color: red;
+    }
+  }
 `
 
 export const AddUser = styled.button`

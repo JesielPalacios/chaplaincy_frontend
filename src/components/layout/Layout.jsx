@@ -71,6 +71,12 @@ const Wrapper = styled.section`
   position: relative;
   overflow: hidden;
 `
+const Wrapper2 = styled.section`
+  /* display: -webkit-box; */
+  /* display: -webkit-flex; */
+  /* display: -ms-flexbox; */
+  display: flex;
+`
 
 export const DashboardSection = ({ children, title }) => {
   const { sidebar } = useUser()

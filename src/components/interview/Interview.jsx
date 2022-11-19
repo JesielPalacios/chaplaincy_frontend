@@ -4,13 +4,11 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
-
 import { useUser } from '../../core/hooks/useUser'
-import Chart from '../Chart'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import { Seo } from '../layout/Seo'
-import { AddUser, ButtonsWrapper, Loading } from './InterviewList.styles'
 import { Container } from './Interview.styles'
+import { AddUser, ButtonsWrapper, Loading } from './InterviewList.styles'
 import {
   deleteInterviewService,
   getAllInterviewsService,
@@ -73,6 +71,8 @@ export default function Customer() {
 
   useEffect(() => {
     getInterviewService(dispatch, isAuth, interviewId)
+
+    if (interview.interview === undefined) navigate('/entrevistas/')
   }, [])
 
   return (
