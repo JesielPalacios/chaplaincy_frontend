@@ -11,12 +11,12 @@ import { useUser } from '../../core/hooks/useUser'
 import { getAllUsersService } from '../../services/user.service'
 import {
   getAllCustomersService,
-  getBeneficiaryStatsService
+  getBeneficiaryStatsService,
 } from '../beneficiary/beneficiaryService'
 import {
   getAllInterviewsService,
   getInterviewStatsService,
-  getLatestInterviewsService
+  getLatestInterviewsService,
 } from '../interview/interviewService'
 
 // Components
@@ -37,17 +37,28 @@ const Dashboard = () => {
 
   const dispatch = useDispatch()
 
-  function setInterviewsReferrals() {
-    let interviewsReferrals = 0
+  let date = new Date()
 
-    interview.stats.interviewsPerReferralDepartment &&
-      interview.stats.interviewsPerReferralDepartment.map((item) => {
-        if (item._id != 'No necesita remisión') {
-          interviewsReferrals += item.count
+  function findByCategoryFilter(stats, descriptionProcess) {
+    let counter = 0
+
+    descriptionProcess.counter &&
+      stats &&
+      stats.map((item) => {
+        if (item._id != descriptionProcess.description) {
+          counter += item.count
         }
       })
 
-    return interviewsReferrals
+    !descriptionProcess.counter &&
+      stats &&
+      stats.map((item) => {
+        if (item._id === descriptionProcess.description) {
+          counter += item.count
+        }
+      })
+
+    return counter
   }
 
   function setInterviewsPerStatus() {
@@ -236,7 +247,10 @@ const Dashboard = () => {
 
     {
       widgetTitle: 'Remisiones',
-      counter: setInterviewsReferrals(),
+      counter: findByCategoryFilter(
+        interview.stats.interviewsPerReferralDepartment,
+        { counter: true, description: 'No necesita remisión' }
+      ),
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
       percentage: '20',
@@ -328,11 +342,20 @@ const Dashboard = () => {
     },
     {
       widgetTitle: 'Entrevistas sin remisión a otros departamentos',
-      counter: setInterviewsReferrals() - interview.interviews.length,
+      counter:
+        findByCategoryFilter(interview.stats.interviewsPerReferralDepartment, {
+          counter: true,
+          description: 'No necesita remisión',
+        }) - interview.interviews.length,
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
       percentage:
-        ((setInterviewsReferrals() - interview.interviews.length) * 100) /
+        ((findByCategoryFilter(
+          interview.stats.interviewsPerReferralDepartment,
+          { counter: true, description: 'No necesita remisión' }
+        ) -
+          interview.interviews.length) *
+          100) /
         interview.interviews.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
@@ -349,12 +372,19 @@ const Dashboard = () => {
   const widgets3 = [
     {
       widgetTitle: 'Estudiantes de la UNAC',
-      counter: setInterviewsPerStatus().completedInterviews,
-      link: '/entrevistas',
-      linkLabel: 'Ver todas las entrevistas',
+      counter: findByCategoryFilter(customer.stats.categoryOrTypeOfOcupation, {
+        counter: false,
+        description: 'Estudiante de la UNAC',
+      }),
+      link: '/beneficiarios',
+      linkLabel: 'Ver todos los beneficiarios',
       percentage:
-        (setInterviewsPerStatus().completedInterviews * 100) /
-        interview.interviews.length,
+        (findByCategoryFilter(customer.stats.categoryOrTypeOfOcupation, {
+          counter: false,
+          description: 'Estudiante de la UNAC',
+        }) *
+          100) /
+        customer.customers.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -368,12 +398,20 @@ const Dashboard = () => {
 
     {
       widgetTitle: 'Miembros de la IASD',
-      counter: setInterviewsPerStatus().pendingInterviews,
-      link: '/entrevistas',
-      linkLabel: 'Ver todas las entrevistas',
+      counter: findByCategoryFilter(customer.stats.religion, {
+        counter: false,
+        description: 'Cristiano',
+      }),
+      link: '/beneficiarios',
+      linkLabel: 'Ver todos los beneficiarios',
       percentage:
-        (setInterviewsPerStatus().pendingInterviews * 100) /
-        interview.interviews.length,
+        ((findByCategoryFilter(customer.stats.religion, {
+          counter: false,
+          description: 'Cristiano',
+        }) -
+          customer.customers.length) *
+          100) /
+        customer.customers.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -384,15 +422,21 @@ const Dashboard = () => {
         />
       ),
     },
-
     {
       widgetTitle: 'Registrados este mes',
-      counter: setInterviewsPerStatus().canceledInterviews,
-      link: '/entrevistas',
-      linkLabel: 'Ver todas las entrevistas',
+      counter: findByCategoryFilter(customer.stats.createdPerMonth, {
+        counter: false,
+        description: date.getMonth() + 1,
+      }),
+      link: '/beneficiarios',
+      linkLabel: 'Ver todos los beneficiarios',
       percentage:
-        (setInterviewsPerStatus().canceledInterviews * 100) /
-        interview.interviews.length,
+        (findByCategoryFilter(customer.stats.createdPerMonth, {
+          counter: false,
+          description: date.getMonth() + 1,
+        }) *
+          100) /
+        customer.customers.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -405,12 +449,18 @@ const Dashboard = () => {
     },
     {
       widgetTitle: 'Registrados este año',
-      counter: setInterviewsReferrals() - interview.interviews.length,
-      link: '/entrevistas',
-      linkLabel: 'Ver todas las entrevistas',
+      counter: findByCategoryFilter(customer.stats.createdPerYear, {
+        description: date.getFullYear(),
+      }),
+      link: '/beneficiarios',
+      linkLabel: 'Ver todos los beneficiarios',
       percentage:
-        ((setInterviewsReferrals() - interview.interviews.length) * 100) /
-        interview.interviews.length,
+        ((findByCategoryFilter(customer.stats.createdPerYear, {
+          description: date.getFullYear(),
+        }) -
+          customer.customers.length) *
+          100) /
+        customer.customers.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -746,6 +796,56 @@ const Dashboard = () => {
                 {/*  */}
                 {/*  */}
                 {/*  */}
+
+                {/* <div className="charts">
+                  <div
+                    style={{
+                      display: 'flex',
+                      display: 'grid',
+                      flexWrap: 'wrap',
+                      gap: '10px',
+                      marginBottom: '5px',
+                      gridTemplateColumns: '3fr 1fr',
+                    }}
+                  >
+                    <Chart
+                      darkMode={darkMode}
+                      title="Beneficiarios creados a lo largo del último año"
+                      aspect={2 / 1}
+                      data={setInterviewsPerMonthInSemester(
+                        firstAndSecondSemester,
+                        customer.stats.createdPerMonth
+                      )}
+                    />
+                    <div>
+                      <div
+                        className="widgets"
+                        style={{
+                          display: 'flex',
+                          display: 'grid',
+                          flexWrap: 'nowrap',
+                          flexDirection: 'column',
+                          gap: '10px',
+                          marginBottom: '5px',
+                          gridTemplateColumns: '1fr',
+                        }}
+                      >
+                        {widgets3.map((item) => (
+                          <Widget
+                            key={item.widgetTitle}
+                            darkMode={darkMode}
+                            widgetTitle={item.widgetTitle}
+                            counter={item.counter}
+                            link={item.link}
+                            linkLabel={item.linkLabel}
+                            percentage={item.percentage}
+                            icon={item.icon}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
 
                 <div className="charts">
                   <div
