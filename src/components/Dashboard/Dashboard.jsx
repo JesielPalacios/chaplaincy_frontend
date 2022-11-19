@@ -405,11 +405,10 @@ const Dashboard = () => {
       link: '/beneficiarios',
       linkLabel: 'Ver todos los beneficiarios',
       percentage:
-        ((findByCategoryFilter(customer.stats.religion, {
+        (findByCategoryFilter(customer.stats.religion, {
           counter: false,
           description: 'Cristiano',
-        }) -
-          customer.customers.length) *
+        }) *
           100) /
         customer.customers.length,
       icon: (
@@ -455,10 +454,9 @@ const Dashboard = () => {
       link: '/beneficiarios',
       linkLabel: 'Ver todos los beneficiarios',
       percentage:
-        ((findByCategoryFilter(customer.stats.createdPerYear, {
+        (findByCategoryFilter(customer.stats.createdPerYear, {
           description: date.getFullYear(),
-        }) -
-          customer.customers.length) *
+        }) *
           100) /
         customer.customers.length,
       icon: (
@@ -496,10 +494,6 @@ const Dashboard = () => {
     {
       title: 'Por tipo de género',
       stats: customer.stats.gender,
-    },
-    {
-      title: 'Por departamento de remisión',
-      stats: interview.stats.interviewsPerReferralDepartment,
     },
     {
       title: 'Por tipo de documento de identificación',
