@@ -608,7 +608,7 @@ const Dashboard = () => {
                     darkMode={darkMode}
                     setInterviewsPerStatus={setInterviewsPerStatus()}
                   />
-                  <Chart
+                  {/* <Chart
                     darkMode={darkMode}
                     title="Entrevistas de los últimos 6 meses del año"
                     aspect={2 / 1}
@@ -617,7 +617,32 @@ const Dashboard = () => {
                       interview.stats.createdPerMonth
                     )}
                     flex={4}
-                  />
+                  /> */}
+
+                  {/* {console.log(
+                    'interview.stats.createdPerMonth',
+                    interview.stats.createdPerMonth
+                  )}
+                  {console.log(
+                    setInterviewsPerMonthInSemester(
+                      secondSemester,
+                      interview.stats.createdPerMonth
+                    )
+                  )} */}
+
+                  {interviewsCharts.map((item, index) => {
+                    if (index === 1) {
+                      return (
+                        <Chart
+                          darkMode={darkMode}
+                          title={item.title}
+                          aspect={2 / 1}
+                          data={item.data}
+                          flex={4}
+                        />
+                      )
+                    }
+                  })}
                 </div>
                 <div
                   className={
@@ -849,7 +874,7 @@ const Dashboard = () => {
                       flexWrap: 'wrap',
                       gap: '10px',
                       marginBottom: '5px',
-                      gridTemplateColumns: '3fr 1fr',
+                      gridTemplateColumns: '4fr 1fr',
                     }}
                   >
                     <Chart
@@ -947,8 +972,7 @@ const Dashboard = () => {
                                       {item._id}: {item.count}, con un
                                       porcentaje del{' '}
                                       {(item.count * 100) /
-                                        setInterviewsPerStatus()
-                                          .interviewsCounter}
+                                        customer.customers.length}{' '}
                                       %
                                     </div>
                                   </div>
