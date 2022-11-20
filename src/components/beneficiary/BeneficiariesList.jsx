@@ -1,5 +1,4 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import html2canvas from 'html2canvas'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
@@ -12,8 +11,8 @@ import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { esES as coreBgBG } from '@mui/material/locale'
 import { DataGrid, esES } from '@mui/x-data-grid'
+import styled from 'styled-components'
 import Swal from 'sweetalert2'
-
 import { useUser } from '../../core/hooks/useUser'
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
 import { Seo } from '../layout/Seo'
@@ -21,13 +20,13 @@ import {
   AddUser,
   ButtonsWrapper,
   Container,
-  Loading,
+  Loading
 } from './BeneficiariesList.styles'
 import {
   deleteBeneficiaryService,
-  getAllCustomersService,
+  getAllCustomersService
 } from './beneficiaryService'
-import styled from 'styled-components'
+import { exportImage } from '../Dashboard/Dashboard'
 
 export default function CustomersList() {
   let navigate = useNavigate()
@@ -227,27 +226,6 @@ export default function CustomersList() {
     },
   }
 
-  function exportImage() {
-    // html2canvas(document.querySelector('#plantList')).then((canvas) => {
-    //   var img = canvas.toDataURL('image/png')
-    //   var link = document.createElement('a')
-    //   link.download = 'export.png'
-    //   link.href = img
-    //   link.click()
-    // })
-
-    html2canvas(document.body).then((canvas) => {
-      // html2canvas(document.querySelector('#plantList')).then((canvas) => {
-      // html2canvas(document.getElementById("plantsList")).then((canvas) => {
-      let img = canvas.toDataURL('image/png')
-      let link = document.createElement('a')
-      link.download = 'export.png'
-      link.href = img
-      link.click()
-      link.remove()
-    })
-  }
-
   function handleUpdate() {
     Swal.fire({
       title: 'Actualizar lista',
@@ -263,8 +241,8 @@ export default function CustomersList() {
       if (result.isConfirmed) {
         let timerInterval
         Swal.fire({
-          title: 'Loading..!',
-          html: "Fetching your plants, don't worry.",
+          title: 'Cargando..!',
+          html: 'Trallendo toda la información, no te preocupes, sólo tarda un momento',
           timer: 2000,
           timerProgressBar: true,
           didOpen: () => {

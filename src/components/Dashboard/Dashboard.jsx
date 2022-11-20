@@ -1,14 +1,22 @@
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
+import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined'
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined'
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
+import PostAddIcon from '@mui/icons-material/PostAdd'
+import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined'
+import html2canvas from 'html2canvas'
 import { useContext, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
-// Context and custom hooks
+import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import { DarkModeContext } from '../../core/context/darkModeContext'
 import { useUser } from '../../core/hooks/useUser'
-
-// Services
 import { getAllUsersService } from '../../services/user.service'
+import {
+  AddUser,
+  ButtonsWrapper,
+  Container,
+} from '../beneficiary/BeneficiariesList.styles'
 import {
   getAllCustomersService,
   getBeneficiaryStatsService,
@@ -18,20 +26,37 @@ import {
   getInterviewStatsService,
   getLatestInterviewsService,
 } from '../interview/interviewService'
-
-// Components
 import { DashboardSection, DashboradLayout } from '../layout/Layout'
+import { Seo } from '../layout/Seo'
 import Chart from './chart/Chart'
 import Featured from './featured/Featured'
+import './home.scss'
 import { List as Table } from './table/Table'
 import Widget from './widget/Widget'
 
-// Styles
-import { Container } from '../beneficiary/BeneficiariesList.styles'
-import './home.scss'
-import { Link } from 'react-router-dom'
+export function exportImage() {
+  // html2canvas(document.querySelector('#plantList')).then((canvas) => {
+  //   var img = canvas.toDataURL('image/png')
+  //   var link = document.createElement('a')
+  //   link.download = 'export.png'
+  //   link.href = img
+  //   link.click()
+  // })
+
+  html2canvas(document.body).then((canvas) => {
+    // html2canvas(document.querySelector('#plantList')).then((canvas) => {
+    // html2canvas(document.getElementById("plantsList")).then((canvas) => {
+    let img = canvas.toDataURL('image/png')
+    let link = document.createElement('a')
+    link.download = 'export.png'
+    link.href = img
+    link.click()
+    link.remove()
+  })
+}
 
 const Dashboard = () => {
+  let navigate = useNavigate()
   const { isAuth } = useUser()
   const { darkMode } = useContext(DarkModeContext)
   const { customer, interview, user } = useSelector((state) => state)
@@ -622,6 +647,55 @@ const Dashboard = () => {
     },
   ]
 
+  function handleUpdate() {
+    Swal.fire({
+      title: 'Actualizar dashboard',
+      text: '¿Está seguro que quiere actualizar el dashboard?',
+      icon: 'warning',
+      showCancelButton: true,
+      // confirmButtonColor: '#0f1141',
+      confirmButtonColor: 'var(--first)',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, actualizar.',
+      cancelButtonText: 'No, cancelar.',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let timerInterval
+        Swal.fire({
+          title: 'Cargando..!',
+          html: 'Trallendo toda la información, no te preocupes, sólo tarda un momento',
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft()
+            }, 100)
+          },
+          willClose: () => {
+            clearInterval(timerInterval)
+          },
+        }).then((result) => {
+          getAllCustomersService(dispatch, isAuth)
+          getAllInterviewsService(dispatch, isAuth)
+          getInterviewStatsService(dispatch, isAuth)
+          getAllUsersService(dispatch, isAuth)
+          getLatestInterviewsService(dispatch, isAuth)
+
+          getInterviewStatsService(dispatch, isAuth)
+          getBeneficiaryStatsService(dispatch, isAuth)
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            // console.log('I was closed by the timer')
+          }
+        })
+
+        // !error && Swal.fire('Deleted!', 'Your file has been deleted.', 'success')
+      }
+    })
+  }
+
   useEffect(() => {
     getAllCustomersService(dispatch, isAuth)
     getAllInterviewsService(dispatch, isAuth)
@@ -635,7 +709,31 @@ const Dashboard = () => {
 
   return (
     <DashboradLayout className={darkMode ? 'app dark' : 'app ligth'}>
-      <DashboardSection title={'Panel de control'}>
+      <Seo
+        title="Dashboard (Panel de control)"
+        subtitle="Dashboard (Panel de control)"
+      />
+      <ButtonsWrapper>
+        <AddUser onClick={exportImage}>
+          Imprimir
+          <PrintOutlinedIcon className="productListDelete" />
+        </AddUser>
+        <AddUser onClick={handleUpdate}>
+          Actualizar estadísticas
+          <CachedOutlinedIcon className="productListDelete" />
+        </AddUser>
+        <AddUser onClick={() => navigate('/beneficiarios/nuevo')}>
+          Crear nuevo beneficiario
+          <PersonAddAltOutlinedIcon className="productListDelete" />
+        </AddUser>
+
+        <AddUser AddUser onClick={() => navigate('/entrevistas/agregar')}>
+          Crear nueva entrevista
+          <PostAddIcon className="productListDelete" />
+        </AddUser>
+      </ButtonsWrapper>
+
+      <DashboardSection title="Dashboard (Panel de control)">
         <Container>
           <div className="scroll ">
             <div className=" home">
