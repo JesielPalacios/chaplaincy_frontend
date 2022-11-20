@@ -29,6 +29,7 @@ import Widget from './widget/Widget'
 // Styles
 import { Container } from '../beneficiary/BeneficiariesList.styles'
 import './home.scss'
+import { Link } from 'react-router-dom'
 
 const Dashboard = () => {
   const { isAuth } = useUser()
@@ -204,6 +205,29 @@ const Dashboard = () => {
     return parsedData
   }
 
+  function checkIfInterviews() {
+    const {
+      completedInterviews,
+      pendingInterviews,
+      canceledInterviews,
+      interviewsCounter,
+    } = setInterviewsPerStatus()
+
+    if (
+      completedInterviews === 0 &&
+      pendingInterviews === 0 &&
+      canceledInterviews === 0 &&
+      interviewsCounter === 0
+    ) {
+      // console.log('interviewsCounter', interviewsCounter)
+      return interviewsCounter
+    } else {
+      return (
+        (completedInterviews * 100) / (interviewsCounter - canceledInterviews)
+      )
+    }
+  }
+
   const widgets = [
     {
       widgetTitle: 'Beneficiarios',
@@ -290,8 +314,10 @@ const Dashboard = () => {
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
       percentage:
-        (setInterviewsPerStatus().completedInterviews * 100) /
-        interview.interviews.length,
+        setInterviewsPerStatus().completedInterviews === 0
+          ? 0
+          : (setInterviewsPerStatus().completedInterviews * 100) /
+            interview.interviews.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -309,8 +335,10 @@ const Dashboard = () => {
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
       percentage:
-        (setInterviewsPerStatus().pendingInterviews * 100) /
-        interview.interviews.length,
+        setInterviewsPerStatus().completedInterviews === 0
+          ? 0
+          : (setInterviewsPerStatus().pendingInterviews * 100) /
+            interview.interviews.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -328,8 +356,10 @@ const Dashboard = () => {
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
       percentage:
-        (setInterviewsPerStatus().canceledInterviews * 100) /
-        interview.interviews.length,
+        setInterviewsPerStatus().completedInterviews === 0
+          ? 0
+          : (setInterviewsPerStatus().canceledInterviews * 100) /
+            interview.interviews.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -350,13 +380,15 @@ const Dashboard = () => {
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
       percentage:
-        ((findByCategoryFilter(
-          interview.stats.interviewsPerReferralDepartment,
-          { counter: true, description: 'No necesita remisión' }
-        ) -
-          interview.interviews.length) *
-          100) /
-        interview.interviews.length,
+        setInterviewsPerStatus().completedInterviews === 0
+          ? 0
+          : ((findByCategoryFilter(
+              interview.stats.interviewsPerReferralDepartment,
+              { counter: true, description: 'No necesita remisión' }
+            ) -
+              interview.interviews.length) *
+              100) /
+            interview.interviews.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -379,12 +411,17 @@ const Dashboard = () => {
       link: '/beneficiarios',
       linkLabel: 'Ver todos los beneficiarios',
       percentage:
-        (findByCategoryFilter(customer.stats.categoryOrTypeOfOcupation, {
+        findByCategoryFilter(customer.stats.categoryOrTypeOfOcupation, {
           counter: false,
           description: 'Estudiante de la UNAC',
-        }) *
-          100) /
-        customer.customers.length,
+        }) === 0
+          ? 0
+          : (findByCategoryFilter(customer.stats.categoryOrTypeOfOcupation, {
+              counter: false,
+              description: 'Estudiante de la UNAC',
+            }) *
+              100) /
+            customer.customers.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -405,12 +442,17 @@ const Dashboard = () => {
       link: '/beneficiarios',
       linkLabel: 'Ver todos los beneficiarios',
       percentage:
-        (findByCategoryFilter(customer.stats.religion, {
+        findByCategoryFilter(customer.stats.religion, {
           counter: false,
           description: 'Cristiano',
-        }) *
-          100) /
-        customer.customers.length,
+        }) === 0
+          ? 0
+          : (findByCategoryFilter(customer.stats.religion, {
+              counter: false,
+              description: 'Cristiano',
+            }) *
+              100) /
+            customer.customers.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -430,12 +472,17 @@ const Dashboard = () => {
       link: '/beneficiarios',
       linkLabel: 'Ver todos los beneficiarios',
       percentage:
-        (findByCategoryFilter(customer.stats.createdPerMonth, {
+        findByCategoryFilter(customer.stats.createdPerMonth, {
           counter: false,
           description: date.getMonth() + 1,
-        }) *
-          100) /
-        customer.customers.length,
+        }) === 0
+          ? 0
+          : (findByCategoryFilter(customer.stats.createdPerMonth, {
+              counter: false,
+              description: date.getMonth() + 1,
+            }) *
+              100) /
+            customer.customers.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -454,11 +501,15 @@ const Dashboard = () => {
       link: '/beneficiarios',
       linkLabel: 'Ver todos los beneficiarios',
       percentage:
-        (findByCategoryFilter(customer.stats.createdPerYear, {
+        findByCategoryFilter(customer.stats.createdPerYear, {
           description: date.getFullYear(),
-        }) *
-          100) /
-        customer.customers.length,
+        }) === 0
+          ? 0
+          : (findByCategoryFilter(customer.stats.createdPerYear, {
+              description: date.getFullYear(),
+            }) *
+              100) /
+            customer.customers.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -775,38 +826,47 @@ const Dashboard = () => {
                         Estadísticas generales de las entrevistas
                       </h1>
                     </div>
-                    <div className="bottom">
-                      <p className="title">
-                        Entrevistas por tipo de departamento de remisión,
-                        tipo/categoría o tema, capellán y/o año. Es importate
-                        tener en cuenta que las categorías o filtros que no
-                        aparecen es porque no tienen información, es decir,
-                        todavía no hay entrevistas con esas categorías.
-                      </p>
-                      {/* <p className="amount">{pendingInterviews}</p> */}
-                      <div className="stats">
-                        {interviewswStats.map((item) => (
-                          <div className="summary">
-                            <div className="details">
-                              <div className="itemTitle2">{item.title}:</div>
-                              {item.stats &&
-                                item.stats.map((item, index) => (
-                                  <div className="itemResult" key={index}>
-                                    <div className="resultAmount">
-                                      {item._id}: {item.count}, con un
-                                      porcentaje del{' '}
-                                      {(item.count * 100) /
-                                        setInterviewsPerStatus()
-                                          .interviewsCounter}
-                                      %
-                                    </div>
-                                  </div>
-                                ))}
-                            </div>
-                          </div>
-                        ))}
+                    {interview.interviews.length === 0 ? (
+                      <div className="bottom">
+                        <p className="title">
+                          Actualmente no hay entrevistas creadas, por lo que no
+                          hay estadísticas de las mismas que mostrar.
+                        </p>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="bottom">
+                        <p className="title">
+                          Entrevistas por tipo de departamento de remisión,
+                          tipo/categoría o tema, capellán y/o año. Es importate
+                          tener en cuenta que las categorías o filtros que no
+                          aparecen es porque no tienen información, es decir,
+                          todavía no hay entrevistas con esas categorías.
+                        </p>
+                        {/* <p className="amount">{pendingInterviews}</p> */}
+                        <div className="stats">
+                          {interviewswStats.map((item) => (
+                            <div className="summary">
+                              <div className="details">
+                                <div className="itemTitle2">{item.title}:</div>
+                                {item.stats &&
+                                  item.stats.map((item, index) => (
+                                    <div className="itemResult" key={index}>
+                                      <div className="resultAmount">
+                                        {item._id}: {item.count}, con un
+                                        porcentaje del{' '}
+                                        {(item.count * 100) /
+                                          setInterviewsPerStatus()
+                                            .interviewsCounter}
+                                        %
+                                      </div>
+                                    </div>
+                                  ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -952,36 +1012,45 @@ const Dashboard = () => {
                         Estadísticas generales de los beneficiarios
                       </h1>
                     </div>
-                    <div className="bottom">
-                      <p className="title">
-                        Empleados por tipo de departamento de remisión,
-                        tipo/categoría o tema, capellán y/o año. Es importate
-                        tener en cuenta que las categorías o filtros que no
-                        aparecen es porque no tienen información, es decir,
-                        todavía no hay beneficiarios con esas categorías.
-                      </p>
-                      <div className="stats">
-                        {beneficiariesStats.map((item) => (
-                          <div className="summary">
-                            <div className="details">
-                              <div className="itemTitle2">{item.title}:</div>
-                              {item.stats &&
-                                item.stats.map((item, index) => (
-                                  <div className="itemResult" key={index}>
-                                    <div className="resultAmount">
-                                      {item._id}: {item.count}, con un
-                                      porcentaje del{' '}
-                                      {(item.count * 100) /
-                                        customer.customers.length}{' '}
-                                      %
-                                    </div>
-                                  </div>
-                                ))}
-                            </div>
-                          </div>
-                        ))}
+                    {interview.interviews.length === 0 ? (
+                      <div className="bottom">
+                        <p className="title">
+                          Actualmente no hay beneficiarios creados, por lo que
+                          no hay estadísticas de los mismos que mostrar.
+                        </p>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="bottom">
+                        <p className="title">
+                          Empleados por tipo de departamento de remisión,
+                          tipo/categoría o tema, capellán y/o año. Es importate
+                          tener en cuenta que las categorías o filtros que no
+                          aparecen es porque no tienen información, es decir,
+                          todavía no hay beneficiarios con esas categorías.
+                        </p>
+                        <div className="stats">
+                          {beneficiariesStats.map((item) => (
+                            <div className="summary">
+                              <div className="details">
+                                <div className="itemTitle2">{item.title}:</div>
+                                {item.stats &&
+                                  item.stats.map((item, index) => (
+                                    <div className="itemResult" key={index}>
+                                      <div className="resultAmount">
+                                        {item._id}: {item.count}, con un
+                                        porcentaje del{' '}
+                                        {(item.count * 100) /
+                                          customer.customers.length}{' '}
+                                        %
+                                      </div>
+                                    </div>
+                                  ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

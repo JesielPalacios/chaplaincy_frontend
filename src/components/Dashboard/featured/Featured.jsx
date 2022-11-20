@@ -14,6 +14,28 @@ const Featured = (props) => {
       interviewsCounter,
     },
   } = props
+
+  function checkIfInterviews() {
+    if (
+      completedInterviews === 0 &&
+      pendingInterviews === 0 &&
+      canceledInterviews === 0 &&
+      interviewsCounter === 0
+    ) {
+      // console.log('interviewsCounter', interviewsCounter)
+      return interviewsCounter
+    } else {
+      return (
+        (completedInterviews * 100) / (interviewsCounter - canceledInterviews)
+      )
+    }
+  }
+
+  // console.log('props', props)
+  // console.log(
+  //   '(completedInterviews * 100) / (interviewsCounter - canceledInterviews)',
+  //   (completedInterviews * 100) / (interviewsCounter - canceledInterviews)
+  // )
   return (
     <div
       className={
@@ -29,14 +51,8 @@ const Featured = (props) => {
       <div className="bottom">
         <div className="featuredChart">
           <CircularProgressbar
-            value={
-              (completedInterviews * 100) / (interviewsCounter - canceledInterviews)
-            }
-            text={
-              (completedInterviews * 100) /
-                (interviewsCounter - canceledInterviews) +
-              '%'
-            }
+            value={checkIfInterviews()}
+            text={checkIfInterviews() + '%'}
             strokeWidth={5}
           />
         </div>
