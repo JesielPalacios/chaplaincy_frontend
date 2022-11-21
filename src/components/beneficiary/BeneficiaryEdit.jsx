@@ -10,7 +10,7 @@ import { Seo } from '../layout/Seo'
 import { AddUser, ButtonsWrapper, Loading } from './BeneficiariesList.styles'
 import { Container } from './BeneficiaryAddOrEdit.styles'
 import { Container as Container2 } from './Beneficiary.styles'
-import CustomerAddOrEditForm from './BeneficiaryAddOrEditForm'
+import BeneficiaryEditForm from './BeneficiaryEditForm'
 import { getCustomerService } from './beneficiaryService'
 import { resetCustomer } from './beneficiarySlice'
 import { useTranslator } from '../../core/hooks/useTranslator'
@@ -27,87 +27,20 @@ export default function CustomerAddOrEdit({ title }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    title === 'Crear nuevo beneficiario' && dispatch(resetCustomer())
+    getCustomerService(dispatch, isAuth, beneficiaryId)
   }, [])
-
-  useEffect(() => {
-    title === 'Editar beneficiario' &&
-      getCustomerService(dispatch, isAuth, beneficiaryId)
-  }, [])
-
-  function syntaxHighlight2(json) {
-    if (typeof json != 'string') {
-      json = JSON.stringify(json, undefined, 2)
-    }
-    json = json
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-    return json.replace(
-      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
-      function (match) {
-        var cls = 'number'
-        if (/^"/.test(match)) {
-          if (/:$/.test(match)) {
-            cls = 'key'
-          } else {
-            cls = 'string'
-          }
-        } else if (/true|false/.test(match)) {
-          cls = 'boolean'
-        } else if (/null/.test(match)) {
-          cls = 'null'
-        }
-        return '<span class="' + cls + '">' + match + '</span>'
-      }
-    )
-  }
-
-  function syntaxHighlight(json) {
-    if (typeof json != 'string') {
-      json = JSON.stringify(json, undefined, 2)
-    }
-
-    json = json
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-    // .replace(/{/g, '')
-    // .replace(/}/g, '')
-    return json.replace(
-      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
-      function (match) {
-        var cls = 'number'
-        if (/^"/.test(match)) {
-          if (/:$/.test(match)) {
-            cls = 'key'
-          } else {
-            cls = 'string'
-          }
-        } else if (/true|false/.test(match)) {
-          cls = 'boolean'
-        } else if (/null/.test(match)) {
-          cls = 'null'
-        }
-        return '<span class="' + cls + '">' + match + '</span>'
-      }
-    )
-  }
 
   return (
     <DashboradLayout>
       <Seo
         title={
-          title === 'Crear nuevo beneficiario'
-            ? 'Nuevo beneficiario'
-            : (customer.firstName + ' ' + customer.firstSurname)
-                .trim()
-                .toLowerCase()
-                .replace(/\w\S*/g, (w) =>
-                  w.replace(/^\w/, (c) => c.toUpperCase())
-                )
+          'Editando beneficiario: ' +
+          (customer.firstName + ' ' + customer.firstSurname)
+            .trim()
+            .toLowerCase()
+            .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))
         }
-        subtitle="Formulario de nuevo beneficiario"
+        subtitle="Formulario de edición de beneficiario"
       />
       <ButtonsWrapper>
         {beneficiaryId && (
@@ -122,13 +55,7 @@ export default function CustomerAddOrEdit({ title }) {
         </AddUser>
       </ButtonsWrapper>
 
-      <DashboardSection
-        title={
-          title === 'Crear nuevo beneficiario'
-            ? title
-            : title + ': ' + beneficiaryId
-        }
-      >
+      <DashboardSection title={'Editando: ' + beneficiaryId}>
         <Container>
           <div className="newContainer scroll">
             {loading && <Loading />}
@@ -241,7 +168,7 @@ export default function CustomerAddOrEdit({ title }) {
                   )}
                 </div>
                 <div className="right">
-                  <CustomerAddOrEditForm
+                  <BeneficiaryEditForm
                     customer={customer}
                     title={title}
                     isAuth={isAuth}

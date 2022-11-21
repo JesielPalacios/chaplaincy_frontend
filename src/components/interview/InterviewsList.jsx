@@ -76,8 +76,8 @@ export default function CustomersList() {
 
         !(loading && error) &&
           Swal.fire(
-            'Beneficiario eliminado',
-            'El beneficiario ha sido eliminado exitosamente.',
+            'Entevista eliminada',
+            'La entrevista ha sido eliminado exitosamente.',
             'success'
           )
         navigate('/entrevistas')

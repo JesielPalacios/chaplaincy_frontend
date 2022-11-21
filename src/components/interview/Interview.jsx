@@ -70,9 +70,13 @@ export default function Customer() {
   }
 
   useEffect(() => {
-    getInterviewService(dispatch, isAuth, interviewId)
+    async function setData() {
+      await getInterviewService(dispatch, isAuth, interviewId)
+    }
 
-    if (interview.interview === undefined) navigate('/entrevistas/')
+    setData()
+
+    // if (interview.interview === undefined) navigate('/entrevistas/')
   }, [])
 
   return (

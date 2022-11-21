@@ -50,8 +50,7 @@ export default function Customer() {
   }
 
   useEffect(() => {
-    if (customer.customer === undefined) navigate('/beneficiarios/')
-    console.log('beneficiaryId', beneficiaryId)
+    if (customer.customer._id === undefined) navigate('/beneficiarios/')
 
     getCustomerService(dispatch, isAuth, beneficiaryId)
   }, [])

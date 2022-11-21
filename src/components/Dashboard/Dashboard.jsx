@@ -733,7 +733,7 @@ const Dashboard = () => {
         </AddUser>
       </ButtonsWrapper>
 
-      <DashboardSection title="Dashboard (Panel de control)">
+      <DashboardSection title="Panel de control">
         <Container>
           <div className="scroll ">
             <div className=" home">

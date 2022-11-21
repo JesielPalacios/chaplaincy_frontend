@@ -9,7 +9,7 @@ import { demographic } from './cities'
 import { countries } from './countries'
 import { states } from './states'
 
-export default function CustomerAddOrEditForm(props) {
+export default function CustomerAddForm(props) {
   let navigate = useNavigate()
   // --------------------------------------------------------------------------
   // const [firstName, setFirstName] = useState('Pepito')
@@ -67,9 +67,10 @@ export default function CustomerAddOrEditForm(props) {
   const [citizenshipNumberId, setCitizenshipNumberId] = useState('2345678901')
   const [email, setEmail] = useState()
   const [cellPhoneNumber, setCellPhoneNumber] = useState()
-  const [address, setAddress] = useState(
-    'Carrera 84#33aa-01 La Castellana /Medellin-Colombia'
-  )
+  // const [address, setAddress] = useState(
+  //   'Carrera 84#33aa-01 La Castellana /Medellin-Colombia'
+  // )
+  const [address, setAddress] = useState()
   const [religion, setReligion] = useState('Cristiano')
   const [maritalStatus, setMaritalStatus] = useState()
   const [socialStratum, setSocialStratum] = useState()
@@ -83,9 +84,10 @@ export default function CustomerAddOrEditForm(props) {
   const [semester, setSemester] = useState('No aplica')
   // --------------------------------------------------------------------------
   const [cities, setCities] = useState([])
+
   const {
-    isAuth,
     dispatch,
+    isAuth,
     customer,
     title,
     beneficiaryId,
@@ -273,18 +275,18 @@ export default function CustomerAddOrEditForm(props) {
       gender === undefined ||
       typeCitizenshipNumberId === undefined ||
       citizenshipNumberId === undefined ||
-      religion === undefined ||
       maritalStatus === undefined ||
       socialStratum === undefined ||
       categoryOrTypeOfOcupation === undefined ||
+      religion === undefined ||
       birthDate === undefined ||
       birthCountry === undefined ||
       birthDepartment === undefined ||
+      birthCity === undefined ||
       academicProgram === undefined ||
-      semester === undefined ||
-      birthCity === undefined
+      semester === undefined
     )
-      return true
+      return false
   }
 
   function checkDataValidationForOldBeneficiary() {
@@ -324,7 +326,7 @@ export default function CustomerAddOrEditForm(props) {
   }
 
   function createOrEditBeneficiary() {
-    createCustomerService(dispatch, isAuth, title, beneficiaryId, {
+    createCustomerService(dispatch, isAuth, 'Agregar beneficiario', 0, {
       firstName,
       secondName,
       firstSurname,
@@ -348,56 +350,40 @@ export default function CustomerAddOrEditForm(props) {
       semester,
       beneficiaryPhoto,
     })
-    .then((id) => navigate('/beneficiarios/' + id))
+    // .then((id) => navigate('/beneficiarios/' + id))
   }
 
   function handleSubmit(e) {
     e.preventDefault()
 
-    // // checkDataValidationForNewBeneficiary()
-    // console.log(
-    //   'checkDataValidationForNewBeneficiary()',
-    //   checkDataValidationForNewBeneficiary()
-    // )
-    // if (title === 'Crear nuevo beneficiario') {
-    //   if (beneficiaryPhoto != undefined) {
-    //     if (
-    //       !(
-    //         beneficiaryPhoto.name.endsWith('.png') ||
-    //         beneficiaryPhoto.name.endsWith('.jpg') ||
-    //         beneficiaryPhoto.name.endsWith('.jpeg')
-    //       )
-    //     ) {
-    //       Swal.fire({
-    //         title: '<strong>Error de archivo</strong>',
-    //         icon: 'error',
-    //         html: 'No se puede aceptar este tipo de archivo, elija una imágen del tipo indicado!',
-    //         showCloseButton: true,
-    //         showCancelButton: false,
-    //         focusConfirm: false,
-    //         confirmButtonText: 'Aceptar',
-    //         confirmButtonAriaLabel: 'Aceptar',
-    //       })
-    //     }
-    //   }
-
-    //   if (checkDataValidationForNewBeneficiary()) {
-    //     showError()
-    //   } else {
-    //     createOrEditBeneficiary()
-    //   }
-    // } else if (title === 'Editar beneficiario') {
-    //   // if (!checkDataValidationForOldBeneficiary()) {
-    //   //   showError()
-    //   // } else {
-    //   //   createOrEditBeneficiary()
-    //   // }
-    //   createOrEditBeneficiary()
-    // }
-
-    //
-    createOrEditBeneficiary()
-    //
+    if (checkDataValidationForNewBeneficiary()) {
+      showError()
+    } else {
+      if (beneficiaryPhoto != undefined) {
+        if (
+          !(
+            beneficiaryPhoto.name.endsWith('.png') ||
+            beneficiaryPhoto.name.endsWith('.jpg') ||
+            beneficiaryPhoto.name.endsWith('.jpeg')
+          )
+        ) {
+          Swal.fire({
+            title: '<strong>Error de archivo</strong>',
+            icon: 'error',
+            html: 'No se puede aceptar este tipo de archivo, elija una imágen del tipo indicado!, ya sea jpg, jpeg, png.',
+            showCloseButton: true,
+            showCancelButton: false,
+            focusConfirm: false,
+            confirmButtonText: 'Aceptar',
+            confirmButtonAriaLabel: 'Aceptar',
+          })
+        } else {
+          createOrEditBeneficiary()
+        }
+      } else {
+        createOrEditBeneficiary()
+      }
+    }
   }
 
   const beneficiaryFields = [

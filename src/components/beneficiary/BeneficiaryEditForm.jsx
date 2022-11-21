@@ -61,15 +61,11 @@ export default function CustomerAddOrEditForm(props) {
   const [firstSurname, setFirstSurname] = useState('Pérez')
   const [secondSurname, setSecondSurname] = useState()
   const [gender, setGender] = useState('Masculino')
-  const [typeCitizenshipNumberId, setTypeCitizenshipNumberId] = useState(
-    'Cédula de ciudadanía'
-  )
+  const [typeCitizenshipNumberId, setTypeCitizenshipNumberId] = useState('Cédula de ciudadanía')
   const [citizenshipNumberId, setCitizenshipNumberId] = useState('2345678901')
   const [email, setEmail] = useState()
   const [cellPhoneNumber, setCellPhoneNumber] = useState()
-  const [address, setAddress] = useState(
-    'Carrera 84#33aa-01 La Castellana /Medellin-Colombia'
-  )
+  const [address, setAddress] = useState('Carrera 84#33aa-01 La Castellana /Medellin-Colombia')
   const [religion, setReligion] = useState('Cristiano')
   const [maritalStatus, setMaritalStatus] = useState()
   const [socialStratum, setSocialStratum] = useState()
@@ -348,7 +344,7 @@ export default function CustomerAddOrEditForm(props) {
       semester,
       beneficiaryPhoto,
     })
-    .then((id) => navigate('/beneficiarios/' + id))
+    // .then((id) => navigate('/beneficiarios/' + id))
   }
 
   function handleSubmit(e) {

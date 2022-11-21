@@ -58,16 +58,17 @@
 
 export const routes = [
   {
-    label: 'Inicio',
-    icon: 'home-outline',
+    label: 'Dashboard',
+    // icon: 'home-outline',
+    icon: 'grid-outline',
     path: '/dashboard',
-    notification: 0
+    notification: 0,
   },
   {
     label: 'Beneficiarios',
     icon: 'people-outline',
     path: '/beneficiarios',
-    notification: 0
+    notification: 0,
   },
   // -------------------------------
   // {
@@ -87,8 +88,8 @@ export const routes = [
     label: 'Entrevistas',
     icon: 'newspaper-outline',
     path: '/entrevistas',
-    notification: 3
-  }
+    notification: 3,
+  },
   // {
   //   label: 'Crear entrevista',
   //   icon: 'add-circle-outline',

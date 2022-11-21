@@ -89,7 +89,7 @@ export async function createCustomerService(
 
   try {
     const res =
-      title === 'Crear nuevo beneficiario'
+      title === 'Agregar beneficiario'
         ? await axios.post(
             process.env.REACT_APP_API_HOST + '/api/beneficiaries',
             formData,
@@ -121,7 +121,7 @@ export async function createCustomerService(
   } catch (err) {
     dispatch(getCustomer({}))
     console.log('error in createCustomerService', err)
-    dispatch(setErrorInfo({...err}))
+    dispatch(setErrorInfo({ ...err }))
     dispatch(error())
   }
 }
