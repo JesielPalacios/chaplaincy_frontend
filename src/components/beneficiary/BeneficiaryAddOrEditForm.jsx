@@ -56,31 +56,55 @@ export default function CustomerAddOrEditForm(props) {
   // const [semester, setSemester] = useState()
   // const [birthCity, setBirthCity] = useState()
   // --------------------------------------------------------------------------
-  const [firstName, setFirstName] = useState('Pepito')
+  // --------------------------------------------------------------------------
+  // const [firstName, setFirstName] = useState('Pepito')
+  // const [secondName, setSecondName] = useState()
+  // const [firstSurname, setFirstSurname] = useState('Pérez')
+  // const [secondSurname, setSecondSurname] = useState()
+  // const [gender, setGender] = useState('Masculino')
+  // const [typeCitizenshipNumberId, setTypeCitizenshipNumberId] = useState(
+  //   'Cédula de ciudadanía'
+  // )
+  // const [citizenshipNumberId, setCitizenshipNumberId] = useState('2345678901')
+  // const [email, setEmail] = useState()
+  // const [cellPhoneNumber, setCellPhoneNumber] = useState()
+  // const [address, setAddress] = useState(
+  //   'Carrera 84#33aa-01 La Castellana /Medellin-Colombia'
+  // )
+  // const [religion, setReligion] = useState('Cristiano')
+  // const [maritalStatus, setMaritalStatus] = useState()
+  // const [socialStratum, setSocialStratum] = useState()
+  // const [categoryOrTypeOfOcupation, setCategoryOrTypeOfOcupation] = useState()
+  // const [birthDate, setBirthDate] = useState('2000-01-01')
+  // const [birthCountry, setBirthCountry] = useState('Colombia')
+  // const [birthDepartment, setBirthDepartment] = useState('Antioquia')
+  // const [birthCity, setBirthCity] = useState('Medellín')
+  // const [academicProgram, setAcademicProgram] = useState('No aplica')
+  // const [studentCode, setStudentCode] = useState()
+  // const [semester, setSemester] = useState('No aplica')
+  // --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
+  const [firstName, setFirstName] = useState()
   const [secondName, setSecondName] = useState()
-  const [firstSurname, setFirstSurname] = useState('Pérez')
+  const [firstSurname, setFirstSurname] = useState()
   const [secondSurname, setSecondSurname] = useState()
-  const [gender, setGender] = useState('Masculino')
-  const [typeCitizenshipNumberId, setTypeCitizenshipNumberId] = useState(
-    'Cédula de ciudadanía'
-  )
-  const [citizenshipNumberId, setCitizenshipNumberId] = useState('2345678901')
+  const [gender, setGender] = useState()
+  const [typeCitizenshipNumberId, setTypeCitizenshipNumberId] = useState()
+  const [citizenshipNumberId, setCitizenshipNumberId] = useState()
   const [email, setEmail] = useState()
   const [cellPhoneNumber, setCellPhoneNumber] = useState()
-  const [address, setAddress] = useState(
-    'Carrera 84#33aa-01 La Castellana /Medellin-Colombia'
-  )
-  const [religion, setReligion] = useState('Cristiano')
+  const [address, setAddress] = useState()
+  const [religion, setReligion] = useState()
   const [maritalStatus, setMaritalStatus] = useState()
   const [socialStratum, setSocialStratum] = useState()
   const [categoryOrTypeOfOcupation, setCategoryOrTypeOfOcupation] = useState()
-  const [birthDate, setBirthDate] = useState('2000-01-01')
-  const [birthCountry, setBirthCountry] = useState('Colombia')
-  const [birthDepartment, setBirthDepartment] = useState('Antioquia')
-  const [birthCity, setBirthCity] = useState('Medellín')
-  const [academicProgram, setAcademicProgram] = useState('No aplica')
+  const [birthDate, setBirthDate] = useState()
+  const [birthCountry, setBirthCountry] = useState()
+  const [birthDepartment, setBirthDepartment] = useState()
+  const [birthCity, setBirthCity] = useState()
+  const [academicProgram, setAcademicProgram] = useStateuseState()
   const [studentCode, setStudentCode] = useState()
-  const [semester, setSemester] = useState('No aplica')
+  const [semester, setSemester] = useState()
   // --------------------------------------------------------------------------
   const [cities, setCities] = useState([])
   const {
@@ -347,8 +371,7 @@ export default function CustomerAddOrEditForm(props) {
       studentCode,
       semester,
       beneficiaryPhoto,
-    })
-    .then((id) => navigate('/beneficiarios/' + id))
+    }).then((id) => navigate('/beneficiarios/' + id))
   }
 
   function handleSubmit(e) {
