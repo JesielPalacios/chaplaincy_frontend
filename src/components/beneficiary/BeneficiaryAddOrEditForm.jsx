@@ -102,7 +102,7 @@ export default function CustomerAddOrEditForm(props) {
   const [birthCountry, setBirthCountry] = useState()
   const [birthDepartment, setBirthDepartment] = useState()
   const [birthCity, setBirthCity] = useState()
-  const [academicProgram, setAcademicProgram] = useStateuseState()
+  const [academicProgram, setAcademicProgram] = useState()
   const [studentCode, setStudentCode] = useState()
   const [semester, setSemester] = useState()
   // --------------------------------------------------------------------------
