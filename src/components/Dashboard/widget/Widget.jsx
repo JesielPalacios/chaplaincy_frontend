@@ -17,10 +17,16 @@ const Widget = (props) => {
         </Link>
       </div>
       <div className="right">
-        <div className="percentage positive">
-          <KeyboardArrowUpIcon />
-          {props.percentage} %
-        </div>
+        {props.percentage && (
+          <div className="percentage positive">
+            <KeyboardArrowUpIcon />
+            {Math.round(props.percentage)} %
+          </div>
+        )}
+        {!props.percentage && (
+          <div className="percentage positive">
+          </div>
+        )}
         {props.icon}
       </div>
     </div>

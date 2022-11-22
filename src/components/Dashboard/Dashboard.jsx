@@ -259,7 +259,6 @@ const Dashboard = () => {
       counter: customer.customers.length,
       link: '/beneficiarios',
       linkLabel: 'Ver todos los beneficiarios',
-      percentage: '20',
       icon: (
         <PersonOutlinedIcon
           className="icon"
@@ -282,7 +281,6 @@ const Dashboard = () => {
       counter: interview.interviews.length,
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
-      percentage: '20',
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -302,7 +300,18 @@ const Dashboard = () => {
       ),
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
-      percentage: '20',
+      percentage:
+        interview.interviews.length === 0
+          ? 0
+          : (findByCategoryFilter(
+              interview.stats.interviewsPerReferralDepartment,
+              {
+                counter: true,
+                description: 'No necesita remisión',
+              }
+            ) *
+              100) /
+            interview.interviews.length,
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -316,10 +325,9 @@ const Dashboard = () => {
 
     {
       widgetTitle: 'Administradores',
-      counter: interview.interviews.length,
+      counter: user.users.length === 0 ? 0 : user.users.length,
       link: '/administradores',
       linkLabel: 'Ver todos los administradores',
-      percentage: '20',
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -397,14 +405,15 @@ const Dashboard = () => {
     },
     {
       widgetTitle: 'Entrevistas sin remisión a otros departamentos',
-      counter:
+      counter: Math.abs(
         findByCategoryFilter(interview.stats.interviewsPerReferralDepartment, {
           counter: true,
           description: 'No necesita remisión',
-        }) - interview.interviews.length,
+        }) - interview.interviews.length
+      ),
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
-      percentage:
+      percentage: Math.abs(
         setInterviewsPerStatus().completedInterviews === 0
           ? 0
           : ((findByCategoryFilter(
@@ -413,7 +422,8 @@ const Dashboard = () => {
             ) -
               interview.interviews.length) *
               100) /
-            interview.interviews.length,
+              interview.interviews.length
+      ),
       icon: (
         <AccountBalanceWalletOutlinedIcon
           className="icon"
@@ -952,9 +962,11 @@ const Dashboard = () => {
                                       <div className="resultAmount">
                                         {item._id}: {item.count}, con un
                                         porcentaje del{' '}
-                                        {(item.count * 100) /
-                                          setInterviewsPerStatus()
-                                            .interviewsCounter}
+                                        {Math.round(
+                                          (item.count * 100) /
+                                            setInterviewsPerStatus()
+                                              .interviewsCounter
+                                        )}
                                         %
                                       </div>
                                     </div>
@@ -1137,8 +1149,10 @@ const Dashboard = () => {
                                       <div className="resultAmount">
                                         {item._id}: {item.count}, con un
                                         porcentaje del{' '}
-                                        {(item.count * 100) /
-                                          customer.customers.length}{' '}
+                                        {Math.round(
+                                          (item.count * 100) /
+                                            customer.customers.length
+                                        )}{' '}
                                         %
                                       </div>
                                     </div>

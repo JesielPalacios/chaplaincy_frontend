@@ -1,6 +1,5 @@
-import { useRef, useEffect, useContext } from 'react'
-import { NavLink, Routes } from 'react-router-dom'
-import styled from 'styled-components'
+import { useContext, useEffect, useRef } from 'react'
+import { NavLink } from 'react-router-dom'
 import { useUser } from '../../../core/hooks/useUser'
 import { routes } from '../../../core/routes/routes'
 // import { Context } from '../../../../core/context/UserContext'
@@ -10,8 +9,8 @@ import { routes } from '../../../core/routes/routes'
 import { Container, LogoImg, ToggleButton, ToggleIcon } from './SidebarElements'
 // import img from '../../../assets/yellowLogo.svg'
 // import img from '../../../assets/unacBlueLogo.svg'
-import './styles.css'
 import { DarkModeContext } from '../../../core/context/darkModeContext'
+import './styles.css'
 
 export const Sidebar = ({ darkMode }) => {
   // let { url } = useRouteMatch()
@@ -34,6 +33,7 @@ export const Sidebar = ({ darkMode }) => {
   }
 
   const { dispatch } = useContext(DarkModeContext)
+
 
   useEffect(() => {
     let currentlink

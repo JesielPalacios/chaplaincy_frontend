@@ -8,11 +8,12 @@ import { useUser } from './core/hooks/useUser'
 const Home = React.lazy(() => import('./components/Home/Home'))
 const LogIn = React.lazy(() => import('./components/Login/Login'))
 const Dashboard = React.lazy(() => import('./components/Dashboard/Dashboard'))
-const CustomersList = React.lazy(() => import('./components/beneficiary/BeneficiariesList'))
-const Customer = React.lazy(() => import('./components/beneficiary/Beneficiary'))
+const UserList = React.lazy(() => import('./components/user/UserList'))
+const BeneficiaryList = React.lazy(() => import('./components/beneficiary/BeneficiariesList'))
+const Beneficiary = React.lazy(() => import('./components/beneficiary/Beneficiary'))
 const BeneficiaryAdd = React.lazy(() => import('./components/beneficiary/BeneficiaryAdd'))
 // const CustomerEdit = React.lazy(() => import('./components/beneficiary/BeneficiaryEdit'))
-const CustomerAddOrEdit = React.lazy(() => import('./components/beneficiary/BeneficiaryAddOrEdit'))
+const BeneficiaryAddOrEdit = React.lazy(() => import('./components/beneficiary/BeneficiaryAddOrEdit'))
 const Interviews = React.lazy(() => import('./components/interview/InterviewsList'))
 const Interview = React.lazy(() => import('./components/interview/Interview'))
 const InterviewAddOrEdit = React.lazy(() => import('./components/interview/InterviewAddOrEdit'))
@@ -30,13 +31,24 @@ export const AppRouter = () => {
           <Route path="login" element={!isAuth ? <LogIn /> : <Navigate replace to="/" />} />
           <Route path="dashboard" element={isAuth ? <Dashboard /> : <Navigate replace to="/login" />} />
 
-          <Route path="beneficiarios">
-            <Route index element={isAuth ? <CustomersList /> : <Navigate replace to="/login" />} />
+          {/* <Route path="administradores">
+            <Route index element={isAuth ? <BeneficiaryList /> : <Navigate replace to="/login" />} />
             <Route path="nuevo" element={isAuth ? <BeneficiaryAdd /> : <Navigate replace to="/login" />} />
             <Route path=":beneficiaryId">
-              <Route index element={isAuth ? <Customer /> : <Navigate replace to="/login" />} />
+              <Route index element={isAuth ? <Beneficiary /> : <Navigate replace to="/login" />} />
+              <Route path="editar" element={isAuth ? <BeneficiaryAddOrEdit title='Editar beneficiario' /> : <Navigate replace to="/login" />} />
+            </Route>
+          </Route> */}
+                        // {/* <Route path="editar" element={isAuth ? <CustomerEdit /> : <Navigate replace to="/login" />} /> */}
+
+
+          <Route path="beneficiarios">
+            <Route index element={isAuth ? <BeneficiaryList /> : <Navigate replace to="/login" />} />
+            <Route path="nuevo" element={isAuth ? <BeneficiaryAdd /> : <Navigate replace to="/login" />} />
+            <Route path=":beneficiaryId">
+              <Route index element={isAuth ? <Beneficiary /> : <Navigate replace to="/login" />} />
               {/* <Route path="editar" element={isAuth ? <CustomerEdit /> : <Navigate replace to="/login" />} /> */}
-              <Route path="editar" element={isAuth ? <CustomerAddOrEdit title='Editar beneficiario' /> : <Navigate replace to="/login" />} />
+              <Route path="editar" element={isAuth ? <BeneficiaryAddOrEdit title='Editar beneficiario' /> : <Navigate replace to="/login" />} />
             </Route>
           </Route>
 
