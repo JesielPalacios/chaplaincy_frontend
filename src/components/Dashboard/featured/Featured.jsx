@@ -51,8 +51,8 @@ const Featured = (props) => {
       <div className="bottom">
         <div className="featuredChart">
           <CircularProgressbar
-            value={checkIfInterviews()}
-            text={checkIfInterviews() + '%'}
+            value={completedInterviews ? checkIfInterviews() : 0}
+            text={completedInterviews ? checkIfInterviews() + '%' : 0 + '%'}
             strokeWidth={5}
           />
         </div>

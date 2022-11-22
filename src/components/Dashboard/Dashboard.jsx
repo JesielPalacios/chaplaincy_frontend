@@ -360,7 +360,7 @@ const Dashboard = () => {
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
       percentage:
-        setInterviewsPerStatus().completedInterviews === 0
+        setInterviewsPerStatus().pendingInterviews === 0
           ? 0
           : (setInterviewsPerStatus().pendingInterviews * 100) /
             interview.interviews.length,
@@ -381,7 +381,7 @@ const Dashboard = () => {
       link: '/entrevistas',
       linkLabel: 'Ver todas las entrevistas',
       percentage:
-        setInterviewsPerStatus().completedInterviews === 0
+        setInterviewsPerStatus().canceledInterviews === 0
           ? 0
           : (setInterviewsPerStatus().canceledInterviews * 100) /
             interview.interviews.length,

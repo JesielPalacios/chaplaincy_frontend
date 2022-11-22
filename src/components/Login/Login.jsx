@@ -10,8 +10,8 @@ import { Seo } from '../layout/Seo'
 
 const Login = () => {
   // --------------------------------------------------------------------------
-  const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
   // --------------------------------------------------------------------------
   // const [email, setEmail] = useState('luis.angel@capellania.unac.edu.co')
   // const [password, setPassword] = useState('1234567890')
@@ -22,8 +22,10 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    console.log('email', email)
+    console.log('password', password)
 
-    if (email === null && password === null) {
+    if (email === undefined && password === undefined) {
       Swal.fire({
         title: '<strong>Faltan datos</strong>',
         icon: 'info',
@@ -39,8 +41,8 @@ const Login = () => {
         cancelButtonAriaLabel: 'Cancelar',
       })
     } else if (
-      (email === null && password != null) ||
-      (password === null && email != null)
+      (email === undefined && password != undefined) ||
+      (password === undefined && email != undefined)
     ) {
       Swal.fire({
         title: '<strong>Faltan datos</strong>',
