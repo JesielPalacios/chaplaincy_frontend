@@ -22,8 +22,8 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('email', email)
-    console.log('password', password)
+    // console.log('email', email)
+    // console.log('password', password)
 
     if (email === undefined && password === undefined) {
       Swal.fire({
